@@ -63,7 +63,7 @@ const Register = () => {
           updateUserProfile(userProfile)
             .then(() => {
               console.log("user Profile updated");
-              navigate("/");
+                navigate(location?.state|| '/') 
             })
             .catch((error) => {
               console.log(error);
