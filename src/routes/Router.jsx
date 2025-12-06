@@ -1,8 +1,11 @@
 import { createBrowserRouter } from "react-router";
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home/Home";
-import Register from "../auth/Register";
-import Login from "../auth/Login";
+import Register from "../pages/auth/Register";
+import Login from "../pages/auth/Login";
+import CreateClubs from "../pages/Dashboard/Manager/CreateClubs";
+import PrivateRoute from "./PrivateRoute";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 
 export const router = createBrowserRouter([
@@ -24,5 +27,18 @@ export const router = createBrowserRouter([
         },
     ]
   },
+  {
+    path:'dashboard',
+    element:<PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+    </PrivateRoute>,
+    children:[
+      {
+        path:'/dashboard/manager/createclubs',
+        Component:CreateClubs
+      },
+    ]
+  }
+
 
 ]);

@@ -2,9 +2,9 @@ import React from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import useAuth from "../hooks/useAuth";
-import useAxiosSecure from "../hooks/useAxiosSecure";
-import SocialLogin from "../components/Shared/SocialLogin";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import SocialLogin from "../../components/Shared/SocialLogin";
 import Swal from "sweetalert2";
 
 const Register = () => {

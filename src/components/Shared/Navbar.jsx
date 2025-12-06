@@ -40,7 +40,7 @@ const Navbar = () => {
       </li>
       {!user && (
         <>
-          <div className="flex gap-3">
+          <div className="flex">
             <li>
               <NavLink
                 to="/login"
