@@ -1,2 +1,75 @@
 @import "tailwindcss";
-@plugin "daisyui";
+
+@plugin "daisyui"{
+  themes: light --default;
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+
+  --color-base-100: #F9FAFB;        /* Page background */
+  --color-base-200: #F3F4F6;        /* Section/card background */
+  --color-base-300: #E5E7EB;        /* Border, divider, subtle surface */
+  --color-base-content: #1D1F24;    /* Main text / high contrast */
+
+  --color-white: #ffffff;           /* Pure white / clean surfaces / light text */
+  --color-black: #000000;           /* Pure black / strong contrast text */
+
+
+  --color-primary: #5A63FF;         /* Primary actions-> Sign Up, Join Now, Buy Now, Get Started, Submit Contact Us / brand color  active link*/
+  --color-primary-content: #FAFAFA; /* Primary button text */
+
+  --color-secondary: #4ECAD9;       /* Secondary actions “View Details”,Settings,Filter buttons,"Learn More","Back","Cancel" / support UI */
+  --color-secondary-content: #FAFAFA; /* Secondary text */
+
+  --color-accent: #7AE0B8;          /* Highlights / accent UI elements */
+  --color-accent-content: #171F18;  /* Accent text */
+
+  --color-neutral: #646A74;         /* Muted UI / neutral controls */
+  --color-neutral-content: #FAFAFA; /* Neutral text */
+
+  --color-info: #78A8FF;            /* Informational alerts/messages */
+  --color-info-content: #FAFAFA;    /* Info text */
+
+  --color-success: #5CCB83;         /* Success messages/states */
+  --color-success-content: #FAFAFA; /* Success text */
+
+  --color-warning: #F9D46A;         /* Warning alerts/states */
+  --color-warning-content: #2C2720; /* Warning text */
+
+  --color-error: #E1634C;           /* Error states/alerts */
+  --color-error-content: #FAFAFA;   /* Error text */
+
+  --radius-selector: 1rem;          /* Large UI element radius */
+  --radius-field: 0.3rem;           /* Input field radius */
+  --radius-box: 0.75rem;            /* Card/box radius */
+
+  --size-selector: 0.25rem;         /* Selector spacing/size */
+  --size-field: 0.25rem;            /* Input field spacing */
+
+  --border: 1px;                    /* Default border width */
+}
+
+/* Primary button:
+
+Sign Up
+
+Buy Now
+
+Get Started
+
+Secondary button:
+
+Learn More
+
+Cancel
+
+Try Demo
+
+Primary = Main “Goal”
+Secondary = Helpful but not main */
+
+
+
+
