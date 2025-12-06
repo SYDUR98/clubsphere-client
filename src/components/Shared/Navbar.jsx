@@ -1,7 +1,27 @@
 import React from "react";
 import { NavLink } from "react-router";
+import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
+  const { user, logOut } = useAuth();
+
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Log Out SuccessFull",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const manuLink = (
     <>
       <li>
@@ -16,6 +36,38 @@ const Navbar = () => {
           HOME
         </NavLink>
       </li>
+      {
+         !user &&
+        <>
+          <div className="flex gap-3">
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                `px-4 py-2 rounded-md font-medium transition-colors duration-300 ${
+                  isActive
+                    ? "text-primary"
+                    : "text-base-content hover:text-primary"
+                }`
+              }
+            >
+              Login
+            </NavLink>
+
+            <NavLink
+              to="/register"
+              className={({ isActive }) =>
+                `px-4 py-2 rounded-md font-medium transition-colors duration-300 ${
+                  isActive
+                    ? "text-primary"
+                    : "text-base-content hover:text-primary"
+                }`
+              }
+            >
+              Register
+            </NavLink>
+          </div>
+        </>
+      }
     </>
   );
   return (
@@ -62,7 +114,69 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{manuLink}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn bg-primary text-primary-content">Button</a>
+        {user?.email && (
+          // user logged in
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <img
+                src={user.photoURL}
+                className="w-10 h-10 rounded-full"
+                alt="User"
+              />
+            </div>
+
+            <ul
+              tabIndex={0}
+              className="menu dropdown-content bg-base-100 rounded-box w-44 p-2 shadow-xl border border-base-300"
+            >
+              {/* Profile */}
+              <li>
+                <NavLink
+                  to="/profile"
+                  className={({ isActive }) =>
+                    `px-4 py-2 rounded-md font-medium transition-colors duration-300 ${
+                      isActive
+                        ? "text-primary"
+                        : "text-base-content hover:text-primary"
+                    }`
+                  }
+                >
+                  Profile
+                </NavLink>
+              </li>
+
+              {/* Dashboard */}
+              <li>
+                <NavLink
+                  to="/dashboard"
+                  className={({ isActive }) =>
+                    `px-4 py-2 rounded-md font-medium transition-colors duration-300 ${
+                      isActive
+                        ? "text-primary"
+                        : "text-base-content hover:text-primary"
+                    }`
+                  }
+                >
+                  Dashboard
+                </NavLink>
+              </li>
+
+              {/* Logout (button, not link) */}
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 rounded-md font-medium text-error hover:bg-error hover:text-error-content transition-colors duration-300"
+                >
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
