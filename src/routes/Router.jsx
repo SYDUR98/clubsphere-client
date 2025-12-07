@@ -6,6 +6,7 @@ import Login from "../pages/auth/Login";
 import CreateClubs from "../pages/Dashboard/Manager/CreateClubs";
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
+import MyClubs from "../pages/Dashboard/Manager/MyClubs";
 
 
 export const router = createBrowserRouter([
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
       {
         path:'/dashboard/manager/createclubs',
         Component:CreateClubs
+      },
+      {
+        path:'/dashboard/manager/my-clubs',
+        Component:MyClubs
       },
     ]
   }
