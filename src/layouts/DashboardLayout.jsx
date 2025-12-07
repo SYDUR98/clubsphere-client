@@ -1,8 +1,8 @@
 import React from "react";
-import { CiDeliveryTruck } from "react-icons/ci";
-import { IoCreateOutline } from "react-icons/io5";
 import { SiSamsclub } from "react-icons/si";
 import { Link, NavLink, Outlet } from "react-router";
+import { MdEvent } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
 
 const DashboardLayout = () => {
   return (
@@ -108,8 +108,27 @@ const DashboardLayout = () => {
                   }
                   data-tip="Create Clubs"
                 >
-                  <IoCreateOutline className="text-lg" />
+                  <FaEdit className="text-lg"/>
+                  
                   <span className="is-drawer-close:hidden">Create Clubs</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/manager/my-events"
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                    is-drawer-close:tooltip is-drawer-close:tooltip-right
+                    ${
+                    isActive
+                    ? "bg-base-300 text-primary"
+                     : "text-base-content hover:bg-primary hover:text-primary-content"
+                    }`
+                  }
+                  data-tip="My Event"
+                >
+                  <MdEvent className="text-lg"/>
+                  <span className="is-drawer-close:hidden">My Events</span>
                 </NavLink>
               </li>
             </ul>
