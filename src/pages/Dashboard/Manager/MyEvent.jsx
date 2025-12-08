@@ -70,7 +70,7 @@ const MyEvent = () => {
                 <th>#</th>
                 <th>Title</th>
                 <th>Description</th>
-                <th>Date</th>
+                <th>Create Date</th>
                 <th>Location</th>
                 <th>Type / Fee</th>
                 <th>Max Attendees</th>

@@ -8,6 +8,7 @@ import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyClubs from "../pages/Dashboard/Manager/MyClubs";
 import MyEvent from "../pages/Dashboard/Manager/MyEvent";
+import AdminHome from "../pages/Dashboard/Admin/AdminHome";
 
 
 export const router = createBrowserRouter([
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
         <DashboardLayout></DashboardLayout>
     </PrivateRoute>,
     children:[
+      {
+        path:'/dashboard/admin',
+        Component:AdminHome
+      },
       {
         path:'/dashboard/manager/createclubs',
         Component:CreateClubs

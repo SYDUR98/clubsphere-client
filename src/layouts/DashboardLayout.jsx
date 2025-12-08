@@ -75,6 +75,25 @@ const DashboardLayout = () => {
 
               {/* Our dashboard links */}
 
+              {/* admin Role */}
+              <li>
+                <NavLink
+                  to="/dashboard/admin"
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                    is-drawer-close:tooltip is-drawer-close:tooltip-right
+                    ${
+                    isActive
+                    ? "bg-base-300 text-primary"
+                     : "text-base-content hover:bg-primary hover:text-primary-content"
+                    }`
+                  }
+                  data-tip="Admin Home"
+                >
+                    <SiSamsclub className="text-lg"/>
+                  <span className="is-drawer-close:hidden">Admin Home</span>
+                </NavLink>
+              </li>
               {/* Manager Role */}
               <li>
                 <NavLink
