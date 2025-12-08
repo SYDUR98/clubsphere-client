@@ -1,5 +1,5 @@
 import React from "react";
-import { SiSamsclub } from "react-icons/si";
+import { SiGoogletagmanager, SiSamsclub } from "react-icons/si";
 import { Link, NavLink, Outlet } from "react-router";
 import { MdEvent } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
@@ -95,6 +95,7 @@ const DashboardLayout = () => {
                   <span className="is-drawer-close:hidden">Admin Home</span>
                 </NavLink>
               </li>
+               {/* admin users  */}
               <li>
                 <NavLink
                   to="/dashboard/admin/manage-users"
@@ -111,6 +112,25 @@ const DashboardLayout = () => {
                 >
                     <GrUserManager className="text-lg"/>
                   <span className="is-drawer-close:hidden">Manage Users</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/admin/manage-clubs"
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                    is-drawer-close:tooltip is-drawer-close:tooltip-right
+                    ${
+                    isActive
+                    ? "bg-base-300 text-primary"
+                     : "text-base-content hover:bg-primary hover:text-primary-content"
+                    }`
+                  }
+                  data-tip="Manage Clubs"
+                >
+                    <SiGoogletagmanager className="text-lg"/>
+                    
+                  <span className="is-drawer-close:hidden">Manage Clubs</span>
                 </NavLink>
               </li>
 

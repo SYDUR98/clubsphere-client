@@ -10,6 +10,7 @@ import MyClubs from "../pages/Dashboard/Manager/MyClubs";
 import MyEvent from "../pages/Dashboard/Manager/MyEvent";
 import AdminHome from "../pages/Dashboard/Admin/AdminHome";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
+import ManageClubs from "../pages/Dashboard/Admin/ManageClubs";
 
 export const router = createBrowserRouter([
   {
@@ -44,8 +45,14 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/admin/manage-users",
-        Component:ManageUsers
+        Component: ManageUsers,
       },
+      {
+        path: "/dashboard/admin/manage-clubs",
+        Component: ManageClubs,
+      },
+
+      //manager route
       {
         path: "/dashboard/manager/createclubs",
         Component: CreateClubs,
