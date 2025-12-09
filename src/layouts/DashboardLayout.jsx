@@ -4,6 +4,7 @@ import { Link, NavLink, Outlet } from "react-router";
 import { MdEvent } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { GrUserAdmin, GrUserManager } from "react-icons/gr";
+import { VscSymbolEvent } from "react-icons/vsc";
 
 const DashboardLayout = () => {
   return (
@@ -191,6 +192,26 @@ const DashboardLayout = () => {
                   <span className="is-drawer-close:hidden">My Events</span>
                 </NavLink>
               </li>
+              {/* member role */}
+              <li>
+                <NavLink
+                  to="/dashboard/member/events"
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                    is-drawer-close:tooltip is-drawer-close:tooltip-right
+                    ${
+                    isActive
+                    ? "bg-base-300 text-primary"
+                     : "text-base-content hover:bg-primary hover:text-primary-content"
+                    }`
+                  }
+                  data-tip="Member Event"
+                >
+                  <VscSymbolEvent className="text-lg"/>
+                  <span className="is-drawer-close:hidden">Member Events</span>
+                </NavLink>
+              </li>
+
             </ul>
           </div>
         </div>

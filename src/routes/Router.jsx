@@ -14,6 +14,8 @@ import ManageClubs from "../pages/Dashboard/Admin/ManageClubs";
 import BrowseClubs from "../pages/Clubs/BrowseClubs";
 import PaymentSuccess from "../pages/Dashboard/Member/PaymentSuccess";
 import PaymentCancelled from "../pages/Dashboard/Member/PaymentCancelled";
+import MemberEvents from "../pages/Dashboard/Member/MemberEvents";
+import EventPaymentSuccess from "../pages/Dashboard/Member/EventPaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -25,7 +27,7 @@ export const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path:'/browse-clubs',
+        path:'browse-clubs',
         Component: BrowseClubs
       },
       {
@@ -47,38 +49,47 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/dashboard/admin/home",
+        path:"admin/home",
         Component: AdminHome,
       },
       {
-        path: "/dashboard/admin/manage-users",
+        path:"admin/manage-users",
         Component: ManageUsers,
       },
       {
-        path: "/dashboard/admin/manage-clubs",
+        path:"admin/manage-clubs",
         Component: ManageClubs,
       },
 
       //manager route
       {
-        path: "/dashboard/manager/createclubs",
+        path:"manager/createclubs",
         Component: CreateClubs,
       },
       {
-        path: "/dashboard/manager/my-clubs",
+        path:"manager/my-clubs",
         Component: MyClubs,
       },
       {
-        path: "/dashboard/manager/my-events",
+        path:"manager/my-events",
         Component: MyEvent,
       },
       {
-        path: "/dashboard/payment-success",
+        path:"payment-success",
         Component: PaymentSuccess
       },
       {
-        path: "/dashboard/payment-cancelled",
+        path:"event/payment-success",
+        Component: EventPaymentSuccess
+      },
+      {
+        path:"payment-cancelled",
         Component: PaymentCancelled
+      },
+      // member routes
+      {
+        path:"member/events",
+        element:<MemberEvents></MemberEvents>
       },
     ],
   },
