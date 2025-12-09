@@ -38,6 +38,20 @@ const Navbar = () => {
           HOME
         </NavLink>
       </li>
+      <li>
+        <NavLink
+          to="/browse-clubs"
+          className={({ isActive }) =>
+            `px-4 py-2 rounded-md font-medium transition-colors duration-300 ${
+              isActive
+                ? "text-primary "
+                : "text-base-content hover:text-primary"
+            }`
+          }
+        >
+          Browse Clubs
+        </NavLink>
+      </li>
       {!user && (
         <>
           <div className="flex">
