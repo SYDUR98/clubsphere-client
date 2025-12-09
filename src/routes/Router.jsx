@@ -16,6 +16,7 @@ import PaymentSuccess from "../pages/Dashboard/Member/PaymentSuccess";
 import PaymentCancelled from "../pages/Dashboard/Member/PaymentCancelled";
 import MemberEvents from "../pages/Dashboard/Member/MemberEvents";
 import EventPaymentSuccess from "../pages/Dashboard/Member/EventPaymentSuccess";
+import MemberStats from "../pages/Dashboard/Member/MemberStats";
 
 export const router = createBrowserRouter([
   {
@@ -90,6 +91,10 @@ export const router = createBrowserRouter([
       {
         path:"member/events",
         element:<MemberEvents></MemberEvents>
+      },
+      {
+        path:"member/stats",
+        element:<MemberStats></MemberStats>
       },
     ],
   },
