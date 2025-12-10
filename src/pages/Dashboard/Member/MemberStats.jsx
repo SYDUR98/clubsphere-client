@@ -29,7 +29,18 @@ const MemberStats = () => {
   const { totalClubsJoined, totalEventsRegistered, totalSpent } = stats;
 
   return (
-    <div className="stats shadow w-full my-6 bg-white border border-gray-200">
+   <div className="p-6">
+      <h2
+        className="
+          text-3xl font-extrabold mb-6 text-center
+          bg-gradient-to-r from-primary via-secondary to-accent
+          bg-clip-text text-transparent
+        "
+      >
+        Member Dashboard
+      </h2>
+       <div className="stats shadow w-full my-2 bg-white border border-gray-200">
+      
       {/* Total Clubs Joined */}
       <div className="stat">
         <div className="stat-figure text-primary">
@@ -99,6 +110,7 @@ const MemberStats = () => {
         <div className="stat-desc">Membership & Event fees</div>
       </div>
     </div>
+   </div>
   );
 };
 

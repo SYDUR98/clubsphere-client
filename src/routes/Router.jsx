@@ -20,6 +20,7 @@ import MemberStats from "../pages/Dashboard/Member/MemberStats";
 import MemberClubs from "../pages/Dashboard/Member/MemberClubs";
 import ClubDetails from "../pages/Clubs/ClubDetails";
 import JoinClubEvent from "../pages/Dashboard/Member/JoinClubEvent";
+import ManagerOverview from "../pages/Dashboard/Manager/ManagerOverview";
 
 export const router = createBrowserRouter([
   {
@@ -70,6 +71,10 @@ export const router = createBrowserRouter([
       },
 
       //manager route
+      {
+        path: "manager/overview",
+        Component: ManagerOverview
+      },
       {
         path: "manager/createclubs",
         Component: CreateClubs,

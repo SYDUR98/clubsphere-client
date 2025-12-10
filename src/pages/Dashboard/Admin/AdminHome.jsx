@@ -33,7 +33,13 @@ const AdminHome = () => {
 
   return (
     <div className="p-6 bg-base-100">
-      <h2 className="text-3xl font-bold mb-6 text-center text-base-content">
+      <h2
+        className="
+          text-3xl font-extrabold mb-6 text-center
+          bg-gradient-to-r from-primary via-secondary to-accent
+          bg-clip-text text-transparent
+        "
+      >
         Admin Dashboard
       </h2>
 
@@ -76,9 +82,7 @@ const AdminHome = () => {
 
         {/* Total Payments */}
         <div className="stat bg-base-200 border border-base-300 shadow-xl rounded-xl col-span-full">
-          <div className="stat-title text-neutral">
-            Total Payments (৳)
-          </div>
+          <div className="stat-title text-neutral">Total Payments (৳)</div>
           <div className="stat-value text-info">{totalPayments}</div>
         </div>
       </div>

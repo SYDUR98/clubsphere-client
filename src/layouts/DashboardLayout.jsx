@@ -1,5 +1,5 @@
 import React from "react";
-import { SiGoogletagmanager, SiSamsclub } from "react-icons/si";
+import { SiGooglecampaignmanager360, SiGoogletagmanager, SiSamsclub } from "react-icons/si";
 import { Link, NavLink, Outlet } from "react-router";
 import { MdDashboardCustomize, MdEvent } from "react-icons/md";
 import { FaCcDinersClub, FaEdit } from "react-icons/fa";
@@ -137,6 +137,24 @@ const DashboardLayout = () => {
 
 
               {/* Manager Role */}
+              <li>
+                <NavLink
+                  to="/dashboard/manager/overview"
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                    is-drawer-close:tooltip is-drawer-close:tooltip-right
+                    ${
+                    isActive
+                    ? "bg-base-300 text-primary"
+                     : "text-base-content hover:bg-primary hover:text-primary-content"
+                    }`
+                  }
+                  data-tip="Manager Overview"
+                >
+                  <SiGooglecampaignmanager360 className="text-lg"/>
+                  <span className="is-drawer-close:hidden">Manager Overview</span>
+                </NavLink>
+              </li>
               <li>
                 <NavLink
                   to="/dashboard/manager/createclubs"
