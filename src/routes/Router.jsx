@@ -17,6 +17,9 @@ import PaymentCancelled from "../pages/Dashboard/Member/PaymentCancelled";
 import MemberEvents from "../pages/Dashboard/Member/MemberEvents";
 import EventPaymentSuccess from "../pages/Dashboard/Member/EventPaymentSuccess";
 import MemberStats from "../pages/Dashboard/Member/MemberStats";
+import MemberClubs from "../pages/Dashboard/Member/MemberClubs";
+import ClubDetails from "../pages/Clubs/ClubDetails";
+import JoinClubEvent from "../pages/Dashboard/Member/JoinClubEvent";
 
 export const router = createBrowserRouter([
   {
@@ -28,8 +31,12 @@ export const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path:'browse-clubs',
-        Component: BrowseClubs
+        path: "browse-clubs",
+        Component: BrowseClubs,
+      },
+      {
+        path: "/clubs/:id",
+        element: <ClubDetails></ClubDetails>,
       },
       {
         path: "register",
@@ -50,52 +57,76 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path:"admin/home",
+        path: "admin/home",
         Component: AdminHome,
       },
       {
-        path:"admin/manage-users",
+        path: "admin/manage-users",
         Component: ManageUsers,
       },
       {
-        path:"admin/manage-clubs",
+        path: "admin/manage-clubs",
         Component: ManageClubs,
       },
 
       //manager route
       {
-        path:"manager/createclubs",
+        path: "manager/createclubs",
         Component: CreateClubs,
       },
       {
-        path:"manager/my-clubs",
+        path: "manager/my-clubs",
         Component: MyClubs,
       },
       {
-        path:"manager/my-events",
+        path: "manager/my-events",
         Component: MyEvent,
       },
       {
-        path:"payment-success",
-        Component: PaymentSuccess
+        path: "payment-success",
+        Component: PaymentSuccess,
       },
       {
-        path:"event/payment-success",
-        Component: EventPaymentSuccess
+        path: "event/payment-success",
+        Component: EventPaymentSuccess,
       },
       {
-        path:"payment-cancelled",
-        Component: PaymentCancelled
+        path: "payment-cancelled",
+        Component: PaymentCancelled,
       },
       // member routes
+
       {
-        path:"member/events",
-        element:<MemberEvents></MemberEvents>
+        path: "member/stats",
+        element: <MemberStats></MemberStats>,
       },
       {
-        path:"member/stats",
-        element:<MemberStats></MemberStats>
+        path: "member/clubs",
+        element: <MemberClubs></MemberClubs>,
       },
+      { path: "member/events", 
+        element: <MemberEvents></MemberEvents> 
+      },
+      // okay on change 
+
+      {
+        path: "member/event/clubs/:clubId",
+        element:<JoinClubEvent></JoinClubEvent>
+      },
+
+      
+      // {
+      //   path: "member/club-event/:clubId",
+      //   element: <ClubEvents></ClubEvents>,
+      // },
+      // {
+      //   path: "member/events",
+      //   element: <MemberEventsWrapper></MemberEventsWrapper>
+      // },
+      // {
+      //   path: "member/cl-event/:clubId",
+      //   element: <ClubEventsWrapper></ClubEventsWrapper>
+      // },
     ],
   },
 ]);
