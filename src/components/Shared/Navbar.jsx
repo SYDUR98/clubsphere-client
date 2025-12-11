@@ -49,9 +49,30 @@ const Navbar = () => {
             }`
           }
         >
-          Browse Clubs
+          CLUBS
         </NavLink>
       </li>
+
+      {user && (
+        <>
+          <div className="flex">
+            <li>
+              <NavLink
+                to="/my-event"
+                className={({ isActive }) =>
+                  `px-4 py-2 rounded-md font-medium transition-colors duration-300 ${
+                    isActive
+                      ? "text-primary "
+                      : "text-base-content hover:text-primary"
+                  }`
+                }
+              >
+                MY EVENTS
+              </NavLink>
+            </li>
+          </div>
+        </>
+      )}
       {!user && (
         <>
           <div className="flex">

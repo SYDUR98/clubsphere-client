@@ -21,6 +21,11 @@ import MemberClubs from "../pages/Dashboard/Member/MemberClubs";
 import ClubDetails from "../pages/Clubs/ClubDetails";
 import JoinClubEvent from "../pages/Dashboard/Member/JoinClubEvent";
 import ManagerOverview from "../pages/Dashboard/Manager/ManagerOverview";
+import AdminRoute from "./AdminRoute";
+import ManagerRoute from "./ManagerRoute";
+import AdminPayments from "../pages/Dashboard/Admin/AdminPayments";
+import MemberRoute from "./MemberRoute";
+import MyMemberEvents from "../pages/Dashboard/Member/MyMemberEvents";
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +40,11 @@ export const router = createBrowserRouter([
         path: "browse-clubs",
         Component: BrowseClubs,
       },
+      {
+        path: "/my-event",
+        Component: MyMemberEvents
+      },
+
       {
         path: "/clubs/:id",
         element: <ClubDetails></ClubDetails>,
@@ -59,33 +69,71 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "admin/home",
-        Component: AdminHome,
+        element: (
+          <AdminRoute>
+            <AdminHome></AdminHome>
+          </AdminRoute>
+        ),
       },
       {
         path: "admin/manage-users",
-        Component: ManageUsers,
+        element: (
+          <AdminRoute>
+            <ManageUsers></ManageUsers>
+          </AdminRoute>
+        ),
       },
       {
         path: "admin/manage-clubs",
-        Component: ManageClubs,
+        element: (
+          <AdminRoute>
+            <ManageClubs></ManageClubs>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "admin/payment-history",
+        element: (
+          <AdminRoute>
+            <AdminPayments></AdminPayments>
+          </AdminRoute>
+        ),
       },
 
       //manager route
       {
         path: "manager/overview",
-        Component: ManagerOverview
+        element: (
+          <ManagerRoute>
+            <ManagerOverview></ManagerOverview>
+          </ManagerRoute>
+        ),
       },
       {
         path: "manager/createclubs",
-        Component: CreateClubs,
+        element: (
+          <ManagerRoute>
+            <CreateClubs></CreateClubs>
+          </ManagerRoute>
+        ),
       },
       {
         path: "manager/my-clubs",
-        Component: MyClubs,
+        element: (
+          <ManagerRoute>
+            <MyClubs></MyClubs>
+          </ManagerRoute>
+        ),
+        // Component: MyClubs,
       },
       {
         path: "manager/my-events",
-        Component: MyEvent,
+        element: (
+          <ManagerRoute>
+            <MyEvent></MyEvent>
+          </ManagerRoute>
+        ),
+        // Component: MyEvent,
       },
       {
         path: "payment-success",
@@ -103,35 +151,37 @@ export const router = createBrowserRouter([
 
       {
         path: "member/stats",
-        element: <MemberStats></MemberStats>,
+        element: (
+          <MemberRoute>
+            <MemberStats></MemberStats>
+          </MemberRoute>
+        ),
+        // element: <MemberStats></MemberStats>,
       },
       {
         path: "member/clubs",
-        element: <MemberClubs></MemberClubs>,
+        element: (
+          <MemberRoute>
+            <MemberClubs></MemberClubs>
+          </MemberRoute>
+        ),
+        // element: <MemberClubs></MemberClubs>,
       },
-      { path: "member/events", 
-        element: <MemberEvents></MemberEvents> 
+      {
+        path: "member/events",
+        element: (
+          
+            <MemberEvents></MemberEvents>
+         
+        ),
+        // element: <MemberEvents></MemberEvents>
       },
-      // okay on change 
+      // okay on change
 
       {
         path: "member/event/clubs/:clubId",
         element:<JoinClubEvent></JoinClubEvent>
       },
-
-      
-      // {
-      //   path: "member/club-event/:clubId",
-      //   element: <ClubEvents></ClubEvents>,
-      // },
-      // {
-      //   path: "member/events",
-      //   element: <MemberEventsWrapper></MemberEventsWrapper>
-      // },
-      // {
-      //   path: "member/cl-event/:clubId",
-      //   element: <ClubEventsWrapper></ClubEventsWrapper>
-      // },
     ],
   },
 ]);

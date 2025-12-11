@@ -1,12 +1,22 @@
 import React from "react";
-import { SiGooglecampaignmanager360, SiGoogletagmanager, SiSamsclub } from "react-icons/si";
+import {
+  SiGooglecampaignmanager360,
+  SiGoogletagmanager,
+  SiSamsclub,
+} from "react-icons/si";
 import { Link, NavLink, Outlet } from "react-router";
-import { MdDashboardCustomize, MdEvent } from "react-icons/md";
+import {
+  MdDashboardCustomize,
+  MdEvent,
+  MdOutlinePayments,
+} from "react-icons/md";
 import { FaCcDinersClub, FaEdit } from "react-icons/fa";
 import { GrUserAdmin, GrUserManager } from "react-icons/gr";
 import { VscSymbolEvent } from "react-icons/vsc";
+import useRole from "../hooks/useRole";
 
 const DashboardLayout = () => {
+  const { role } = useRole();
   return (
     <div className="max-w-7xl mx-auto">
       <div className="drawer lg:drawer-open">
@@ -78,155 +88,193 @@ const DashboardLayout = () => {
               {/* Our dashboard links */}
 
               {/* admin Role */}
-              <li>
-                <NavLink
-                  to="/dashboard/admin/home"
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
-                    is-drawer-close:tooltip is-drawer-close:tooltip-right
-                    ${
-                    isActive
-                    ? "bg-base-300 text-primary"
-                     : "text-base-content hover:bg-primary hover:text-primary-content"
-                    }`
-                  }
-                  data-tip="Admin Home"
-                >
-                    <GrUserAdmin  className="text-lg"/>
-                  <span className="is-drawer-close:hidden">Admin Home</span>
-                </NavLink>
-              </li>
-               {/* admin users  */}
-              <li>
-                <NavLink
-                  to="/dashboard/admin/manage-users"
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
-                    is-drawer-close:tooltip is-drawer-close:tooltip-right
-                    ${
-                    isActive
-                    ? "bg-base-300 text-primary"
-                     : "text-base-content hover:bg-primary hover:text-primary-content"
-                    }`
-                  }
-                  data-tip="Manage Users"
-                >
-                    <GrUserManager className="text-lg"/>
-                  <span className="is-drawer-close:hidden">Manage Users</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/admin/manage-clubs"
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
-                    is-drawer-close:tooltip is-drawer-close:tooltip-right
-                    ${
-                    isActive
-                    ? "bg-base-300 text-primary"
-                     : "text-base-content hover:bg-primary hover:text-primary-content"
-                    }`
-                  }
-                  data-tip="Manage Clubs"
-                >
-                    <SiGoogletagmanager className="text-lg"/>
-                    
-                  <span className="is-drawer-close:hidden">Manage Clubs</span>
-                </NavLink>
-              </li>
 
+              {role === "admin" && (
+                <>
+                  <li>
+                    <NavLink
+                      to="/dashboard/admin/home"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                    is-drawer-close:tooltip is-drawer-close:tooltip-right
+                    ${
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
+                    }`
+                      }
+                      data-tip="Admin Home"
+                    >
+                      <GrUserAdmin className="text-lg" />
+                      <span className="is-drawer-close:hidden">Admin Home</span>
+                    </NavLink>
+                  </li>
+                  {/* admin users  */}
+                  <li>
+                    <NavLink
+                      to="/dashboard/admin/manage-users"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                    is-drawer-close:tooltip is-drawer-close:tooltip-right
+                    ${
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
+                    }`
+                      }
+                      data-tip="Manage Users"
+                    >
+                      <GrUserManager className="text-lg" />
+                      <span className="is-drawer-close:hidden">
+                        Manage Users
+                      </span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/dashboard/admin/manage-clubs"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                    is-drawer-close:tooltip is-drawer-close:tooltip-right
+                    ${
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
+                    }`
+                      }
+                      data-tip="Manage Clubs"
+                    >
+                      <SiGoogletagmanager className="text-lg" />
+
+                      <span className="is-drawer-close:hidden">
+                        Manage Clubs
+                      </span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/dashboard/admin/payment-history"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                    is-drawer-close:tooltip is-drawer-close:tooltip-right
+                    ${
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
+                    }`
+                      }
+                      data-tip="Payment History"
+                    >
+                      <MdOutlinePayments className="text-lg" />
+                      <span className="is-drawer-close:hidden">
+                        Payment History
+                      </span>
+                    </NavLink>
+                  </li>
+                </>
+              )}
 
               {/* Manager Role */}
-              <li>
-                <NavLink
-                  to="/dashboard/manager/overview"
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+
+              {role === "clubManager" && (
+                <>
+                  <li>
+                    <NavLink
+                      to="/dashboard/manager/overview"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
                     is-drawer-close:tooltip is-drawer-close:tooltip-right
                     ${
-                    isActive
-                    ? "bg-base-300 text-primary"
-                     : "text-base-content hover:bg-primary hover:text-primary-content"
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
                     }`
-                  }
-                  data-tip="Manager Overview"
-                >
-                  <SiGooglecampaignmanager360 className="text-lg"/>
-                  <span className="is-drawer-close:hidden">Manager Overview</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/manager/createclubs"
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                      }
+                      data-tip="Manager Overview"
+                    >
+                      <SiGooglecampaignmanager360 className="text-lg" />
+                      <span className="is-drawer-close:hidden">
+                        Manager Overview
+                      </span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/dashboard/manager/createclubs"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
                     is-drawer-close:tooltip is-drawer-close:tooltip-right
                     ${
-                    isActive
-                    ? "bg-base-300 text-primary"
-                     : "text-base-content hover:bg-primary hover:text-primary-content"
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
                     }`
-                  }
-                  data-tip="Create Clubs"
-                >
-                  <FaEdit className="text-lg"/>
-                  
-                  <span className="is-drawer-close:hidden">Create Clubs</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/manager/my-clubs"
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                      }
+                      data-tip="Create Clubs"
+                    >
+                      <FaEdit className="text-lg" />
+
+                      <span className="is-drawer-close:hidden">
+                        Create Clubs
+                      </span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/dashboard/manager/my-clubs"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
                     is-drawer-close:tooltip is-drawer-close:tooltip-right
                     ${
-                    isActive
-                    ? "bg-base-300 text-primary"
-                     : "text-base-content hover:bg-primary hover:text-primary-content"
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
                     }`
-                  }
-                  data-tip="My Clubs"
-                >
-                    <SiSamsclub className="text-lg"/>
-                  <span className="is-drawer-close:hidden">My Clubs</span>
-                </NavLink>
-              </li>
-              
-              <li>
-                <NavLink
-                  to="/dashboard/manager/my-events"
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                      }
+                      data-tip="My Clubs"
+                    >
+                      <SiSamsclub className="text-lg" />
+                      <span className="is-drawer-close:hidden">My Clubs</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/dashboard/manager/my-events"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
                     is-drawer-close:tooltip is-drawer-close:tooltip-right
                     ${
-                    isActive
-                    ? "bg-base-300 text-primary"
-                     : "text-base-content hover:bg-primary hover:text-primary-content"
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
                     }`
-                  }
-                  data-tip="My Event"
-                >
-                  <MdEvent className="text-lg"/>
-                  <span className="is-drawer-close:hidden">My Events</span>
-                </NavLink>
-              </li>
+                      }
+                      data-tip="My Event"
+                    >
+                      <MdEvent className="text-lg" />
+                      <span className="is-drawer-close:hidden">My Events</span>
+                    </NavLink>
+                  </li>
+                </>
+              )}
               {/* member role */}
-              <li>
+              {role === "member" && (
+                <>
+                  <li>
                 <NavLink
                   to="/dashboard/member/stats"
                   className={({ isActive }) =>
                     `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
                     is-drawer-close:tooltip is-drawer-close:tooltip-right
                     ${
-                    isActive
-                    ? "bg-base-300 text-primary"
-                     : "text-base-content hover:bg-primary hover:text-primary-content"
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
                     }`
                   }
                   data-tip="Member Stats"
                 >
-                  <MdDashboardCustomize className="text-lg"/>
+                  <MdDashboardCustomize className="text-lg" />
                   <span className="is-drawer-close:hidden">Member Stats</span>
                 </NavLink>
               </li>
@@ -237,14 +285,14 @@ const DashboardLayout = () => {
                     `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
                     is-drawer-close:tooltip is-drawer-close:tooltip-right
                     ${
-                    isActive
-                    ? "bg-base-300 text-primary"
-                     : "text-base-content hover:bg-primary hover:text-primary-content"
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
                     }`
                   }
                   data-tip="Member Clubs"
                 >
-                  <FaCcDinersClub className="text-lg"/>
+                  <FaCcDinersClub className="text-lg" />
                   <span className="is-drawer-close:hidden">Member Clubs</span>
                 </NavLink>
               </li>
@@ -255,17 +303,21 @@ const DashboardLayout = () => {
                     `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
                     is-drawer-close:tooltip is-drawer-close:tooltip-right
                     ${
-                    isActive
-                    ? "bg-base-300 text-primary"
-                     : "text-base-content hover:bg-primary hover:text-primary-content"
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
                     }`
                   }
                   data-tip="Member Event"
                 >
-                  <VscSymbolEvent className="text-lg"/>
+                  <VscSymbolEvent className="text-lg" />
                   <span className="is-drawer-close:hidden">Member Events</span>
                 </NavLink>
               </li>
+                </>
+              )}
+              
+              
               {/* done no change okay  */}
               {/* <li>
                 <NavLink
@@ -285,7 +337,6 @@ const DashboardLayout = () => {
                   <span className="is-drawer-close:hidden">Club Events</span>
                 </NavLink>
               </li> */}
-
             </ul>
           </div>
         </div>
