@@ -53,7 +53,15 @@ const MyClubs = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-3xl font-bold mb-6 text-center">My Clubs</h2>
+       <h2
+        className="
+          text-3xl font-extrabold mb-6 text-center
+          bg-gradient-to-r from-primary via-secondary to-accent
+          bg-clip-text text-transparent
+        "
+      >
+        My Clubs
+      </h2>
 
       <div className="grid md:grid-cols-2 gap-6">
         {clubs.map((club) => (

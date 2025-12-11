@@ -26,6 +26,7 @@ import ManagerRoute from "./ManagerRoute";
 import AdminPayments from "../pages/Dashboard/Admin/AdminPayments";
 import MemberRoute from "./MemberRoute";
 import MyMemberEvents from "../pages/Dashboard/Member/MyMemberEvents";
+import MemberPayments from "../pages/Dashboard/Member/MemberPayments";
 
 export const router = createBrowserRouter([
   {
@@ -181,6 +182,12 @@ export const router = createBrowserRouter([
       {
         path: "member/event/clubs/:clubId",
         element:<JoinClubEvent></JoinClubEvent>
+      },
+      {
+        path: "member/all/payments",
+        element:<MemberRoute>
+            <MemberPayments></MemberPayments>
+        </MemberRoute>
       },
     ],
   },

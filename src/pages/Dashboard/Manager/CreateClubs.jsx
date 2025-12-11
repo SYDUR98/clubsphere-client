@@ -51,35 +51,58 @@ const CreateClubs = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-base-100 shadow-xl rounded-xl mt-6">
-      <h2 className="text-3xl font-bold text-center mb-6">Create a Club</h2>
+      {/* Gradient Heading */}
+      <h2
+        className="
+      text-3xl font-extrabold mb-6 text-center
+      bg-gradient-to-r from-primary via-secondary to-accent
+      bg-clip-text text-transparent
+    "
+      >
+        Create a Club
+      </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Club Name */}
         <div>
-          <label className="label"><span>Club Name</span></label>
+          <label className="label">
+            <span className="text-base-content font-medium">Club Name</span>
+          </label>
           <input
             type="text"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full border-primary focus:border-secondary focus:ring focus:ring-secondary/30"
             {...register("clubName", { required: "Club Name is required" })}
           />
-          {errors.clubName && <p className="text-error">{errors.clubName.message}</p>}
+          {errors.clubName && (
+            <p className="text-error mt-1 text-sm">{errors.clubName.message}</p>
+          )}
         </div>
 
         {/* Description */}
         <div>
-          <label className="label"><span>Description</span></label>
+          <label className="label">
+            <span className="text-base-content font-medium">Description</span>
+          </label>
           <textarea
-            className="textarea textarea-bordered w-full"
-            {...register("description", { required: "Description is required" })}
+            className="textarea textarea-bordered w-full border-primary focus:border-secondary focus:ring focus:ring-secondary/30"
+            {...register("description", {
+              required: "Description is required",
+            })}
           />
-          {errors.description && <p className="text-error">{errors.description.message}</p>}
+          {errors.description && (
+            <p className="text-error mt-1 text-sm">
+              {errors.description.message}
+            </p>
+          )}
         </div>
 
         {/* Category */}
         <div>
-          <label className="label"><span>Category</span></label>
+          <label className="label">
+            <span className="text-base-content font-medium">Category</span>
+          </label>
           <select
-            className="select select-bordered w-full"
+            className="select select-bordered w-full border-primary focus:border-secondary focus:ring focus:ring-secondary/30"
             {...register("category", { required: "Category is required" })}
           >
             <option value="">Select Category</option>
@@ -89,46 +112,74 @@ const CreateClubs = () => {
             <option value="Book">Book</option>
             <option value="Social">Social</option>
           </select>
-          {errors.category && <p className="text-error">{errors.category.message}</p>}
+          {errors.category && (
+            <p className="text-error mt-1 text-sm">{errors.category.message}</p>
+          )}
         </div>
 
         {/* Location */}
         <div>
-          <label className="label"><span>Location</span></label>
+          <label className="label">
+            <span className="text-base-content font-medium">Location</span>
+          </label>
           <input
             type="text"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full border-primary focus:border-secondary focus:ring focus:ring-secondary/30"
             {...register("location", { required: "Location is required" })}
           />
-          {errors.location && <p className="text-error">{errors.location.message}</p>}
+          {errors.location && (
+            <p className="text-error mt-1 text-sm">{errors.location.message}</p>
+          )}
         </div>
 
         {/* Banner Image URL */}
         <div>
-          <label className="label"><span>Banner Image URL</span></label>
+          <label className="label">
+            <span className="text-base-content font-medium">
+              Banner Image URL
+            </span>
+          </label>
           <input
             type="text"
-            className="input input-bordered w-full"
-            {...register("bannerImage", { required: "Banner Image URL is required" })}
+            className="input input-bordered w-full border-primary focus:border-secondary focus:ring focus:ring-secondary/30"
+            {...register("bannerImage", {
+              required: "Banner Image URL is required",
+            })}
           />
-          {errors.bannerImage && <p className="text-error">{errors.bannerImage.message}</p>}
+          {errors.bannerImage && (
+            <p className="text-error mt-1 text-sm">
+              {errors.bannerImage.message}
+            </p>
+          )}
         </div>
 
         {/* Membership Fee */}
         <div>
-          <label className="label"><span>Membership Fee ($)</span></label>
+          <label className="label">
+            <span className="text-base-content font-medium">
+              Membership Fee ($)
+            </span>
+          </label>
           <input
             type="number"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full border-primary focus:border-secondary focus:ring focus:ring-secondary/30"
             {...register("membershipFee", {
               required: "Membership fee is required",
               min: { value: 0, message: "Fee cannot be negative" },
             })}
           />
-          {errors.membershipFee && <p className="text-error">{errors.membershipFee.message}</p>}
+          {errors.membershipFee && (
+            <p className="text-error mt-1 text-sm">
+              {errors.membershipFee.message}
+            </p>
+          )}
         </div>
 
-        <button className="btn btn-primary w-full mt-4" disabled={loading}>
+        {/* Submit Button */}
+        <button
+          className="btn bg-primary hover:bg-secondary text-white w-full mt-4 border-0 focus:ring focus:ring-secondary/30"
+          disabled={loading}
+        >
           {loading ? "Creating..." : "Create Club"}
         </button>
       </form>
