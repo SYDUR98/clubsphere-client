@@ -38,7 +38,7 @@ const EventPaymentSuccess = () => {
           err.response?.data?.message || "Event payment confirmation failed",
           "error"
         ); // FIX APPLIED: Use correct absolute path
-        navigate("/dashboard/member/events");
+        navigate("/member/events");
       } finally {
         setLoading(false);
       }

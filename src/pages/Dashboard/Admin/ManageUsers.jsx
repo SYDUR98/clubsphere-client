@@ -63,8 +63,9 @@ const ManageUsers = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-3xl font-bold mb-6 text-center text-base-content">
-        Manage Users
+     
+      <h2 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+         Manage Users
       </h2>
 
       <div className="overflow-x-auto bg-base-100 rounded-xl shadow-xl border border-base-300">

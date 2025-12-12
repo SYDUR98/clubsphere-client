@@ -24,8 +24,15 @@ const BrowseClubs = () => {
   const [debouncedCategory] = useDebounce(category, 500);
   const [debouncedLocation] = useDebounce(location, 500);
 
+  // Fetch clubs list
   const { data: clubs = [], isLoading } = useQuery({
-    queryKey: ["clubs", debouncedSearch, debouncedCategory, debouncedLocation, sortBy],
+    queryKey: [
+      "clubs",
+      debouncedSearch,
+      debouncedCategory,
+      debouncedLocation,
+      sortBy,
+    ],
     queryFn: async () => {
       const params = new URLSearchParams();
       if (debouncedSearch) params.append("search", debouncedSearch);
@@ -33,57 +40,51 @@ const BrowseClubs = () => {
       if (debouncedLocation) params.append("location", debouncedLocation);
       if (sortBy) params.append("sortBy", sortBy);
 
-      const res = await axiosSecure.get(`/clubs?${params.toString()}`);
+      const res = await axiosSecure.get(`/clubs/display?${params.toString()}`);
       return res.data;
     },
     keepPreviousData: true,
   });
 
-  // joined clubs
+  
+  // Fetch joined clubs status and upcoming events in one API call
   useEffect(() => {
     if (!user?.email || clubs.length === 0) return;
 
-    const fetchMembershipStatus = async () => {
-      const statusPromises = clubs.map(async (club) => {
-        const check = await axiosSecure.get(
-          `/clubs/is-member?clubId=${club._id}&userEmail=${user.email}`
-        );
-        return { clubId: club._id, isMember: check.data.isMember };
-      });
-
-      const statusResults = await Promise.all(statusPromises);
-      setJoinedClubs((prev) => {
-        const newState = { ...prev };
-        statusResults.forEach((item) => {
-          newState[item.clubId] = item.isMember;
-        });
-        return newState;
-      });
-    };
-
-    fetchMembershipStatus();
-  }, [clubs, user?.email, axiosSecure]);
-
-  // upcoming events
-  useEffect(() => {
-    if (!user?.email || clubs.length === 0) return;
-
-    const fetchUpcomingEvents = async () => {
+    const fetchClubStatusAndEvents = async () => {
       try {
         const res = await axiosSecure.get(`/member/clubs?email=${user.email}`);
-        const eventsData = {};
-        res.data.forEach((club) => {
-          eventsData[club.clubId] = club.upcomingEventsCount || 0;
+        const joinedClubsData = res.data; // Process Upcoming Events Count
+
+        const newUpcomingEvents = {};
+        joinedClubsData.forEach((club) => {
+          // FIX 1: Ensure clubId is treated as string for key
+          newUpcomingEvents[String(club.clubId)] =
+            club.upcomingEventsCount || 0;
         });
-        setUpcomingEvents(eventsData);
+        setUpcomingEvents(newUpcomingEvents); // Process Joined Status (Set lookup) // FIX 2: Ensure the Set contains only string IDs
+
+        const joinedClubIdSet = new Set(
+          joinedClubsData.map((m) => String(m.clubId))
+        );
+
+        const newJoinedClubsStatus = {};
+        clubs.forEach((club) => {
+          // FIX 3: Ensure the lookup key is also a string
+          const isJoined = joinedClubIdSet.has(String(club._id));
+          newJoinedClubsStatus[club._id] = isJoined;
+        });
+        setJoinedClubs(newJoinedClubsStatus);
       } catch (err) {
-        console.error("Failed to fetch upcoming events", err);
+        console.error("Failed to fetch club status and events:", err);
+        setUpcomingEvents({});
+        setJoinedClubs({});
       }
     };
 
-    fetchUpcomingEvents();
+    fetchClubStatusAndEvents();
   }, [clubs, user?.email, axiosSecure]);
-
+  // Handle join club
   const handleJoin = async (club) => {
     if (!user?.email) {
       Swal.fire("Error", "Please login first", "error");
@@ -96,6 +97,7 @@ const BrowseClubs = () => {
       });
 
       if (res.data.url) {
+        // Redirect to payment gateway (Stripe)
         window.location.assign(res.data.url);
         return;
       }
@@ -111,19 +113,25 @@ const BrowseClubs = () => {
     }
   };
 
+  // Navigate to club details
   const handleDetails = (clubId) => {
     navigate(`/clubs/${clubId}`);
   };
 
   return (
     <div className="p-6">
-      <h2 className="text-3xl font-bold mb-6">Browse Clubs</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center">Browse Clubs</h2>
 
+      {/* Filter/Search Bar */}
       <FilterBar
-        search={search} setSearch={setSearch}
-        category={category} setCategory={setCategory}
-        location={location} setLocation={setLocation}
-        sortBy={sortBy} setSortBy={setSortBy}
+        search={search}
+        setSearch={setSearch}
+        category={category}
+        setCategory={setCategory}
+        location={location}
+        setLocation={setLocation}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
       />
 
       {isLoading && (
@@ -132,7 +140,7 @@ const BrowseClubs = () => {
         </div>
       )}
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {clubs.map((club) => (
           <motion.div
             key={club._id}
@@ -146,17 +154,36 @@ const BrowseClubs = () => {
               className="h-40 w-full object-cover rounded mb-3"
             />
             <h3 className="text-xl font-bold">{club.clubName}</h3>
-            <p className="text-sm text-neutral mt-1 truncate">{club.description}</p>
-            <p className="mt-2 text-sm"><strong>Category:</strong> {club.category}</p>
-            <p className="text-sm"><strong>Location:</strong> {club.location}</p>
-            <p className="text-sm"><strong>Fee:</strong> {club.membershipFee === 0 ? "Free" : `৳ ${club.membershipFee}`}</p>
-            <p className="text-sm"><strong>Upcoming Events:</strong> {upcomingEvents[club._id] || 0}</p>
+            <p className="text-sm text-neutral mt-1 truncate">
+              {club.description}
+            </p>
+            <p className="mt-2 text-sm">
+              <strong>Category:</strong> {club.category}
+            </p>
+            <p className="text-sm">
+              <strong>Location:</strong> {club.location}
+            </p>
+            <p className="text-sm">
+              <strong>Fee:</strong>{" "}
+              {club.membershipFee === 0 ? "Free" : `৳ ${club.membershipFee}`}
+            </p>
+            <p className="text-sm">
+              <strong>Upcoming Events:</strong> {upcomingEvents[club._id] || 0}
+            </p>
+
             <div className="flex gap-2 mt-4">
-              <button onClick={() => handleDetails(club._id)} className="btn btn-info flex-1">Details</button>
+              <button
+                onClick={() => handleDetails(club._id)}
+                className="btn btn-info flex-1"
+              >
+                Details
+              </button>
               <button
                 onClick={() => handleJoin(club)}
                 disabled={joinedClubs[club._id]}
-                className={`btn flex-1 ${joinedClubs[club._id] ? "btn-disabled" : "btn-primary"}`}
+                className={`btn flex-1 ${
+                  joinedClubs[club._id] ? "btn-disabled" : "btn-primary"
+                }`}
               >
                 {joinedClubs[club._id] ? "Joined" : "Join Club"}
               </button>

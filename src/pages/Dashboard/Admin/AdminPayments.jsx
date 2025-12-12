@@ -7,7 +7,11 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 const AdminPayments = () => {
   const axiosSecure = useAxiosSecure();
 
-  const { data: payments = [], isLoading, isError } = useQuery({
+  const {
+    data: payments = [],
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["admin-payments"],
     queryFn: async () => {
       const res = await axiosSecure.get("/admin/payments");
@@ -24,13 +28,15 @@ const AdminPayments = () => {
   }
 
   if (isError) {
-    return <p className="text-error text-center py-10">Failed to load payments.</p>;
+    return (
+      <p className="text-error text-center py-10">Failed to load payments.</p>
+    );
   }
 
   return (
     <div className="p-6 bg-base-100">
       <h2
-        className="text-2xl font-extrabold mb-6 text-center
+        className="text-3xl font-extrabold mb-6 text-center
                    bg-gradient-to-r from-primary via-secondary to-accent
                    bg-clip-text text-transparent"
       >
@@ -58,14 +64,17 @@ const AdminPayments = () => {
                 <td>
                   <span
                     className={`badge ${
-                      p.type === "paid"
-                        ? "badge-success"
-                        : "badge-info"
+                      p.type
+                        ? p.type === "event"
+                          ? "badge-success"
+                          : "badge-info"
+                        : "badge-primary"
                     }`}
                   >
-                    {p.type}
+                    {p.type || "Club"}
                   </span>
                 </td>
+
                 <td className="text-secondary">{p.clubName || "-"}</td>
                 <td className="text-sm text-black">
                   {moment(p.createdAt).format("DD MMM YYYY, hh:mm A")}

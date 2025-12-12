@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
-import { useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 
 const ClubDetails = () => {
   const { id } = useParams();
@@ -144,11 +144,17 @@ const ClubDetails = () => {
       )}
 
       {/* Join / Visit button */}
-      <div className="mt-6 flex justify-end">
+      <div className="mt-6 flex justify-between">
+         <Link
+          to={"/"}
+          className="btn btn-secondary text-center bg-primary"
+        >
+          Back
+        </Link>
         <button
           onClick={() => {
             if (isJoined) {
-              navigate(`/dashboard/member/event/clubs/${id}`);
+              navigate(`/event/clubs/${id}`);
             } else {
               handleJoin();
             }
@@ -157,6 +163,9 @@ const ClubDetails = () => {
         >
           {isJoined ? "Visit / Show Events" : "Join Club"}
         </button>
+      </div>
+      <div className="flex ">
+       
       </div>
     </div>
   );

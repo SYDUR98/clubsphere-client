@@ -15,6 +15,7 @@ import { FaCcDinersClub, FaEdit } from "react-icons/fa";
 import { GrUserAdmin, GrUserManager } from "react-icons/gr";
 import { VscSymbolEvent } from "react-icons/vsc";
 import useRole from "../hooks/useRole";
+import { IoCreateSharp } from "react-icons/io5";
 
 const DashboardLayout = () => {
   const { role } = useRole();
@@ -222,6 +223,27 @@ const DashboardLayout = () => {
                   </li>
                   <li>
                     <NavLink
+                      to="/dashboard/manager/createEvents"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                    is-drawer-close:tooltip is-drawer-close:tooltip-right
+                    ${
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
+                    }`
+                      }
+                      data-tip="Create Events"
+                    >
+                      
+                      <IoCreateSharp className="text-lg"/>
+                      <span className="is-drawer-close:hidden">
+                        Create Events
+                      </span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
                       to="/dashboard/manager/my-clubs"
                       className={({ isActive }) =>
                         `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
@@ -240,6 +262,27 @@ const DashboardLayout = () => {
                   </li>
                   <li>
                     <NavLink
+                      to="/dashboard/manager/all/events"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                    is-drawer-close:tooltip is-drawer-close:tooltip-right
+                    ${
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
+                    }`
+                      }
+                      data-tip="Manager Event"
+                    >
+                      
+                      <VscSymbolEvent className="text-lg" />
+                      <span className="is-drawer-close:hidden">
+                        Manager Events
+                      </span>
+                    </NavLink>
+                  </li>
+                  {/* <li>
+                    <NavLink
                       to="/dashboard/manager/my-events"
                       className={({ isActive }) =>
                         `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
@@ -255,6 +298,26 @@ const DashboardLayout = () => {
                       <MdEvent className="text-lg" />
                       <span className="is-drawer-close:hidden">My Events</span>
                     </NavLink>
+                  </li> */}
+                  <li>
+                    <NavLink
+                      to="/dashboard/manager-members"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                    is-drawer-close:tooltip is-drawer-close:tooltip-right
+                    ${
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
+                    }`
+                      }
+                      data-tip="Club Member"
+                    >
+                      <MdEvent className="text-lg" />
+                      <span className="is-drawer-close:hidden">
+                        Club Mamber
+                      </span>
+                    </NavLink>
                   </li>
                 </>
               )}
@@ -262,81 +325,67 @@ const DashboardLayout = () => {
               {role === "member" && (
                 <>
                   <li>
-                <NavLink
-                  to="/dashboard/member/stats"
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                    <NavLink
+                      to="/dashboard/member/stats"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
                     is-drawer-close:tooltip is-drawer-close:tooltip-right
                     ${
                       isActive
                         ? "bg-base-300 text-primary"
                         : "text-base-content hover:bg-primary hover:text-primary-content"
                     }`
-                  }
-                  data-tip="Member Stats"
-                >
-                  <MdDashboardCustomize className="text-lg" />
-                  <span className="is-drawer-close:hidden">Member Stats</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/member/clubs"
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                      }
+                      data-tip="Member Stats"
+                    >
+                      <MdDashboardCustomize className="text-lg" />
+                      <span className="is-drawer-close:hidden">
+                        Member Stats
+                      </span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/dashboard/member/clubs"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
                     is-drawer-close:tooltip is-drawer-close:tooltip-right
                     ${
                       isActive
                         ? "bg-base-300 text-primary"
                         : "text-base-content hover:bg-primary hover:text-primary-content"
                     }`
-                  }
-                  data-tip="Member Clubs"
-                >
-                  <FaCcDinersClub className="text-lg" />
-                  <span className="is-drawer-close:hidden">Member Clubs</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/member/events"
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                      }
+                      data-tip="Member Clubs"
+                    >
+                      <FaCcDinersClub className="text-lg" />
+                      <span className="is-drawer-close:hidden">
+                        Member Clubs
+                      </span>
+                    </NavLink>
+                  </li>
+
+                  <li>
+                    <NavLink
+                      to="/dashboard/member/all/payments"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
                     is-drawer-close:tooltip is-drawer-close:tooltip-right
                     ${
                       isActive
                         ? "bg-base-300 text-primary"
                         : "text-base-content hover:bg-primary hover:text-primary-content"
                     }`
-                  }
-                  data-tip="Member Event"
-                >
-                  <VscSymbolEvent className="text-lg" />
-                  <span className="is-drawer-close:hidden">Member Events</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/member/all/payments"
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
-                    is-drawer-close:tooltip is-drawer-close:tooltip-right
-                    ${
-                      isActive
-                        ? "bg-base-300 text-primary"
-                        : "text-base-content hover:bg-primary hover:text-primary-content"
-                    }`
-                  }
-                  data-tip="Payments"
-                >
-                  <MdOutlinePayment className="text-lg"/>
-                  <span className="is-drawer-close:hidden">Payments</span>
-                </NavLink>
-              </li>
+                      }
+                      data-tip="Payments"
+                    >
+                      <MdOutlinePayment className="text-lg" />
+                      <span className="is-drawer-close:hidden">Payments</span>
+                    </NavLink>
+                  </li>
                 </>
               )}
-              
-              
+
               {/* done no change okay  */}
               {/* <li>
                 <NavLink

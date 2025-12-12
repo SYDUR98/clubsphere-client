@@ -58,6 +58,20 @@ const Navbar = () => {
           <div className="flex">
             <li>
               <NavLink
+                to="/member/events"
+                className={({ isActive }) =>
+                  `px-4 py-2 rounded-md font-medium transition-colors duration-300 ${
+                    isActive
+                      ? "text-primary "
+                      : "text-base-content hover:text-primary"
+                  }`
+                }
+              >
+                EVENTS
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
                 to="/my-event"
                 className={({ isActive }) =>
                   `px-4 py-2 rounded-md font-medium transition-colors duration-300 ${
@@ -205,7 +219,7 @@ const Navbar = () => {
                 </NavLink>
               </li>
 
-              {/* Logout (button, not link) */}
+              
               <li>
                 <button
                   onClick={handleLogout}

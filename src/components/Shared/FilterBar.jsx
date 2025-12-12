@@ -1,6 +1,15 @@
 import React from "react";
 
-const FilterBar = ({ search, setSearch, category, setCategory, location, setLocation, sortBy, setSortBy }) => {
+const FilterBar = ({
+  search,
+  setSearch,
+  category,
+  setCategory,
+  location,
+  setLocation,
+  sortBy,
+  setSortBy,
+}) => {
   return (
     <div className="flex flex-wrap gap-3 mb-6">
       <input
@@ -8,26 +17,49 @@ const FilterBar = ({ search, setSearch, category, setCategory, location, setLoca
         placeholder="Search club name"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="input input-bordered w-full md:w-64"
+        className="
+      input input-bordered w-full md:w-64 
+      border-primary/40 focus:border-primary 
+      focus:ring focus:ring-primary/20 bg-base-100 
+      rounded-xl
+    "
       />
+
       <input
         type="text"
         placeholder="Category"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
-        className="input input-bordered w-full md:w-48"
+        className="
+      input input-bordered w-full md:w-48
+      border-primary/40 focus:border-primary
+      focus:ring focus:ring-primary/20 bg-base-100
+      rounded-xl
+    "
       />
+
       <input
         type="text"
         placeholder="Location"
         value={location}
         onChange={(e) => setLocation(e.target.value)}
-        className="input input-bordered w-full md:w-48"
+        className="
+      input input-bordered w-full md:w-48
+      border-primary/40 focus:border-primary
+      focus:ring focus:ring-primary/20 bg-base-100
+      rounded-xl
+    "
       />
+
       <select
         value={sortBy}
         onChange={(e) => setSortBy(e.target.value)}
-        className="select select-bordered w-full md:w-48"
+        className="
+      select select-bordered w-full md:w-48
+      border-primary/40 focus:border-primary
+      focus:ring focus:ring-primary/20 bg-base-100
+      rounded-xl
+    "
       >
         <option value="">Sort By</option>
         <option value="newest">Newest First</option>

@@ -19,7 +19,7 @@ const CreateEventModal = ({ clubId, clubName, isOpen, onClose, onCreated }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      managerEmail: "", // set later
+      managerEmail: "", 
       isPaid: false,
     },
   });

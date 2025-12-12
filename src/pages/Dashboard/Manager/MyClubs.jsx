@@ -4,13 +4,11 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import CreateEventModal from "./CreateEventModal"; // import modal
 
 const MyClubs = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [selectedClub, setSelectedClub] = useState(null);
-  const [openEventModal, setOpenEventModal] = useState(false);
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -19,7 +17,7 @@ const MyClubs = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(`/clubs/manager/${user.email}`);
-      return res.data;
+      return Array.isArray(res.data) ? res.data : [];
     },
   });
 
@@ -29,31 +27,50 @@ const MyClubs = () => {
       text: "This club will be deleted!",
       icon: "warning",
       showCancelButton: true,
+      confirmButtonText: "Yes, delete it",
     });
     if (confirm.isConfirmed) {
-      await axiosSecure.delete(`/clubs/${id}`);
-      refetch();
-      Swal.fire("Deleted!", "Club deleted successfully.", "success");
+      try {
+        await axiosSecure.delete(`/clubs/${id}`);
+        await refetch();
+        Swal.fire("Deleted!", "Club deleted successfully.", "success");
+      } catch (err) {
+        console.error("Delete club failed:", err);
+        Swal.fire("Error!", err?.response?.data?.message || "Failed to delete club", "error");
+      }
     }
   };
 
   const handleEdit = (club) => {
     setSelectedClub(club);
-    reset(club);
+    // populate form
+    reset({
+      clubName: club.clubName || "",
+      description: club.description || "",
+      location: club.location || "",
+      bannerImage: club.bannerImage || "",
+      category: club.category || "",
+    });
   };
 
   const onSubmit = async (data) => {
-    await axiosSecure.patch(`/clubs/${selectedClub._id}`, data);
-    refetch();
-    Swal.fire("Updated!", "Club updated successfully.", "success");
-    setSelectedClub(null);
+    if (!selectedClub) return;
+    try {
+      await axiosSecure.patch(`/clubs/${selectedClub._id}`, data);
+      await refetch();
+      Swal.fire("Updated!", "Club updated successfully.", "success");
+      setSelectedClub(null);
+    } catch (err) {
+      console.error("Update club failed:", err);
+      Swal.fire("Error!", err?.response?.data?.message || "Failed to update club", "error");
+    }
   };
 
   if (isLoading) return <p className="text-center mt-10">Loading...</p>;
 
   return (
     <div className="p-6">
-       <h2
+      <h2
         className="
           text-3xl font-extrabold mb-6 text-center
           bg-gradient-to-r from-primary via-secondary to-accent
@@ -63,48 +80,78 @@ const MyClubs = () => {
         My Clubs
       </h2>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {clubs.map((club) => (
-          <div key={club._id} className="bg-base-100 p-4 rounded-xl shadow">
-            <img src={club.bannerImage} className="h-40 w-full object-cover rounded" />
-            <h3 className="text-xl font-bold mt-2">{club.clubName}</h3>
-            <p>{club.category}</p>
-            <p>{club.location}</p>
-
-            <span className={`badge mt-2 ${
-                club.status === "approved"
-                  ? "badge-success"
-                  : club.status === "rejected"
-                  ? "badge-error"
-                  : "badge-warning"
-              }`}>
-              {club.status}
-            </span>
-
-            <div className="mt-4 flex gap-2 flex-wrap">
-              <button onClick={() => handleEdit(club)} className="btn btn-sm btn-primary">Edit</button>
-              <button onClick={() => handleDelete(club._id)} className="btn btn-sm btn-error">Delete</button>
-
-              {club.status === "approved" && (
-                <button
-                  onClick={() => setOpenEventModal(true)}
-                  className="btn btn-sm btn-success"
-                >
-                  Create Event
-                </button>
-              )}
-            </div>
-
-            {/* Event Modal */}
-            <CreateEventModal
-              clubId={club._id}
-              isOpen={openEventModal}
-              onClose={() => setOpenEventModal(false)}
-              onCreated={() => refetch()}
-            />
-          </div>
-        ))}
-      </div>
+      {clubs.length === 0 ? (
+        <p className="text-center">You have not created any clubs yet.</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="table table-zebra w-full">
+            <thead>
+              <tr>
+                <th>Banner</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th className="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {clubs.map((club) => (
+                <tr key={club._id}>
+                  <td className="w-32">
+                    {club.bannerImage ? (
+                      <img
+                        src={club.bannerImage}
+                        alt={club.clubName}
+                        className="h-16 w-28 object-cover rounded"
+                      />
+                    ) : (
+                      <div className="h-16 w-28 bg-gray-200 rounded flex items-center justify-center text-sm">
+                        No Image
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <div className="font-semibold">{club.clubName}</div>
+                    <div className="text-xs text-neutral">{new Date(club.createdAt).toLocaleDateString()}</div>
+                  </td>
+                  <td>{club.category || "—"}</td>
+                  <td>{club.location || "—"}</td>
+                  <td>
+                    <span
+                      className={`badge ${
+                        club.status === "approved"
+                          ? "badge-success"
+                          : club.status === "rejected"
+                          ? "badge-error"
+                          : "badge-warning"
+                      }`}
+                    >
+                      {club.status || "pending"}
+                    </span>
+                  </td>
+                  <td className="text-center">
+                    <div className="flex items-center justify-center gap-2">
+                      <button
+                        onClick={() => handleEdit(club)}
+                        className="btn btn-sm btn-primary"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(club._id)}
+                        className="btn btn-sm btn-error"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* Edit Modal */}
       {selectedClub && (
@@ -112,14 +159,42 @@ const MyClubs = () => {
           <div className="modal-box">
             <h3 className="font-bold text-lg">Edit Club</h3>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 mt-4">
+              <label className="label">
+                <span className="label-text">Club Name</span>
+              </label>
               <input {...register("clubName")} className="input w-full" />
+
+              <label className="label">
+                <span className="label-text">Description</span>
+              </label>
               <textarea {...register("description")} className="textarea w-full" />
+
+              <label className="label">
+                <span className="label-text">Category</span>
+              </label>
+              <input {...register("category")} className="input w-full" />
+
+              <label className="label">
+                <span className="label-text">Location</span>
+              </label>
               <input {...register("location")} className="input w-full" />
+
+              <label className="label">
+                <span className="label-text">Banner Image URL</span>
+              </label>
               <input {...register("bannerImage")} className="input w-full" />
 
-              <div className="flex justify-end gap-2">
-                <button type="submit" className="btn btn-primary">Save</button>
-                <button type="button" className="btn" onClick={() => setSelectedClub(null)}>Cancel</button>
+              <div className="flex justify-end gap-2 mt-4">
+                <button type="submit" className="btn btn-primary">
+                  Save
+                </button>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => setSelectedClub(null)}
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>

@@ -1,13 +1,15 @@
-
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-
 const MemberPayments = () => {
   const axiosSecure = useAxiosSecure();
 
-  const { data = [], isLoading, isError } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["member-payments"],
     queryFn: async () => {
       const res = await axiosSecure.get("/member/all/payments");
@@ -23,16 +25,18 @@ const MemberPayments = () => {
     );
 
   if (isError)
-    return <div className="text-center text-error">Failed to load payments</div>;
+    return (
+      <div className="text-center text-error">Failed to load payments</div>
+    );
 
   return (
     <div className="p-6 bg-base-100">
       <h2
         className="
-          text-2xl font-bold mb-4 text-center
-          bg-gradient-to-r from-primary via-secondary to-accent
-          bg-clip-text text-transparent
-        "
+      text-2xl font-extrabold mb-6 text-center
+      bg-gradient-to-r from-primary via-secondary to-accent
+      bg-clip-text text-transparent
+    "
       >
         My Payments
       </h2>
@@ -41,7 +45,7 @@ const MemberPayments = () => {
         <p className="text-center text-neutral mt-10">No payments found.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="table table-zebra w-full">
+          <table className="table table-zebra w-full rounded-xl shadow-xl">
             <thead className="bg-base-200 text-base-content">
               <tr>
                 <th>#</th>
@@ -55,7 +59,7 @@ const MemberPayments = () => {
             </thead>
             <tbody>
               {data.map((p, i) => (
-                <tr key={p._id}>
+                <tr key={p._id} className="hover:bg-base-200 transition-colors">
                   <td>{i + 1}</td>
                   <td className="text-primary font-medium">{p.amount}</td>
                   <td className="text-base-content">{p.type}</td>
@@ -68,10 +72,10 @@ const MemberPayments = () => {
                     <span
                       className={`badge ${
                         p.status === "completed"
-                          ? "badge-success"
+                          ? "bg-gradient-to-r from-success to-secondary text-white"
                           : p.status === "pending"
-                          ? "badge-warning"
-                          : "badge-error"
+                          ? "bg-gradient-to-r from-warning to-accent text-white"
+                          : "bg-gradient-to-r from-error to-secondary text-white"
                       }`}
                     >
                       {p.status.toUpperCase()}

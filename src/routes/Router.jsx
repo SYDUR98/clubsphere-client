@@ -7,7 +7,7 @@ import CreateClubs from "../pages/Dashboard/Manager/CreateClubs";
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyClubs from "../pages/Dashboard/Manager/MyClubs";
-import MyEvent from "../pages/Dashboard/Manager/MyEvent";
+// import MyEvent from "../pages/Dashboard/Manager/ManageClubs";
 import AdminHome from "../pages/Dashboard/Admin/AdminHome";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import ManageClubs from "../pages/Dashboard/Admin/ManageClubs";
@@ -27,6 +27,9 @@ import AdminPayments from "../pages/Dashboard/Admin/AdminPayments";
 import MemberRoute from "./MemberRoute";
 import MyMemberEvents from "../pages/Dashboard/Member/MyMemberEvents";
 import MemberPayments from "../pages/Dashboard/Member/MemberPayments";
+import ManagerClubMembers from "../pages/Dashboard/Manager/ManagerClubMembers";
+import CreateEvent from "../pages/Dashboard/Manager/CreateEvent";
+import ManagerAllEvents from "../pages/Dashboard/Manager/ManagerAllEvents";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +44,7 @@ export const router = createBrowserRouter([
         path: "browse-clubs",
         Component: BrowseClubs,
       },
+     
       {
         path: "/my-event",
         Component: MyMemberEvents
@@ -49,6 +53,19 @@ export const router = createBrowserRouter([
       {
         path: "/clubs/:id",
         element: <ClubDetails></ClubDetails>,
+      },
+       {
+        path: "event/clubs/:clubId",
+        element:<JoinClubEvent></JoinClubEvent>
+      },
+      {
+        path: "member/events",
+        element: (
+          
+            <MemberEvents></MemberEvents>
+         
+        ),
+        // element: <MemberEvents></MemberEvents>
       },
       {
         path: "register",
@@ -119,6 +136,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "manager/createEvents",
+        element: (
+          <ManagerRoute>
+            <CreateEvent></CreateEvent>
+          </ManagerRoute>
+        ),
+      },
+      {
         path: "manager/my-clubs",
         element: (
           <ManagerRoute>
@@ -128,10 +153,20 @@ export const router = createBrowserRouter([
         // Component: MyClubs,
       },
       {
-        path: "manager/my-events",
+        path: "manager/all/events",
         element: (
           <ManagerRoute>
-            <MyEvent></MyEvent>
+            <ManagerAllEvents></ManagerAllEvents>
+          </ManagerRoute>
+        ),
+        // Component: MyClubs,
+      },
+     
+      {
+        path: "manager-members",
+        element: (
+          <ManagerRoute>
+            <ManagerClubMembers></ManagerClubMembers>
           </ManagerRoute>
         ),
         // Component: MyEvent,
@@ -168,21 +203,13 @@ export const router = createBrowserRouter([
         ),
         // element: <MemberClubs></MemberClubs>,
       },
-      {
-        path: "member/events",
-        element: (
-          
-            <MemberEvents></MemberEvents>
-         
-        ),
-        // element: <MemberEvents></MemberEvents>
-      },
+      
       // okay on change
 
-      {
-        path: "member/event/clubs/:clubId",
-        element:<JoinClubEvent></JoinClubEvent>
-      },
+      // {
+      //   path: "member/event/clubs/:clubId",
+      //   element:<JoinClubEvent></JoinClubEvent>
+      // },
       {
         path: "member/all/payments",
         element:<MemberRoute>

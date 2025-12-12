@@ -1,20 +1,15 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
-
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const MemberClubs = () => {
   const { user } = useAuth();
-  const axiosSecure  = useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
-  const {
-    data: joinedClubs = [],
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data: joinedClubs = [], isLoading, isError } = useQuery({
     queryKey: ["myJoinedClubs", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -25,8 +20,8 @@ const MemberClubs = () => {
 
   if (isLoading) {
     return (
-      <div className="text-center py-10">
-        <span className="loading loading-spinner loading-lg"></span>
+      <div className="flex justify-center items-center h-40">
+        <span className="loading loading-spinner loading-lg text-primary"></span>
       </div>
     );
   }
@@ -42,12 +37,12 @@ const MemberClubs = () => {
   if (joinedClubs.length === 0) {
     return (
       <div className="text-center py-10">
-        <p className="text-xl text-neutral mb-4">
+        <p className="text-xl font-medium text-base-content mb-4">
           You have not joined any clubs yet.
         </p>
         <button
           onClick={() => navigate("/browse-clubs")}
-          className="btn btn-primary"
+          className="btn w-40 bg-gradient-to-r from-primary to-secondary text-white hover:from-secondary hover:to-accent transition-colors"
         >
           Browse Clubs
         </button>
@@ -57,62 +52,70 @@ const MemberClubs = () => {
 
   return (
     <div className="p-6">
-      <h3 className="text-2xl font-bold mb-6 text-center">
+      <h3
+        className="
+          text-2xl font-extrabold mb-6 text-center
+          bg-gradient-to-r from-primary via-secondary to-accent
+          bg-clip-text text-transparent
+        "
+      >
         My Joined Clubs ({joinedClubs.length})
       </h3>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {joinedClubs.map((club) => (
-          <div
-            key={club.membershipId}
-            className="card bg-base-100 shadow-xl border border-primary/50"
-          >
-            <div className="card-body">
-              <h2 className="card-title text-xl text-primary">{club.clubName}</h2>
-              <p className="text-sm text-neutral-content">
-                Location: {club.location}
-              </p>
-
-              <div className="mt-3">
-                <p className="text-xs font-semibold">
-                  Status:{" "}
+      <div className="overflow-x-auto bg-base-100 shadow-xl rounded-xl">
+        <table className="table table-zebra w-full">
+          <thead className="bg-base-200 text-base-content">
+            <tr>
+              <th>#</th>
+              <th>Club Name</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Joined On</th>
+              <th>Upcoming Events</th>
+              <th className="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {joinedClubs.map((club, index) => (
+              <tr key={club.membershipId || index}>
+                <td>{index + 1}</td>
+                <td className="text-primary font-medium">{club.clubName}</td>
+                <td className="text-base-content">{club.location}</td>
+                <td>
                   <span
                     className={`badge ${
                       club.status === "active"
                         ? "badge-success"
                         : "badge-warning"
-                    } text-white ml-2`}
+                    } text-white`}
                   >
-                    {club.status.toUpperCase()}
+                    {club.status?.toUpperCase() || "ACTIVE"}
                   </span>
-                </p>
-                <p className="text-xs text-gray-500 mt-1">
-                  Joined On: {new Date(club.joinedAt).toLocaleDateString()}
-                </p>
-                <p className="text-xs text-gray-500 mt-1">
-                  Upcoming Events: {club.upcomingEventsCount || 0}
-                </p>
-              </div>
-
-              <div className="card-actions justify-end mt-4">
-                <button
-                  onClick={() =>
-                    navigate(`/dashboard/member/event/clubs/${club.clubId.toString()}`)
-                  }
-                  className="btn btn-sm btn-primary"
-                >
-                  Show Events ({club.upcomingEventsCount || 0})
-                </button>
-                <button
-                  onClick={() => navigate(`/clubs/${club.clubId.toString()}`)}
-                  className="btn btn-sm btn-outline btn-info"
-                >
-                  View Club
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
+                </td>
+                <td className="text-base-content">
+                  {new Date(club.joinedAt).toLocaleDateString()}
+                </td>
+                <td className="text-base-content">{club.upcomingEventsCount || 0}</td>
+                <td className="flex flex-wrap justify-center gap-2">
+                  <button
+                    onClick={() =>
+                      navigate(`/event/clubs/${club.clubId}`)
+                    }
+                    className="btn btn-sm bg-gradient-to-r from-primary to-secondary text-white hover:from-secondary hover:to-accent transition-colors"
+                  >
+                    Show Events
+                  </button>
+                  <button
+                    onClick={() => navigate(`/clubs/${club.clubId}`)}
+                    className="btn btn-sm btn-outline border-info text-info hover:bg-info hover:text-white transition-colors"
+                  >
+                    View Club
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
