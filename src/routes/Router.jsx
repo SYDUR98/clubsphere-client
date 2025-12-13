@@ -31,6 +31,7 @@ import ManagerClubMembers from "../pages/Dashboard/Manager/ManagerClubMembers";
 import CreateEvent from "../pages/Dashboard/Manager/CreateEvent";
 import ManagerAllEvents from "../pages/Dashboard/Manager/ManagerAllEvents";
 import EventDetails from "../pages/Dashboard/Member/EventDetails";
+import ErrorPage from "../components/Shared/ErrorPage";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
+      },
+      {
+        path:'*',
+        Component:ErrorPage,
       },
       {
         path: "browse-clubs",
