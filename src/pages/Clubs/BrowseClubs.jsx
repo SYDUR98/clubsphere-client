@@ -7,6 +7,15 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import { useDebounce } from "use-debounce";
 import FilterBar from "../../components/Shared/FilterBar";
+import {
+  FaTag,
+  FaMapMarkerAlt,
+  FaMoneyBill,
+  FaCalendarAlt,
+  FaInfoCircle,
+  FaUserPlus,
+  FaCheck,
+} from "react-icons/fa";
 
 const BrowseClubs = () => {
   const axiosSecure = useAxiosSecure();
@@ -47,7 +56,6 @@ const BrowseClubs = () => {
   });
 
   
-  // Fetch joined clubs status and upcoming events in one API call
   useEffect(() => {
     if (!user?.email || clubs.length === 0) return;
 
@@ -62,7 +70,7 @@ const BrowseClubs = () => {
           newUpcomingEvents[String(club.clubId)] =
             club.upcomingEventsCount || 0;
         });
-        setUpcomingEvents(newUpcomingEvents); // Process Joined Status (Set lookup) // FIX 2: Ensure the Set contains only string IDs
+        setUpcomingEvents(newUpcomingEvents); 
 
         const joinedClubIdSet = new Set(
           joinedClubsData.map((m) => String(m.clubId))
@@ -70,7 +78,7 @@ const BrowseClubs = () => {
 
         const newJoinedClubsStatus = {};
         clubs.forEach((club) => {
-          // FIX 3: Ensure the lookup key is also a string
+         
           const isJoined = joinedClubIdSet.has(String(club._id));
           newJoinedClubsStatus[club._id] = isJoined;
         });
@@ -120,7 +128,34 @@ const BrowseClubs = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-3xl font-bold mb-6 text-center">Browse Clubs</h2>
+      <div>
+        <h2
+          className="
+      text-4xl md:text-3xl font-extrabold mb-8 text-center
+      bg-clip-text text-transparent
+      tracking-wide
+    "
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+            backgroundSize: "300% 300%",
+            animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
+          }}
+        >
+          CLUBS
+        </h2>
+
+        {/* Inline keyframes */}
+        <style>
+          {`
+      @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+    `}
+        </style>
+      </div>
 
       {/* Filter/Search Bar */}
       <FilterBar
@@ -153,39 +188,66 @@ const BrowseClubs = () => {
               alt={club.clubName}
               className="h-40 w-full object-cover rounded mb-3"
             />
-            <h3 className="text-xl font-bold">{club.clubName}</h3>
+            <h3 className="text-xl font-bold flex items-center gap-2">
+              <FaTag className="text-primary" /> {club.clubName}
+            </h3>
             <p className="text-sm text-neutral mt-1 truncate">
               {club.description}
             </p>
-            <p className="mt-2 text-sm">
-              <strong>Category:</strong> {club.category}
+
+            <p className="mt-2 text-sm flex items-center gap-2">
+              <FaTag className="text-accent" /> <strong>Category:</strong>{" "}
+              {club.category}
             </p>
-            <p className="text-sm">
+            <p className="text-sm flex items-center gap-2">
+              <FaMapMarkerAlt className="text-secondary" />{" "}
               <strong>Location:</strong> {club.location}
             </p>
-            <p className="text-sm">
-              <strong>Fee:</strong>{" "}
-              {club.membershipFee === 0 ? "Free" : `৳ ${club.membershipFee}`}
+            <p className="text-sm flex items-center gap-2">
+              <FaMoneyBill className="text-success" /> <strong>Fee:</strong>{" "}
+              {club.membershipFee === 0 ? "Free" : `$ ${club.membershipFee}`}
             </p>
-            <p className="text-sm">
+            <p className="text-sm flex items-center gap-2">
+              <FaCalendarAlt className="text-info" />{" "}
               <strong>Upcoming Events:</strong> {upcomingEvents[club._id] || 0}
             </p>
 
             <div className="flex gap-2 mt-4">
+              {/* Details Button */}
               <button
                 onClick={() => handleDetails(club._id)}
-                className="btn btn-info flex-1"
+                className="
+            btn flex-1 flex items-center justify-center gap-2 text-white font-semibold text-lg shadow-lg
+            bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500
+            hover:brightness-110 transition-all
+          "
               >
-                Details
+                <FaInfoCircle /> Details
               </button>
+
+              {/* Join / Joined Button */}
               <button
                 onClick={() => handleJoin(club)}
                 disabled={joinedClubs[club._id]}
-                className={`btn flex-1 ${
-                  joinedClubs[club._id] ? "btn-disabled" : "btn-primary"
-                }`}
+                className={`
+            btn flex-1 flex items-center justify-center gap-2 text-white font-semibold text-lg shadow-lg
+            ${
+              joinedClubs[club._id]
+                ? "bg-gradient-to-r from-green-400 via-teal-400 to-cyan-400 btn-disabled"
+                : "bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400"
+            }
+            hover:brightness-110 transition-all
+          `}
               >
-                {joinedClubs[club._id] ? "Joined" : "Join Club"}
+                {joinedClubs[club._id] ? (
+                  <>
+                    <FaCheck /> Joined
+                  </>
+                ) : (
+                  <>
+                    <FaUserPlus /> Join Club
+                  </>
+                )}
               </button>
             </div>
           </motion.div>

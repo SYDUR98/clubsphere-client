@@ -1,201 +1,474 @@
-import React from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import Swal from 'sweetalert2';
-import { FaCalendarAlt, FaMoneyBillAlt } from 'react-icons/fa';
-import { motion } from 'framer-motion';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import useAuth from '../../../hooks/useAuth';
-
-const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: (i) => ({
-        opacity: 1,
-        y: 0,
-        transition: {
-            delay: i * 0.1,
-            duration: 0.4,
-        },
-    }),
-};
+import React, { useState, useMemo } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import {
+  FaCalendarAlt,
+  FaMoneyBillAlt,
+  FaMapMarkerAlt,
+  FaUsers,
+  FaEnvelope,
+  FaClock,
+  FaEye,
+  FaUserPlus,
+  FaCheck,
+} from "react-icons/fa";
+import { motion } from "framer-motion";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
 
 const MemberEvents = () => {
-    const axiosSecure = useAxiosSecure();
-    const { user } = useAuth();
-    const queryClient = useQueryClient();
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const qc = useQueryClient();
 
-    const { data: events = [], isLoading } = useQuery({
-        queryKey: ['memberEvents', user?.email],
-        enabled: !!user?.email,
-        queryFn: async () => {
-            const res = await axiosSecure.get(
-                `/member/events?email=${user.email}`
-            );
-            return res.data;
-        },
-    });
+  const [q, setQ] = useState("");
+  const [loc, setLoc] = useState("");
+  const [paid, setPaid] = useState("all");
+  const [reg, setReg] = useState("all");
+  const [sort, setSort] = useState("newest");
+  const [open, setOpen] = useState(false);
+  const [sel, setSel] = useState(null);
 
-    const isAlreadyRegistered = (eventId) =>
-        events.find(e => e._id === eventId)?.isRegistered || false;
+  const { data: events = [], isLoading } = useQuery({
+    queryKey: ["memberEvents", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () =>
+      (await axiosSecure.get(`/member/events?email=${user.email}`)).data,
+  });
 
-    const registerMutation = useMutation({
-        mutationFn: async ({ eventId, eventFee }) => {
-            const res = await axiosSecure.post(
-                `/events/register/${eventId}`,
-                { userEmail: user.email, eventFee }
-            );
-            return res.data;
-        },
+  const m = useMutation({
+    mutationFn: ({ id, fee }) =>
+      axiosSecure.post(`/events/register/${id}`, {
+        userEmail: user.email,
+        eventFee: fee,
+      }),
+    onSuccess: (d) => {
+      if (d.data?.url) return window.location.assign(d.data.url);
+      Swal.fire("Success", "Registered successfully", "success");
+      qc.invalidateQueries(["memberEvents"]);
+    },
+    onError: (e) =>
+      Swal.fire("Error", e.response?.data?.message || "Failed", "error"),
+  });
 
-        onSuccess: (data) => {
-            if (data?.url) {
-                window.location.assign(data.url);
-                return;
-            }
-
-            Swal.fire('Success!', 'Successfully registered!', 'success');
-            queryClient.invalidateQueries(['memberEvents', user.email]);
-            queryClient.invalidateQueries(['myEvents']);
-        },
-
-        onError: (error) => {
-            Swal.fire(
-                'Error',
-                error.response?.data?.message || 'Registration failed',
-                'error'
-            );
-        },
-    });
-
-    const handleRegister = (event) => {
-        if (isAlreadyRegistered(event._id)) {
-            Swal.fire('Info', 'Already registered!', 'info');
-            return;
-        }
-
-        const fee = event.eventFee || 0;
-
-        Swal.fire({
-            title: fee > 0
-                ? `Confirm Payment $${fee}`
-                : 'Confirm Registration',
-            text: fee > 0
-                ? 'You will be redirected to Stripe.'
-                : 'This is a free event.',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: fee > 0 ? 'Pay Now' : 'Confirm',
-        }).then(result => {
-            if (result.isConfirmed) {
-                registerMutation.mutate({
-                    eventId: event._id,
-                    eventFee: fee,
-                });
-            }
-        });
-    };
-
- 
-    if (isLoading) {
-        return (
-            <div className="text-center py-10">
-                <span className="loading loading-spinner loading-lg"></span>
-            </div>
-        );
-    }
-
-    if (!events.length) {
-        return (
-            <p className="text-center py-10 text-neutral">
-                No upcoming events from your joined clubs.
-            </p>
-        );
-    }
-
-   
-    return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            className="p-6"
-        >
-            <h3 className="text-2xl font-bold mb-6">
-                Upcoming Club Events
-            </h3>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {events.map((event, index) => (
-                    <motion.div
-                        key={event._id}
-                        custom={index}
-                        variants={cardVariants}
-                        initial="hidden"
-                        animate="visible"
-                        whileHover={{ scale: 1.03 }}
-                        className="card bg-base-100 shadow-xl"
-                    >
-                        <div className="card-body">
-                            {/* Club Name */}
-                            <p className="text-sm text-primary font-semibold">
-                                {event.clubName}
-                            </p>
-
-                            {/* Event Title */}
-                            <h2 className="card-title text-xl">
-                                {event.title}
-                            </h2>
-
-                            {/* Description */}
-                            <p className="text-sm text-neutral">
-                                {event.description?.slice(0, 120)}...
-                            </p>
-
-                            {/* Date & Fee */}
-                            <div className="flex items-center gap-4 mt-3 text-sm">
-                                <div className="flex items-center gap-1">
-                                    <FaCalendarAlt className="text-accent" />
-                                    <span>
-                                        {new Date(event.eventDate).toLocaleDateString()}
-                                    </span>
-                                </div>
-
-                                <div className="flex items-center gap-1">
-                                    <FaMoneyBillAlt className="text-accent" />
-                                    <span>
-                                        {event.isPaid
-                                            ? `$ ${event.eventFee}`
-                                            : 'Free'}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* Action */}
-                            <div className="card-actions justify-end mt-4">
-                                <motion.button
-                                    whileHover={{ scale: 1.08 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    disabled={
-                                        isAlreadyRegistered(event._id) ||
-                                        registerMutation.isPending
-                                    }
-                                    onClick={() => handleRegister(event)}
-                                    className={`btn btn-sm ${
-                                        isAlreadyRegistered(event._id)
-                                            ? 'btn-disabled'
-                                            : 'btn-primary'
-                                    }`}
-                                >
-                                    {isAlreadyRegistered(event._id)
-                                        ? 'Registered'
-                                        : 'Register Now'}
-                                </motion.button>
-                            </div>
-                        </div>
-                    </motion.div>
-                ))}
-            </div>
-        </motion.div>
+  const list = useMemo(() => {
+    const f = events.filter(
+      (e) =>
+        (e.title + e.clubName).toLowerCase().includes(q.toLowerCase()) &&
+        (!loc || e.location?.toLowerCase().includes(loc.toLowerCase())) &&
+        (paid === "all" ||
+          (paid === "free" && !e.isPaid) ||
+          (paid === "paid" && e.isPaid)) &&
+        (reg === "all" ||
+          (reg === "registered" && e.isRegistered) ||
+          (reg === "notRegistered" && !e.isRegistered))
     );
+
+    return f.sort((a, b) => {
+      if (sort === "newest")
+        return new Date(b.eventDate) - new Date(a.eventDate);
+      if (sort === "oldest")
+        return new Date(a.eventDate) - new Date(b.eventDate);
+      if (sort === "lowest") return (a.eventFee || 0) - (b.eventFee || 0);
+      if (sort === "highest") return (b.eventFee || 0) - (a.eventFee || 0);
+      return 0;
+    });
+  }, [events, q, loc, paid, reg, sort]);
+
+  const go = (e) => {
+    if (e.isRegistered) return Swal.fire("Info", "Already registered", "info");
+
+    Swal.fire({
+      title: e.isPaid ? `Pay $${e.eventFee}?` : "Confirm Registration",
+      showCancelButton: true,
+    }).then(
+      (r) => r.isConfirmed && m.mutate({ id: e._id, fee: e.eventFee || 0 })
+    );
+  };
+
+  if (isLoading)
+    return (
+      <div className="loading loading-spinner loading-lg mx-auto my-20"></div>
+    );
+
+  return (
+    // <div className="p-6">
+    //   <div>
+    //     <h2
+    //       className="
+    //   text-4xl md:text-3xl font-extrabold mb-8 text-center
+    //   bg-clip-text text-transparent
+    //   tracking-wide
+    // "
+    //       style={{
+    //         backgroundImage:
+    //           "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+    //         backgroundSize: "300% 300%",
+    //         animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
+    //       }}
+    //     >
+    //       UPCOMING EVENTS
+    //     </h2>
+
+    //     {/* Inline keyframes */}
+    //     <style>
+    //       {`
+    //   @keyframes gradientMove {
+    //     0% { background-position: 0% 50%; }
+    //     50% { background-position: 100% 50%; }
+    //     100% { background-position: 0% 50%; }
+    //   }
+    // `}
+    //     </style>
+    //   </div>
+
+    //   {/* Filters */}
+    //   <div className="flex flex-wrap gap-3 mb-6">
+    //     <input
+    //       className="input input-bordered"
+    //       placeholder="Search"
+    //       value={q}
+    //       onChange={(e) => setQ(e.target.value)}
+    //     />
+    //     <input
+    //       className="input input-bordered"
+    //       placeholder="Location"
+    //       value={loc}
+    //       onChange={(e) => setLoc(e.target.value)}
+    //     />
+
+    //     <select
+    //       className="select select-bordered"
+    //       value={paid}
+    //       onChange={(e) => setPaid(e.target.value)}
+    //     >
+    //       <option value="all">All</option>
+    //       <option value="free">Free</option>
+    //       <option value="paid">Paid</option>
+    //     </select>
+
+    //     <select
+    //       className="select select-bordered"
+    //       value={reg}
+    //       onChange={(e) => setReg(e.target.value)}
+    //     >
+    //       <option value="all">All</option>
+    //       <option value="registered">Registered</option>
+    //       <option value="notRegistered">Not Registered</option>
+    //     </select>
+
+    //     <select
+    //       className="select select-bordered"
+    //       value={sort}
+    //       onChange={(e) => setSort(e.target.value)}
+    //     >
+    //       <option value="newest">Newest</option>
+    //       <option value="oldest">Oldest</option>
+    //       <option value="lowest">Lowest Fee</option>
+    //       <option value="highest">Highest Fee</option>
+    //     </select>
+    //   </div>
+
+    //   {/* Cards */}
+    //   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    //     {list.map((e, i) => (
+    //       <motion.div
+    //         key={e._id}
+    //         initial={{ opacity: 0, y: 25 }}
+    //         animate={{ opacity: 1, y: 0 }}
+    //         transition={{ delay: i * 0.05 }}
+    //         whileHover={{ scale: 1.05, rotate: [0, 1, -1, 0] }}
+    //         className="card bg-base-100 shadow-xl"
+    //       >
+    //         <div className="card-body">
+    //           <p className="text-sm text-primary">{e.clubName}</p>
+    //           <h3 className="card-title">{e.title}</h3>
+
+    //           <p className="text-sm">{e.description?.slice(0, 90)}...</p>
+
+    //           <p className="flex items-center gap-1 text-sm">
+    //             <FaMapMarkerAlt /> {e.location}
+    //           </p>
+
+    //           <div className="flex gap-4 text-sm mt-2">
+    //             <span className="flex items-center gap-1">
+    //               <FaCalendarAlt />
+    //               {new Date(e.eventDate).toLocaleDateString()}
+    //             </span>
+    //             <span className="flex items-center gap-1">
+    //               <FaMoneyBillAlt />
+    //               {e.isPaid ? `$${e.eventFee}` : "Free"}
+    //             </span>
+    //           </div>
+
+    //           <div className="card-actions justify-between mt-4">
+    //             <button
+    //               className="btn btn-outline btn-sm flex items-center gap-1"
+    //               onClick={() => {
+    //                 setSel(e);
+    //                 setOpen(true);
+    //               }}
+    //             >
+    //               <FaEye /> View Details
+    //             </button>
+
+    //             <button
+    //               onClick={() => go(e)}
+    //               disabled={e.isRegistered}
+    //               className={`btn btn-sm ${
+    //                 e.isRegistered ? "btn-disabled" : "btn-primary"
+    //               }`}
+    //             >
+    //               {e.isRegistered ? "Registered" : "Register"}
+    //             </button>
+    //           </div>
+    //         </div>
+    //       </motion.div>
+    //     ))}
+    //   </div>
+
+    //   {/* View Details Modal */}
+    //   {open && sel && (
+    //     <dialog className="modal modal-open">
+    //       <div className="modal-box max-w-2xl">
+    //         <h3 className="text-2xl font-bold mb-1">{sel.title}</h3>
+    //         <p className="text-sm text-primary mb-4">{sel.clubName}</p>
+
+    //         <div className="space-y-2 text-sm">
+    //           <p>{sel.description}</p>
+
+    //           <p className="flex items-center gap-2">
+    //             <FaCalendarAlt /> {new Date(sel.eventDate).toLocaleString()}
+    //           </p>
+
+    //           <p className="flex items-center gap-2">
+    //             <FaMapMarkerAlt /> {sel.location}
+    //           </p>
+
+    //           <p className="flex items-center gap-2">
+    //             <FaMoneyBillAlt /> {sel.isPaid ? `$${sel.eventFee}` : "Free"}
+    //           </p>
+
+    //           <p className="flex items-center gap-2">
+    //             <FaUsers /> Max Attendees: {sel.maxAttendees}
+    //           </p>
+
+    //           <p className="flex items-center gap-2">
+    //             <FaEnvelope /> {sel.managerEmail}
+    //           </p>
+
+    //           <p className="flex items-center gap-2">
+    //             <FaClock /> Created: {new Date(sel.createdAt).toLocaleString()}
+    //           </p>
+
+    //           <p className="flex items-center gap-2">
+    //             <FaClock /> Updated: {new Date(sel.updatedAt).toLocaleString()}
+    //           </p>
+    //         </div>
+
+    //         <div className="modal-action">
+    //           <button
+    //             className="btn btn-outline"
+    //             onClick={() => setOpen(false)}
+    //           >
+    //             Close
+    //           </button>
+    //         </div>
+    //       </div>
+    //     </dialog>
+    //   )}
+    // </div>
+    <div className="p-6">
+      <div>
+        <h2
+          className="
+        text-4xl md:text-3xl font-extrabold mb-8 text-center
+        bg-clip-text text-transparent
+        tracking-wide
+      "
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+            backgroundSize: "300% 300%",
+            animation: "gradientMove 15s ease-in-out infinite",
+          }}
+        >
+          UPCOMING EVENTS
+        </h2>
+
+        <style>
+          {`
+        @keyframes gradientMove {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+      `}
+        </style>
+      </div>
+
+      <div className="flex flex-wrap gap-3 mb-6">
+        <input
+          className="input input-bordered"
+          placeholder="Search"
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+        />
+        <input
+          className="input input-bordered"
+          placeholder="Location"
+          value={loc}
+          onChange={(e) => setLoc(e.target.value)}
+        />
+        <select
+          className="select select-bordered"
+          value={paid}
+          onChange={(e) => setPaid(e.target.value)}
+        >
+          <option value="all">All</option>
+          <option value="free">Free</option>
+          <option value="paid">Paid</option>
+        </select>
+        <select
+          className="select select-bordered"
+          value={reg}
+          onChange={(e) => setReg(e.target.value)}
+        >
+          <option value="all">All</option>
+          <option value="registered">Registered</option>
+          <option value="notRegistered">Not Registered</option>
+        </select>
+        <select
+          className="select select-bordered"
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
+        >
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+          <option value="lowest">Lowest Fee</option>
+          <option value="highest">Highest Fee</option>
+        </select>
+      </div>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {list.map((e, i) => (
+          <motion.div
+            key={e._id}
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.05 }}
+            whileHover={{ scale: 1.05, rotate: [0, 1, -1, 0] }}
+            className="card bg-base-100 shadow-xl"
+          >
+            <div className="card-body">
+              <p className="text-sm text-primary">{e.clubName}</p>
+              <h3 className="card-title">{e.title}</h3>
+              <p className="text-sm">{e.description?.slice(0, 90)}...</p>
+              <p className="flex items-center gap-1 text-sm text-secondary">
+                <FaMapMarkerAlt className="text-red-500" /> {e.location}
+              </p>
+              <div className="flex gap-4 text-sm mt-2 text-neutral-800">
+                <span className="flex items-center gap-1">
+                  <FaCalendarAlt className="text-blue-500" />
+                  {new Date(e.eventDate).toLocaleDateString()}
+                </span>
+                <span className="flex items-center gap-1">
+                  <FaMoneyBillAlt className="text-green-500" />
+                  {e.isPaid ? `$${e.eventFee}` : "Free"}
+                </span>
+              </div>
+
+              <div className="card-actions justify-between mt-4">
+                <button
+                  className="
+                btn btn-sm flex-1 flex items-center justify-center gap-2 text-white font-semibold
+                bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500
+                hover:brightness-110 transition-all shadow-lg
+              "
+                  onClick={() => {
+                    setSel(e);
+                    setOpen(true);
+                  }}
+                >
+                  <FaEye className="text-yellow-200" /> View Details
+                </button>
+
+                <button
+                  onClick={() => go(e)}
+                  disabled={e.isRegistered}
+                  className={`
+                btn btn-sm flex-1 flex items-center justify-center gap-2 text-white font-semibold shadow-lg
+                ${
+                  e.isRegistered
+                    ? "bg-gradient-to-r from-green-400 via-teal-400 to-cyan-400 btn-disabled"
+                    : "bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400"
+                }
+                hover:brightness-110 transition-all
+              `}
+                >
+                  {e.isRegistered ? (
+                    <>
+                      <FaCheck className="text-white" /> Registered
+                    </>
+                  ) : (
+                    <>
+                      <FaUserPlus className="text-white" /> Register
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {open && sel && (
+        <dialog className="modal modal-open">
+          <div className="modal-box max-w-2xl">
+            <h3 className="text-2xl font-bold mb-1">{sel.title}</h3>
+            <p className="text-sm text-primary mb-4">{sel.clubName}</p>
+            <div className="space-y-2 text-sm text-neutral-800">
+              <p>{sel.description}</p>
+              <p className="flex items-center gap-2">
+                <FaCalendarAlt className="text-blue-500" />{" "}
+                {new Date(sel.eventDate).toLocaleString()}
+              </p>
+              <p className="flex items-center gap-2">
+                <FaMapMarkerAlt className="text-red-500" /> {sel.location}
+              </p>
+              <p className="flex items-center gap-2">
+                <FaMoneyBillAlt className="text-green-500" />{" "}
+                {sel.isPaid ? `$${sel.eventFee}` : "Free"}
+              </p>
+              <p className="flex items-center gap-2">
+                <FaUsers className="text-purple-500" /> Max Attendees:{" "}
+                {sel.maxAttendees}
+              </p>
+              <p className="flex items-center gap-2">
+                <FaEnvelope className="text-indigo-500" /> {sel.managerEmail}
+              </p>
+              <p className="flex items-center gap-2">
+                <FaClock className="text-gray-500" /> Created:{" "}
+                {new Date(sel.createdAt).toLocaleString()}
+              </p>
+              <p className="flex items-center gap-2">
+                <FaClock className="text-gray-500" /> Updated:{" "}
+                {new Date(sel.updatedAt).toLocaleString()}
+              </p>
+            </div>
+            <div className="modal-action">
+              <button
+                className="btn btn-outline"
+                onClick={() => setOpen(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </dialog>
+      )}
+    </div>
+  );
 };
 
 export default MemberEvents;

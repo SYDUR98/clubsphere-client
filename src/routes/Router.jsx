@@ -30,6 +30,7 @@ import MemberPayments from "../pages/Dashboard/Member/MemberPayments";
 import ManagerClubMembers from "../pages/Dashboard/Manager/ManagerClubMembers";
 import CreateEvent from "../pages/Dashboard/Manager/CreateEvent";
 import ManagerAllEvents from "../pages/Dashboard/Manager/ManagerAllEvents";
+import EventDetails from "../pages/Dashboard/Member/EventDetails";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
         path: "/my-event",
         Component: MyMemberEvents
       },
+      {
+        path: "/my-event/:id",
+        Component: EventDetails
+      },
 
       {
         path: "/clubs/:id",
@@ -58,6 +63,7 @@ export const router = createBrowserRouter([
         path: "event/clubs/:clubId",
         element:<JoinClubEvent></JoinClubEvent>
       },
+     
       {
         path: "member/events",
         element: (

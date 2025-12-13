@@ -5,6 +5,18 @@ import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { Link, useNavigate, useParams } from "react-router";
 
+import {
+  FaArrowLeft,
+  FaUserPlus,
+  FaDoorOpen,
+  FaTag,
+  FaMapMarkerAlt,
+  FaMoneyBill,
+  FaUserTie,
+  FaCalendarAlt,
+  FaCheckCircle,
+} from "react-icons/fa";
+
 const ClubDetails = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
@@ -83,7 +95,7 @@ const ClubDetails = () => {
     : club.bannerImage;
 
   return (
-    <div className="relative max-w-4xl mx-auto p-6 bg-base-100 shadow-xl rounded-xl flex flex-col">
+    <div className="relative max-w-4xl mx-auto p-6 bg-base-100 shadow-xl rounded-xl flex flex-col space-y-6">
       {/* Club banner */}
       <img
         src={imageUrl}
@@ -92,80 +104,111 @@ const ClubDetails = () => {
         className="w-full h-64 object-cover rounded-lg mb-6"
       />
 
-      <h1 className="text-3xl font-bold mb-2">{club.clubName}</h1>
+      {/* Club Title & Description */}
+      <h1 className="text-3xl font-bold mb-2 text-gradient bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+        {club.clubName}
+      </h1>
       <p className="text-neutral mb-4">{club.description}</p>
 
-      {/* Club info */}
+      {/* Club Info */}
       <div className="grid md:grid-cols-2 gap-4 text-sm mb-6">
-        <p>
+        <p className="flex items-center gap-2">
+          <FaTag className="text-primary" />
           <strong>Category:</strong> {club.category}
         </p>
-        <p>
+        <p className="flex items-center gap-2">
+          <FaMapMarkerAlt className="text-secondary" />
           <strong>Location:</strong> {club.location}
         </p>
-        <p>
+        <p className="flex items-center gap-2">
+          <FaMoneyBill className="text-success" />
           <strong>Membership Fee:</strong>{" "}
-          {club.membershipFee === 0 ? `Free` : `৳ ${club.membershipFee}`}
+          {club.membershipFee === 0 ? "Free" : `৳ ${club.membershipFee}`}
         </p>
-        <p>
+        <p className="flex items-center gap-2">
+          <FaCheckCircle className="text-info" />
           <strong>Status:</strong>{" "}
           <span
-            className={`badge px-3 py-2 font-semibold 
-            ${club.status === "approved" ? "badge-success" : ""}
-            ${club.status === "pending" ? "badge-warning" : ""}
-            ${club.status === "rejected" ? "badge-error" : ""}`}
+            className={`badge px-3 py-2 font-semibold text-white ${
+              club.status === "approved"
+                ? "bg-success"
+                : club.status === "pending"
+                ? "bg-warning"
+                : club.status === "rejected"
+                ? "bg-error"
+                : "bg-base-300"
+            }`}
           >
-            {club.status}
+            {club.status.toUpperCase()}
           </span>
         </p>
-        <p>
+        <p className="flex items-center gap-2">
+          <FaUserTie className="text-accent" />
           <strong>Manager Email:</strong> {club.managerEmail}
         </p>
-        <p>
+        <p className="flex items-center gap-2">
+          <FaCalendarAlt className="text-neutral" />
           <strong>Created At:</strong>{" "}
           {new Date(club.createdAt).toLocaleString()}
         </p>
         {club.updatedAt && (
-          <p>
+          <p className="flex items-center gap-2">
+            <FaCalendarAlt className="text-neutral" />
             <strong>Updated At:</strong>{" "}
             {new Date(club.updatedAt).toLocaleString()}
           </p>
         )}
       </div>
 
-      {/* Upcoming Events Count */}
+      {/* Upcoming Events */}
       {isJoined && (
-        <div className="mt-6">
-          <sapn className="text-2xl font-bold mb-2">Upcoming Events:</sapn>
-          <span className="text-neutral font-bold text-2xl ml-4">
-            {club.upcomingEventsCount || 0}
-          </span>
+        <div className="flex items-center gap-2 mt-4 text-xl font-bold text-neutral">
+          <FaCalendarAlt className="text-primary" />
+          <span>Upcoming Events:</span>
+          <span className="text-2xl">{club.upcomingEventsCount || 0}</span>
         </div>
       )}
 
-      {/* Join / Visit button */}
-      <div className="mt-6 flex justify-between">
-         <Link
-          to={"/"}
-          className="btn btn-secondary text-center bg-primary"
+      {/* Buttons */}
+      <div className="mt-6 flex flex-col md:flex-row gap-4">
+        {/* Back Button */}
+        <Link
+          to="/"
+          className="
+      btn flex-1 flex items-center justify-center gap-2 text-white font-semibold text-lg
+      bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400
+      hover:brightness-110 transition-all shadow-lg
+    "
         >
-          Back
+          <FaArrowLeft /> Back
         </Link>
+
+        {/* Join / Visit Button */}
         <button
           onClick={() => {
-            if (isJoined) {
-              navigate(`/event/clubs/${id}`);
-            } else {
-              handleJoin();
-            }
+            if (isJoined) navigate(`/event/clubs/${id}`);
+            else handleJoin();
           }}
-          className={`btn ${isJoined ? "btn-info" : "btn-primary"}`}
+          className={`
+      btn flex-1 flex items-center justify-center gap-2 text-white font-semibold text-lg shadow-lg
+      ${
+        isJoined
+          ? "bg-gradient-to-r from-green-400 via-teal-400 to-cyan-400"
+          : "bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400"
+      }
+      hover:brightness-110 transition-all
+    `}
         >
-          {isJoined ? "Visit / Show Events" : "Join Club"}
+          {isJoined ? (
+            <>
+              <FaDoorOpen /> Visit / Show Events
+            </>
+          ) : (
+            <>
+              <FaUserPlus /> Join Club
+            </>
+          )}
         </button>
-      </div>
-      <div className="flex ">
-       
       </div>
     </div>
   );
