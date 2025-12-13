@@ -1,12 +1,13 @@
 import { Link, useLocation, useNavigate } from "react-router";
 import {
-  FaCalendarAlt,
+
   FaMapMarkerAlt,
   FaUsers,
   FaUserTie,
   FaMoneyBill,
   FaClock,
   FaArrowLeft,
+  FaCalendarAlt,
 } from "react-icons/fa";
 
 const EventDetails = () => {

@@ -15,7 +15,7 @@ const EventPaymentSuccess = () => {
 
     if (!sessionId) {
       Swal.fire("Error", "Missing session ID", "error"); // FIX APPLIED: Use correct absolute path
-      navigate("/dashboard/member/events");
+      navigate("/member/events");
       return;
     }
 
@@ -30,7 +30,7 @@ const EventPaymentSuccess = () => {
           res.data.message || "Event registration confirmed!",
           "success"
         ); // FIX APPLIED: Use correct absolute path
-        navigate("/dashboard/member/events");
+        navigate("/my-event");
       } catch (err) {
         console.error("Event Payment Confirmation Error:", err);
         Swal.fire(

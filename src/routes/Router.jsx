@@ -32,6 +32,7 @@ import CreateEvent from "../pages/Dashboard/Manager/CreateEvent";
 import ManagerAllEvents from "../pages/Dashboard/Manager/ManagerAllEvents";
 import EventDetails from "../pages/Dashboard/Member/EventDetails";
 import ErrorPage from "../components/Shared/ErrorPage";
+import EventRegistrations from "../pages/Dashboard/Manager/EventRegistrations";
 
 export const router = createBrowserRouter([
   {
@@ -178,6 +179,15 @@ export const router = createBrowserRouter([
         element: (
           <ManagerRoute>
             <ManagerClubMembers></ManagerClubMembers>
+          </ManagerRoute>
+        ),
+        // Component: MyEvent,
+      },
+      {
+        path: "manager/events/registrations",
+        element: (
+          <ManagerRoute>
+            <EventRegistrations></EventRegistrations>
           </ManagerRoute>
         ),
         // Component: MyEvent,

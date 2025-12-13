@@ -78,7 +78,7 @@ const JoinClubEvent = () => {
     Swal.fire({
       title: "Confirm Registration",
       text: ev.isPaid
-        ? `This event fee is ৳${ev.eventFee}. Continue?`
+        ? `This event fee is $ ${ev.eventFee}. Continue?`
         : "Register for this free event?",
       icon: "question",
       showCancelButton: true,
@@ -135,7 +135,7 @@ const JoinClubEvent = () => {
                   <strong>Location:</strong> {ev.location}
                 </p>
                 <p>
-                  <strong>Fee:</strong> {ev.isPaid ? `৳${ev.eventFee}` : "Free"}
+                  <strong>Fee:</strong> {ev.isPaid ? `$ ${ev.eventFee}` : "Free"}
                 </p>
                 <p>
                   <strong>Max Attendees:</strong> {ev.maxAttendees || "-"}

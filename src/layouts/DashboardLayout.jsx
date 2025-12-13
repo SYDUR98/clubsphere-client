@@ -2,6 +2,7 @@ import React from "react";
 import {
   SiGooglecampaignmanager360,
   SiGoogletagmanager,
+  SiNginxproxymanager,
   SiSamsclub,
 } from "react-icons/si";
 import { Link, NavLink, Outlet } from "react-router";
@@ -281,9 +282,9 @@ const DashboardLayout = () => {
                       </span>
                     </NavLink>
                   </li>
-                  {/* <li>
+                  <li>
                     <NavLink
-                      to="/dashboard/manager/my-events"
+                      to={`/dashboard/manager/events/registrations`}
                       className={({ isActive }) =>
                         `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
                     is-drawer-close:tooltip is-drawer-close:tooltip-right
@@ -293,12 +294,13 @@ const DashboardLayout = () => {
                         : "text-base-content hover:bg-primary hover:text-primary-content"
                     }`
                       }
-                      data-tip="My Event"
+                      data-tip="Event Registration"
                     >
-                      <MdEvent className="text-lg" />
-                      <span className="is-drawer-close:hidden">My Events</span>
+                      <SiNginxproxymanager  className="text-lg" />
+                      
+                      <span className="is-drawer-close:hidden">Event Registration</span>
                     </NavLink>
-                  </li> */}
+                  </li>
                   <li>
                     <NavLink
                       to="/dashboard/manager-members"
