@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const ManagerAllEvents = () => {
   const axiosSecure = useAxiosSecure();
@@ -73,15 +74,41 @@ const ManagerAllEvents = () => {
   };
 
   if (isLoading)
-    return <p className="text-center py-10">Loading...</p>;
+    return <LoadingPage></LoadingPage>;
   if (isError)
     return <p className="text-center py-10 text-error">Failed to load events.</p>;
 
   return (
     <div className="p-6 bg-base-100">
-      <h2 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-        My Managed Events ({events.length})
-      </h2>
+        <div>
+        <h2
+          className="
+      text-4xl md:text-3xl font-extrabold mb-8 text-center
+      bg-clip-text text-transparent
+      tracking-wide
+    "
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+            backgroundSize: "300% 300%",
+            animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
+          }}
+        >
+          MANAGED EVENTS
+        </h2>
+
+        {/* Inline keyframes */}
+        <style>
+          {`
+      @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+    `}
+        </style>
+      </div>
+
 
       <div className="overflow-x-auto bg-base-200 shadow-xl rounded-xl">
         <table className="table table-zebra w-full rounded-lg">

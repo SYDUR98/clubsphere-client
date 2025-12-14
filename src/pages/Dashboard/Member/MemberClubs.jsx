@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const MemberClubs = () => {
   const { user } = useAuth();
@@ -20,9 +21,7 @@ const MemberClubs = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-40">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
-      </div>
+      <LoadingPage></LoadingPage>
     );
   }
 
@@ -52,15 +51,34 @@ const MemberClubs = () => {
 
   return (
     <div className="p-6">
-      <h3
-        className="
-          text-2xl font-extrabold mb-6 text-center
-          bg-gradient-to-r from-primary via-secondary to-accent
-          bg-clip-text text-transparent
-        "
-      >
-        My Joined Clubs ({joinedClubs.length})
-      </h3>
+        <div>
+        <h2
+          className="
+      text-4xl md:text-3xl font-extrabold mb-8 text-center
+      bg-clip-text text-transparent
+      tracking-wide
+    "
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+            backgroundSize: "300% 300%",
+            animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
+          }}
+        >
+          MY JOINDED CLUBS ({joinedClubs.length})
+        </h2>
+
+        {/* Inline keyframes */}
+        <style>
+          {`
+      @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+    `}
+        </style>
+      </div>
 
       <div className="overflow-x-auto bg-base-100 shadow-xl rounded-xl">
         <table className="table table-zebra w-full">

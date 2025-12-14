@@ -16,6 +16,7 @@ import {
   FaCalendarAlt,
   FaCheckCircle,
 } from "react-icons/fa";
+import LoadingPage from "../../components/Shared/LoadingPage";
 
 const ClubDetails = () => {
   const { id } = useParams();
@@ -84,9 +85,7 @@ const ClubDetails = () => {
 
   if (clubLoading) {
     return (
-      <div className="flex justify-center py-20">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
+       <LoadingPage></LoadingPage>
     );
   }
 
@@ -201,7 +200,7 @@ const ClubDetails = () => {
         >
           {isJoined ? (
             <>
-              <FaDoorOpen /> Visit / Show Events
+              <FaDoorOpen /> Visit Events
             </>
           ) : (
             <>

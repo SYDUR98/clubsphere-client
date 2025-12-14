@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const CreateEvent = () => {
   const axiosSecure = useAxiosSecure();
@@ -69,19 +70,42 @@ const CreateEvent = () => {
     }
   };
 
-  if (clubsLoading) return <p>Loading clubs...</p>;
+  if (clubsLoading) return <LoadingPage></LoadingPage>
+  
 
   return (
     <div className="p-6 bg-base-100">
-      <h2
-        className="
-      text-3xl font-extrabold mb-4 text-center
-      bg-gradient-to-r from-primary via-secondary to-accent
+      
+
+        <div>
+        <h2
+          className="
+      text-4xl md:text-3xl font-extrabold mb-8 text-center
       bg-clip-text text-transparent
+      tracking-wide
     "
-      >
-        Create New Event
-      </h2>
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+            backgroundSize: "300% 300%",
+            animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
+          }}
+        >
+          CREATE NEW EVENT
+        </h2>
+
+        {/* Inline keyframes */}
+        <style>
+          {`
+      @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+    `}
+        </style>
+      </div>
+
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -184,7 +208,13 @@ const CreateEvent = () => {
 
         <button
           type="submit"
-          className="btn w-full bg-gradient-to-r from-primary to-secondary text-white shadow-md hover:from-secondary hover:to-accent transition-colors"
+          className="
+    btn w-full
+    text-white font-semibold shadow-md
+    bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
+    hover:brightness-110 hover:shadow-lg
+    transition-all duration-300
+  "
           disabled={isSubmitting}
         >
           {isSubmitting ? "Creating..." : "Create Event"}

@@ -8,6 +8,7 @@ import useAuth from "../../../hooks/useAuth";
 import EventFilterBar from "../../../components/Shared/EventFilterBar";
 import { FaCalendarAlt, FaMapMarkerAlt, FaCheckCircle, FaEye } from "react-icons/fa";
 import { FaMoneyBillWave } from "react-icons/fa6";
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const MyMemberEvents = () => {
   const axiosSecure = useAxiosSecure();
@@ -168,9 +169,7 @@ const MyMemberEvents = () => {
 
       {/* Loading */}
       {isLoading && (
-        <div className="flex justify-center py-20">
-          <span className="loading loading-spinner loading-lg text-primary"></span>
-        </div>
+         <LoadingPage></LoadingPage>
       )}
 
       {/* Cards */}

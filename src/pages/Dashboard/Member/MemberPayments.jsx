@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const MemberPayments = () => {
   const axiosSecure = useAxiosSecure();
@@ -19,9 +20,7 @@ const MemberPayments = () => {
 
   if (isLoading)
     return (
-      <div className="flex justify-center items-center h-40">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
-      </div>
+       <LoadingPage></LoadingPage>
     );
 
   if (isError)
@@ -31,15 +30,34 @@ const MemberPayments = () => {
 
   return (
     <div className="p-6 bg-base-100">
-      <h2
-        className="
-      text-2xl font-extrabold mb-6 text-center
-      bg-gradient-to-r from-primary via-secondary to-accent
-      bg-clip-text text-transparent
-    "
-      >
-        My Payments
-      </h2>
+      <div>
+        <h2
+          className="
+            text-4xl md:text-3xl font-extrabold mb-8 text-center
+            bg-clip-text text-transparent
+            tracking-wide
+          "
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+            backgroundSize: "300% 300%",
+            animation: "gradientMove 15s ease-in-out infinite",
+          }}
+        >
+          MY PAYMENTS
+        </h2>
+
+        {/* Inline keyframes */}
+        <style>
+          {`
+            @keyframes gradientMove {
+              0% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+            }
+          `}
+        </style>
+      </div>
 
       {data.length === 0 ? (
         <p className="text-center text-neutral mt-10">No payments found.</p>
@@ -62,9 +80,38 @@ const MemberPayments = () => {
                 <tr key={p._id} className="hover:bg-base-200 transition-colors">
                   <td>{i + 1}</td>
                   <td className="text-primary font-medium">{p.amount}</td>
-                  <td className="text-base-content">{p.type}</td>
-                  <td className="text-base-content">{p.clubName || "-"}</td>
-                  <td className="text-base-content">{p.eventId || "-"}</td>
+                  <td>
+                    <span
+                      className={`px-2 py-1 rounded-full font-semibold text-sm ${
+                        p.eventId
+                          ? "bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 text-white" // Event color
+                          : "bg-gradient-to-r from-green-400 via-teal-400 to-cyan-500 text-white" // Club color
+                      }`}
+                    >
+                      {p.eventId ? "Event" : "Club"}
+                    </span>
+                  </td>
+
+                  <td
+                    className={
+                      p.clubName
+                        ? "text-green-600 font-semibold"
+                        : "text-gray-500"
+                    }
+                  >
+                    {p.clubName || "-"}
+                  </td>
+
+                  <td
+                    className={
+                      p.eventTitle
+                        ? "text-blue-600 font-semibold"
+                        : "text-gray-500"
+                    }
+                  >
+                    {p.eventTitle || "-"}
+                  </td>
+
                   <td className="text-base-content">
                     {new Date(p.createdAt).toLocaleString()}
                   </td>

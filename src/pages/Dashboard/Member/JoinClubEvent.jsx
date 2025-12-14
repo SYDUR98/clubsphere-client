@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { Link, useParams, useNavigate } from "react-router";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const JoinClubEvent = () => {
   const { clubId } = useParams();
@@ -89,9 +90,7 @@ const JoinClubEvent = () => {
 
   if (clubLoading || eventsLoading)
     return (
-      <div className="flex justify-center items-center h-40">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
-      </div>
+       <LoadingPage></LoadingPage>
     );
 
   return (
@@ -135,7 +134,8 @@ const JoinClubEvent = () => {
                   <strong>Location:</strong> {ev.location}
                 </p>
                 <p>
-                  <strong>Fee:</strong> {ev.isPaid ? `$ ${ev.eventFee}` : "Free"}
+                  <strong>Fee:</strong>{" "}
+                  {ev.isPaid ? `$ ${ev.eventFee}` : "Free"}
                 </p>
                 <p>
                   <strong>Max Attendees:</strong> {ev.maxAttendees || "-"}
@@ -144,16 +144,22 @@ const JoinClubEvent = () => {
 
               <div className="text-right">
                 {ev.isRegistered ? (
-                  <button className="btn btn-success btn-sm opacity-90 cursor-not-allowed">
+                  <button
+                    className="btn btn-sm w-full
+    bg-gradient-to-r from-green-400 via-teal-400 to-cyan-400
+    text-white opacity-70 cursor-not-allowed
+    shadow-lg"
+                    disabled
+                  >
                     Registered
                   </button>
                 ) : (
                   <button
                     onClick={() => handleRegister(ev)}
                     className="btn btn-sm w-full
-                  bg-gradient-to-r from-primary to-secondary
-                  text-white hover:from-secondary hover:to-accent
-                  transition-colors"
+    bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
+    text-white hover:brightness-105 shadow-lg
+    transition-colors"
                     disabled={registerMutation.isLoading}
                   >
                     {registerMutation.isLoading ? "Processing..." : "Register"}

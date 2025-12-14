@@ -9,6 +9,7 @@ import { Link, NavLink, Outlet } from "react-router";
 import {
   MdDashboardCustomize,
   MdEvent,
+  MdEventNote,
   MdOutlinePayment,
   MdOutlinePayments,
 } from "react-icons/md";
@@ -366,6 +367,26 @@ const DashboardLayout = () => {
                       </span>
                     </NavLink>
                   </li>
+                  <li>
+                    <NavLink
+                      to="/dashboard/member/all/event"
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
+                    is-drawer-close:tooltip is-drawer-close:tooltip-right
+                    ${
+                      isActive
+                        ? "bg-base-300 text-primary"
+                        : "text-base-content hover:bg-primary hover:text-primary-content"
+                    }`
+                      }
+                      data-tip="Member Event"
+                    >
+                      <MdEventNote className="text-lg"/>
+                      <span className="is-drawer-close:hidden">
+                        Member Event
+                      </span>
+                    </NavLink>
+                  </li>
 
                   <li>
                     <NavLink
@@ -387,26 +408,6 @@ const DashboardLayout = () => {
                   </li>
                 </>
               )}
-
-              {/* done no change okay  */}
-              {/* <li>
-                <NavLink
-                  to={``}
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-2 py-1 rounded-md transition-colors duration-300 
-                    is-drawer-close:tooltip is-drawer-close:tooltip-right
-                    ${
-                    isActive
-                    ? "bg-base-300 text-primary"
-                     : "text-base-content hover:bg-primary hover:text-primary-content"
-                    }`
-                  }
-                  data-tip="Club Event"
-                >
-                  <VscSymbolEvent className="text-lg"/>
-                  <span className="is-drawer-close:hidden">Club Events</span>
-                </NavLink>
-              </li> */}
             </ul>
           </div>
         </div>

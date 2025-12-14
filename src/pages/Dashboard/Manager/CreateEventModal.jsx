@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
 import useAuth from "../../../hooks/useAuth";
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const CreateEventModal = ({ clubId, clubName, isOpen, onClose, onCreated }) => {
   const axiosSecure = useAxiosSecure();
@@ -161,7 +162,8 @@ const CreateEventModal = ({ clubId, clubName, isOpen, onClose, onCreated }) => {
 
           <div className="flex justify-end gap-2 pt-4">
             <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? "Creating..." : "Create"}
+              {loading ? <LoadingPage /> : "Create"}
+
             </button>
             <button type="button" className="btn btn-secondary" onClick={onClose} disabled={loading}>
               Cancel

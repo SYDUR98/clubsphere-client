@@ -2,6 +2,7 @@ import React from "react";
 import useAuth from "../../../hooks/useAuth"; 
 import useAxiosSecure from "../../../hooks/useAxiosSecure"; 
 import { useQuery } from "@tanstack/react-query"; 
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const MemberStats = () => {
   const { user } = useAuth(); // Get the currently logged-in user
@@ -19,9 +20,7 @@ const MemberStats = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center">
-        <span className="loading loading-dots loading-lg"></span>
-      </div>
+       <LoadingPage></LoadingPage>
     );
   }
 
@@ -30,15 +29,34 @@ const MemberStats = () => {
 
   return (
    <div className="p-6">
-      <h2
-        className="
-          text-3xl font-extrabold mb-6 text-center
-          bg-gradient-to-r from-primary via-secondary to-accent
-          bg-clip-text text-transparent
-        "
-      >
-        Member Dashboard
-      </h2>
+      <div>
+        <h2
+          className="
+      text-4xl md:text-3xl font-extrabold mb-8 text-center
+      bg-clip-text text-transparent
+      tracking-wide
+    "
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+            backgroundSize: "300% 300%",
+            animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
+          }}
+        >
+          MEMBER DASHBOARD
+        </h2>
+
+        {/* Inline keyframes */}
+        <style>
+          {`
+      @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+    `}
+        </style>
+      </div>
        <div className="stats shadow w-full my-2 bg-white border border-gray-200">
       
       {/* Total Clubs Joined */}

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const MyClubs = () => {
   const { user } = useAuth();
@@ -66,19 +67,41 @@ const MyClubs = () => {
     }
   };
 
-  if (isLoading) return <p className="text-center mt-10">Loading...</p>;
+  if (isLoading) return <LoadingPage/>;
 
   return (
     <div className="p-6">
-      <h2
-        className="
-          text-3xl font-extrabold mb-6 text-center
-          bg-gradient-to-r from-primary via-secondary to-accent
-          bg-clip-text text-transparent
-        "
-      >
-        My Clubs
-      </h2>
+      
+
+        <div>
+        <h2
+          className="
+      text-4xl md:text-3xl font-extrabold mb-8 text-center
+      bg-clip-text text-transparent
+      tracking-wide
+    "
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+            backgroundSize: "300% 300%",
+            animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
+          }}
+        >
+          MY CLUBS
+        </h2>
+
+        {/* Inline keyframes */}
+        <style>
+          {`
+      @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+    `}
+        </style>
+      </div>
+
 
       {clubs.length === 0 ? (
         <p className="text-center">You have not created any clubs yet.</p>

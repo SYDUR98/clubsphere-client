@@ -1,6 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router";
 import {
-
   FaMapMarkerAlt,
   FaUsers,
   FaUserTie,
@@ -96,8 +95,8 @@ const EventDetails = () => {
       <Link
         to="/my-event"
         className="btn flex-1 flex items-center justify-center gap-2 text-white font-semibold text-lg
-            bg-gradient-to-r from-primary via-secondary to-accent
-            hover:opacity-90 transition-all shadow-lg"
+    bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
+    hover:brightness-110 transition-all shadow-lg"
       >
         <FaArrowLeft /> Back
       </Link>

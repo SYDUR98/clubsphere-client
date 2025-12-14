@@ -3,6 +3,7 @@ import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const ManagerClubMembers = () => {
   const axiosSecure = useAxiosSecure();
@@ -67,7 +68,7 @@ const ManagerClubMembers = () => {
     });
   };
 
-  if (isLoading) return <div>Loading members...</div>;
+  if (isLoading) return <LoadingPage></LoadingPage>;
   if (isError)
     return (
       <div className="p-4 text-red-500">
@@ -77,15 +78,35 @@ const ManagerClubMembers = () => {
 
   return (
     <div className="p-6">
-      <h2
-        className="
-      text-3xl font-extrabold mb-4 text-center
-      bg-gradient-to-r from-primary via-secondary to-accent
+        <div>
+        <h2
+          className="
+      text-4xl md:text-3xl font-extrabold mb-8 text-center
       bg-clip-text text-transparent
+      tracking-wide
     "
-      >
-         Club Members
-      </h2>
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+            backgroundSize: "300% 300%",
+            animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
+          }}
+        >
+          CLUB MEMBERS
+        </h2>
+
+        {/* Inline keyframes */}
+        <style>
+          {`
+      @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+    `}
+        </style>
+      </div>
+
 
       <div className="overflow-x-auto rounded-xl shadow-lg border border-base-300">
         <table className="min-w-full text-sm">

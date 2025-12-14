@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const EventPaymentSuccess = () => {
   const location = useLocation();
@@ -49,13 +50,7 @@ const EventPaymentSuccess = () => {
 
   if (loading)
     return (
-      <div className="flex flex-col justify-center items-center h-screen space-y-4">
-            {" "}
-        <span className="loading loading-spinner loading-lg text-primary"></span>
-            {" "}
-        <p className="text-gray-600">Confirming your event registration...</p>
-            {" "}
-      </div>
+       <LoadingPage></LoadingPage>
     );
 
   return null;

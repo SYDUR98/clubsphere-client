@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const ManageClubs = () => {
   const axiosSecure = useAxiosSecure();
@@ -38,17 +39,40 @@ const ManageClubs = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center mt-20">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
+       <LoadingPage></LoadingPage>
     );
   }
 
   return (
     <div className="p-6">
-      <h2 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-        Manage Clubs
-      </h2>
+        <div>
+        <h2
+          className="
+      text-4xl md:text-3xl font-extrabold mb-8 text-center
+      bg-clip-text text-transparent
+      tracking-wide
+    "
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+            backgroundSize: "300% 300%",
+            animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
+          }}
+        >
+          MANAGE CLUB
+        </h2>
+
+        {/* Inline keyframes */}
+        <style>
+          {`
+      @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+    `}
+        </style>
+      </div>
 
       <div className="overflow-x-auto bg-base-100 shadow-xl rounded-xl">
         <table className="table table-zebra table-auto">

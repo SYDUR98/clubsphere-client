@@ -15,6 +15,7 @@ import {
 import { motion } from "framer-motion";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const MemberEvents = () => {
   const axiosSecure = useAxiosSecure();
@@ -88,7 +89,7 @@ const MemberEvents = () => {
 
   if (isLoading)
     return (
-      <div className="loading loading-spinner loading-lg mx-auto my-20"></div>
+       <LoadingPage></LoadingPage>
     );
 
   return (
@@ -424,41 +425,70 @@ const MemberEvents = () => {
 
       {open && sel && (
         <dialog className="modal modal-open">
-          <div className="modal-box max-w-2xl">
-            <h3 className="text-2xl font-bold mb-1">{sel.title}</h3>
-            <p className="text-sm text-primary mb-4">{sel.clubName}</p>
-            <div className="space-y-2 text-sm text-neutral-800">
+          <div className="modal-box max-w-2xl p-6 bg-base-100 shadow-2xl rounded-2xl">
+            {/* Event Title with gradient */}
+            <h3
+              className="text-2xl font-extrabold mb-2 text-center bg-clip-text text-transparent"
+              style={{
+                backgroundImage:
+                  "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+              }}
+            >
+              {sel.title}
+            </h3>
+
+            {/* Club Name */}
+            <p className="text-center text-lg font-semibold text-primary mb-4">
+              {sel.clubName}
+            </p>
+
+            {/* Event Details */}
+            <div className="space-y-3 text-sm text-neutral-800">
               <p>{sel.description}</p>
-              <p className="flex items-center gap-2">
+
+              <p className="flex items-center gap-2 text-gradient">
                 <FaCalendarAlt className="text-blue-500" />{" "}
                 {new Date(sel.eventDate).toLocaleString()}
               </p>
-              <p className="flex items-center gap-2">
+
+              <p className="flex items-center gap-2 text-gradient">
                 <FaMapMarkerAlt className="text-red-500" /> {sel.location}
               </p>
-              <p className="flex items-center gap-2">
+
+              <p className="flex items-center gap-2 text-gradient">
                 <FaMoneyBillAlt className="text-green-500" />{" "}
                 {sel.isPaid ? `$${sel.eventFee}` : "Free"}
               </p>
-              <p className="flex items-center gap-2">
+
+              <p className="flex items-center gap-2 text-gradient">
                 <FaUsers className="text-purple-500" /> Max Attendees:{" "}
                 {sel.maxAttendees}
               </p>
-              <p className="flex items-center gap-2">
+
+              <p className="flex items-center gap-2 text-gradient">
                 <FaEnvelope className="text-indigo-500" /> {sel.managerEmail}
               </p>
-              <p className="flex items-center gap-2">
+
+              <p className="flex items-center gap-2 text-gradient">
                 <FaClock className="text-gray-500" /> Created:{" "}
                 {new Date(sel.createdAt).toLocaleString()}
               </p>
-              <p className="flex items-center gap-2">
+
+              <p className="flex items-center gap-2 text-gradient">
                 <FaClock className="text-gray-500" /> Updated:{" "}
                 {new Date(sel.updatedAt).toLocaleString()}
               </p>
             </div>
+
+            {/* Close Button */}
             <div className="modal-action">
               <button
-                className="btn btn-outline"
+                className="
+          btn w-full text-white font-semibold
+          bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
+          hover:brightness-110 hover:shadow-lg
+          transition-all duration-300
+        "
                 onClick={() => setOpen(false)}
               >
                 Close

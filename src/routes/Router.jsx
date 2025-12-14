@@ -33,6 +33,7 @@ import ManagerAllEvents from "../pages/Dashboard/Manager/ManagerAllEvents";
 import EventDetails from "../pages/Dashboard/Member/EventDetails";
 import ErrorPage from "../components/Shared/ErrorPage";
 import EventRegistrations from "../pages/Dashboard/Manager/EventRegistrations";
+import MemberAllEventDeshboard from "../pages/Dashboard/Member/MemberAllEventDeshboard";
 
 export const router = createBrowserRouter([
   {
@@ -231,6 +232,12 @@ export const router = createBrowserRouter([
       //   path: "member/event/clubs/:clubId",
       //   element:<JoinClubEvent></JoinClubEvent>
       // },
+      {
+        path: "member/all/event",
+        element:<MemberRoute>
+            <MemberAllEventDeshboard></MemberAllEventDeshboard>
+        </MemberRoute>
+      },
       {
         path: "member/all/payments",
         element:<MemberRoute>

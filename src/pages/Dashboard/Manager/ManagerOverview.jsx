@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const ManagerOverview = () => {
   const axiosSecure = useAxiosSecure();
@@ -19,9 +20,7 @@ const ManagerOverview = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-40">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
-      </div>
+      <LoadingPage></LoadingPage>
     );
   }
 
@@ -34,15 +33,34 @@ const ManagerOverview = () => {
 
   return (
     <div className="p-6">
+      <div>
         <h2
-        className="
-          text-3xl font-extrabold mb-6 text-center
-          bg-gradient-to-r from-primary via-secondary to-accent
-          bg-clip-text text-transparent
-        "
-      >
-        Manager Dashboard
-      </h2>
+          className="
+      text-4xl md:text-3xl font-extrabold mb-8 text-center
+      bg-clip-text text-transparent
+      tracking-wide
+    "
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+            backgroundSize: "300% 300%",
+            animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
+          }}
+        >
+          MANAGER DASHBOARD
+        </h2>
+
+        {/* Inline keyframes */}
+        <style>
+          {`
+      @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+    `}
+        </style>
+      </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Number of Clubs */}
@@ -80,7 +98,9 @@ const ManagerOverview = () => {
 
         {/* Total Payments Received (full width) */}
         <div className="stat bg-base-200 border border-base-300 shadow-lg rounded-xl p-5 col-span-full">
-          <div className="stat-title text-neutral">Total Payments Received (৳)</div>
+          <div className="stat-title text-neutral">
+            Total Payments Received (৳)
+          </div>
           <div className="stat-value text-info text-3xl font-bold">
             {Number(totalPaymentsReceived || 0).toLocaleString(undefined, {
               minimumFractionDigits: 2,

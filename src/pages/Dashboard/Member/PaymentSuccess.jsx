@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingPage from "../../../components/Shared/LoadingPage";
 
 const PaymentSuccess = () => {
   const location = useLocation();
@@ -39,9 +40,7 @@ const PaymentSuccess = () => {
 
   if (loading)
     return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
+      <LoadingPage></LoadingPage>
     );
 
   return null;

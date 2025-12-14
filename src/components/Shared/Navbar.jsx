@@ -157,11 +157,37 @@ const Navbar = () => {
             href="/"
             className="btn btn-ghost normal-case flex flex-col items-start"
           >
-            <span className="text-xl font-bold text-primary">ClubSphere</span>
-            <span className="text-sm text-base-content opacity-70">
+            {/* Gradient Logo Text */}
+            <span
+              className="text-xl font-extrabold tracking-wide"
+              style={{
+                backgroundImage:
+                  "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+                backgroundSize: "300% 300%",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                animation: "gradientMove 15s ease-in-out infinite",
+              }}
+            >
+              ClubSphere
+            </span>
+
+            {/* Subtitle */}
+            <span className="hidden lg:block text-sm text-base-content opacity-70">
               Membership & Event Management for Local Clubs
             </span>
           </a>
+
+          {/* Inline keyframes for gradient animation */}
+          <style>
+            {`
+      @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+    `}
+          </style>
         </div>
       </div>
       <div className="navbar-center hidden lg:flex">
@@ -219,7 +245,6 @@ const Navbar = () => {
                 </NavLink>
               </li>
 
-              
               <li>
                 <button
                   onClick={handleLogout}

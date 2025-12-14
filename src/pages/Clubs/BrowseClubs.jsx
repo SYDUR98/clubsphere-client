@@ -16,6 +16,7 @@ import {
   FaUserPlus,
   FaCheck,
 } from "react-icons/fa";
+import LoadingPage from "../../components/Shared/LoadingPage";
 
 const BrowseClubs = () => {
   const axiosSecure = useAxiosSecure();
@@ -170,9 +171,7 @@ const BrowseClubs = () => {
       />
 
       {isLoading && (
-        <div className="flex justify-center py-20">
-          <span className="loading loading-spinner loading-lg"></span>
-        </div>
+        <LoadingPage></LoadingPage>
       )}
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
