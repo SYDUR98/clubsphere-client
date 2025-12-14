@@ -21,9 +21,7 @@ const AdminPayments = () => {
   });
 
   if (isLoading) {
-    return (
-       <LoadingPage></LoadingPage>
-    );
+    return <LoadingPage></LoadingPage>;
   }
 
   if (isError) {
@@ -33,19 +31,19 @@ const AdminPayments = () => {
   }
 
   return (
-    <div className="p-6 bg-base-100">
-        <div>
+    <div className="p-4 md:p-6 bg-base-100">
+      <div>
         <h2
           className="
-      text-4xl md:text-3xl font-extrabold mb-8 text-center
-      bg-clip-text text-transparent
-      tracking-wide
-    "
+        text-3xl md:text-4xl font-extrabold mb-6 md:mb-8 text-center
+        bg-clip-text text-transparent
+        tracking-wide
+      "
           style={{
             backgroundImage:
               "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
             backgroundSize: "300% 300%",
-            animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
+            animation: "gradientMove 15s ease-in-out infinite",
           }}
         >
           ALL PAYMENTS
@@ -54,34 +52,41 @@ const AdminPayments = () => {
         {/* Inline keyframes */}
         <style>
           {`
-      @keyframes gradientMove {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
-    `}
+        @keyframes gradientMove {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+      `}
         </style>
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-base-200 shadow-lg">
-        <table className="table table-zebra w-full">
+        <table className="table table-zebra w-full min-w-[640px]">
           <thead className="bg-base-200">
-            <tr className="text-base-content font-semibold">
-              <th>#</th>
-              <th>User Email</th>
-              <th>Amount (৳)</th>
-              <th>Type</th>
-              <th>Club Name</th>
-              <th>Date</th>
+            <tr className="text-base-content font-semibold text-sm md:text-base">
+              <th className="px-2 py-1 md:px-4 md:py-2">#</th>
+              <th className="px-2 py-1 md:px-4 md:py-2">User Email</th>
+              <th className="px-2 py-1 md:px-4 md:py-2">Amount (৳)</th>
+              <th className="px-2 py-1 md:px-4 md:py-2">Type</th>
+              <th className="px-2 py-1 md:px-4 md:py-2">Club Name</th>
+              <th className="px-2 py-1 md:px-4 md:py-2">Date</th>
             </tr>
           </thead>
           <tbody>
             {payments.map((p, index) => (
-              <tr key={p._id} className="hover:bg-base-300 transition-colors">
-                <td>{index + 1}</td>
-                <td className="text-primary font-medium">{p.userEmail}</td>
-                <td className="text-success font-semibold">{p.amount}</td>
-                <td>
+              <tr
+                key={p._id}
+                className="hover:bg-base-300 transition-colors text-sm md:text-base"
+              >
+                <td className="px-2 py-1 md:px-4 md:py-2">{index + 1}</td>
+                <td className="text-primary font-medium px-2 py-1 md:px-4 md:py-2">
+                  {p.userEmail}
+                </td>
+                <td className="text-success font-semibold px-2 py-1 md:px-4 md:py-2">
+                  {p.amount}
+                </td>
+                <td className="px-2 py-1 md:px-4 md:py-2">
                   <span
                     className={`badge ${
                       p.type
@@ -94,9 +99,10 @@ const AdminPayments = () => {
                     {p.type || "Club"}
                   </span>
                 </td>
-
-                <td className="text-secondary">{p.clubName || "-"}</td>
-                <td className="text-sm text-black">
+                <td className="text-secondary px-2 py-1 md:px-4 md:py-2">
+                  {p.clubName || "-"}
+                </td>
+                <td className="text-sm text-black px-2 py-1 md:px-4 md:py-2">
                   {moment(p.createdAt).format("DD MMM YYYY, hh:mm A")}
                 </td>
               </tr>

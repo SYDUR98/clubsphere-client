@@ -55,7 +55,7 @@ const Navbar = () => {
 
       {user && (
         <>
-          <div className="flex">
+          <div className="flex flex-col md:flex-row ">
             <li>
               <NavLink
                 to="/member/events"
@@ -159,7 +159,7 @@ const Navbar = () => {
           >
             {/* Gradient Logo Text */}
             <span
-              className="text-xl font-extrabold tracking-wide"
+              className="text-5xl md:text-3xl font-extrabold tracking-wide"
               style={{
                 backgroundImage:
                   "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",

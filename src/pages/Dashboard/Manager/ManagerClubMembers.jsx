@@ -81,7 +81,7 @@ const ManagerClubMembers = () => {
         <div>
         <h2
           className="
-      text-4xl md:text-3xl font-extrabold mb-8 text-center
+      text-4xl md:text-2xl font-extrabold mb-8 text-center
       bg-clip-text text-transparent
       tracking-wide
     "

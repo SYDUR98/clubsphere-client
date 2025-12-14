@@ -55,14 +55,11 @@ const ManageUsers = () => {
     }
   };
 
-  if (isLoading)
-    return (
-       <LoadingPage></LoadingPage>
-    );
+  if (isLoading) return <LoadingPage></LoadingPage>;
 
   return (
     <div className="p-6">
-        <div>
+      <div>
         <h2
           className="
       text-4xl md:text-3xl font-extrabold mb-8 text-center
@@ -107,15 +104,17 @@ const ManageUsers = () => {
             {users.map((user, index) => (
               <tr key={user._id}>
                 <td>{index + 1}</td>
-                <td>{user.name || "N/A"}</td>
+                <td>{user.displayName || "N/A"}</td>
                 <td>{user.email}</td>
 
                 <td>
-                  <span className={`badge px-3 py-2 
+                  <span
+                    className={`badge px-3 py-2 
                     ${user.role === "admin" && "badge-success"}
                     ${user.role === "clubManager" && "badge-info"}
                     ${user.role === "member" && "badge-neutral"}
-                  `}>
+                  `}
+                  >
                     {user.role}
                   </span>
                 </td>
