@@ -175,8 +175,8 @@ const Navbar = () => {
             </span>
 
             {/* Subtitle */}
-            <span className="hidden lg:block text-sm text-base-content opacity-70">
-              Membership & Event Management for Local Clubs
+            <span className="hidden font-bold lg:block text-base-content opacity-70">
+              Membership & Event Management for <span className="text-primary">Local Clubs</span>
             </span>
           </a>
 
