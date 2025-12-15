@@ -80,6 +80,8 @@ Primary = Main “Goal”
 Secondary = Helpful but not main */
 
 
-
+html, body, #root {
+  height: 100%;
+}
 
 
