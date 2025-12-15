@@ -22,7 +22,7 @@ import { IoCreateSharp } from "react-icons/io5";
 const DashboardLayout = () => {
   const { role } = useRole();
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="w-full px-4 md:px-6 lg:px-8">
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">

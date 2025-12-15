@@ -34,6 +34,8 @@ import EventDetails from "../pages/Dashboard/Member/EventDetails";
 import ErrorPage from "../components/Shared/ErrorPage";
 import EventRegistrations from "../pages/Dashboard/Manager/EventRegistrations";
 import MemberAllEventDeshboard from "../pages/Dashboard/Member/MemberAllEventDeshboard";
+import Profile from "../pages/user/Profile";
+import EditProfile from "../pages/user/EditProfile";
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +49,14 @@ export const router = createBrowserRouter([
       {
         path:'*',
         Component:ErrorPage,
+      },
+      {
+        path:'/profile',
+        element:<Profile></Profile>
+      },
+      {
+        path:'/profile/edit',
+        element:<EditProfile></EditProfile>
       },
       {
         path: "browse-clubs",
