@@ -80,7 +80,7 @@ const CreateEvent = () => {
         <div>
         <h2
           className="
-      text-4xl md:text-2xl font-extrabold mb-8 text-center
+      text-2xl md:text-4xl font-extrabold mb-8 text-center
       bg-clip-text text-transparent
       tracking-wide
     "

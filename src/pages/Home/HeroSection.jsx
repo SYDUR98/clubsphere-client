@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion } from "framer-motion";
+import { Link } from "react-router";
 
 // Images
 const images = [
@@ -74,13 +75,13 @@ const HeroSection = () => {
         </p>
 
         <div className="flex gap-4 flex-wrap">
-          <button className="px-6 py-3 rounded-lg font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white hover:brightness-110 shadow-lg transition-all">
+          <Link to={'/browse-clubs'} className="px-6 py-3 rounded-lg font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white hover:brightness-110 shadow-lg transition-all">
             Join a Club
-          </button>
+          </Link>
 
-          <button className="px-6 py-3 rounded-lg font-semibold border border-white text-white hover:bg-white hover:text-black transition-all">
+          <Link to={'/dashboard/manager/createclubs'} className="px-6 py-3 rounded-lg font-semibold border border-white text-white hover:bg-white hover:text-black transition-all">
             Create a Club
-          </button>
+          </Link>
         </div>
       </motion.div>
 

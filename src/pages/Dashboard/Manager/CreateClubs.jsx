@@ -42,7 +42,7 @@ const CreateClub = () => {
       <div>
         <h2
           className="
-      text-4xl md:text-2xl font-extrabold mb-8 text-center
+      text-2xl md:text-4xl font-extrabold mb-8 text-center
       bg-clip-text text-transparent
       tracking-wide
     "
@@ -93,8 +93,9 @@ const CreateClub = () => {
         >
           <option value="">Select Category</option>
           <option value="Photography">Photography</option>
+          <option value="Photography">Education</option>
           <option value="Sports">Sports</option>
-          <option value="Tech">Tech</option>
+          <option value="Tech">Tech & Coding</option>
           <option value="Robotics">Robotics</option>
           <option value="Programming">Programming</option>
           <option value="Sports">Language</option>
@@ -102,8 +103,10 @@ const CreateClub = () => {
           <option value="Sports">Yoga</option>
           <option value="Sports">Gym</option>
           <option value="Sports">Adventure</option>
-          <option value="Sports">Music</option>
+          <option value="Sports">Music & Arts</option>
           <option value="Sports">Web Development</option>
+          <option value="Sports">Arts & Crafts</option>
+          <option value="Sports">Environment</option>
           {/* ... other categories */}
         </select>
 

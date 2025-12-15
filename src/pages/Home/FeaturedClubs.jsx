@@ -5,8 +5,8 @@ import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
-import { useDebounce } from "use-debounce";
-import FilterBar from "../../components/Shared/FilterBar";
+
+
 import {
   FaTag,
   FaMapMarkerAlt,
@@ -18,33 +18,23 @@ import {
 } from "react-icons/fa";
 import LoadingPage from "../../components/Shared/LoadingPage";
 
-const BrowseClubs = () => {
+const FeaturedClubs = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("");
-  const [location, setLocation] = useState("");
-  const [sortBy, setSortBy] = useState("");
+ 
   const [joinedClubs, setJoinedClubs] = useState({});
   const [upcomingEvents, setUpcomingEvents] = useState({});
 
-  const [debouncedSearch] = useDebounce(search, 500);
-  const [debouncedCategory] = useDebounce(category, 500);
-  const [debouncedLocation] = useDebounce(location, 500);
+  
 
  
   const { data: clubs = [], isLoading } = useQuery({
-    queryKey: ["clubs", debouncedSearch, debouncedCategory, debouncedLocation, sortBy],
+    queryKey: ["clubs"],
     queryFn: async () => {
       const params = new URLSearchParams();
-      if (debouncedSearch) params.append("search", debouncedSearch);
-      if (debouncedCategory) params.append("category", debouncedCategory);
-      if (debouncedLocation) params.append("location", debouncedLocation);
-      if (sortBy) params.append("sortBy", sortBy);
-
-      const res = await axiosSecure.get(`/clubs/display?${params.toString()}`);
+      const res = await axiosSecure.get(`/home/clubs/display?${params.toString()}`);
       return res.data;
     },
     keepPreviousData: true,
@@ -109,8 +99,8 @@ const BrowseClubs = () => {
 
   
   return (
-    <div className="p-6">
-      <h2 className="text-2xl md:text-4xl md:text-2xl font-extrabold mb-8 text-center
+    <div className="py-20">
+      <h2 className="text-2xl md:text-4xl font-extrabold mb-14 text-center
         bg-clip-text text-transparent tracking-wide"
         style={{
           backgroundImage: "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
@@ -132,15 +122,9 @@ const BrowseClubs = () => {
       </style>
 
       {/* Filter/Search */}
-      <FilterBar
-        search={search} setSearch={setSearch}
-        category={category} setCategory={setCategory}
-        location={location} setLocation={setLocation}
-        sortBy={sortBy} setSortBy={setSortBy}
-      />
 
       {isLoading ? <LoadingPage /> : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <div className="grid  md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
           {clubs.length === 0 && <p className="text-center col-span-3">No clubs found</p>}
           {clubs.map((club) => (
             <motion.div key={club._id}
@@ -181,4 +165,4 @@ const BrowseClubs = () => {
   );
 };
 
-export default BrowseClubs;
+export default FeaturedClubs;

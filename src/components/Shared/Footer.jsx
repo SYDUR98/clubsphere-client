@@ -18,7 +18,7 @@ const Footer = () => {
           <div>
             <h2
               className="
-      text-4xl md:text-2xl font-extrabold mb-2
+      text-2xl md:text-4xl font-extrabold mb-2
       bg-clip-text text-transparent
       tracking-wide
     "
@@ -54,22 +54,33 @@ const Footer = () => {
           </p>
 
           {/* Social */}
-         
         </div>
 
         {/* Quick Links */}
         <div className="flex flex-col space-y-2">
           <h3 className="text-lg font-bold mb-2 text-primary">Quick Links</h3>
-          <Link to={"/"} className="link link-hover hover:text-primary transition-colors duration-300">
+          <Link
+            to={"/"}
+            className="link link-hover hover:text-primary transition-colors duration-300"
+          >
             Home
           </Link>
-          <Link to={'/browse-clubs'} className="link link-hover hover:text-primary transition-colors duration-300">
+          <Link
+            to={"/browse-clubs"}
+            className="link link-hover hover:text-primary transition-colors duration-300"
+          >
             Browse Clubs
           </Link>
-          <Link to={'/member/events'} className="link link-hover hover:text-primary transition-colors duration-300">
+          <Link
+            to={"/member/events"}
+            className="link link-hover hover:text-primary transition-colors duration-300"
+          >
             Events
           </Link>
-          <Link to={'/dashboard'} className="link link-hover hover:text-primary transition-colors duration-300">
+          <Link
+            to={"/dashboard"}
+            className="link link-hover hover:text-primary transition-colors duration-300"
+          >
             Dashboard
           </Link>
         </div>
@@ -121,14 +132,18 @@ const Footer = () => {
             </p>
             <p className="link link-hover hover:text-info opacity-90 transition-colors duration-300">
               Phone:{" "}
-              <span className="link link-hover hover:text-info  transition-colors duration-300">+880 1XXX-XXXXXX</span>
+              <span className="link link-hover hover:text-info  transition-colors duration-300">
+                +880 1XXX-XXXXXX
+              </span>
             </p>
             <p className="link link-hover hover:text-info opacity-90 transition-colors duration-300">
               Address:{" "}
-              <span className="link link-hover hover:text-info  transition-colors duration-300">Sylhet, Bangladesh</span>
+              <span className="link link-hover hover:text-info  transition-colors duration-300">
+                Sylhet, Bangladesh
+              </span>
             </p>
           </div>
-           <div className="flex gap-4 text-2xl mt-2">
+          <div className="flex gap-4 text-2xl mt-2">
             <FaFacebook className="hover:text-primary transition-colors duration-300 cursor-pointer" />
             <FaXTwitter className="hover:text-secondary transition-colors duration-300 cursor-pointer" />
             <FaLinkedin className="hover:text-accent transition-colors duration-300 cursor-pointer" />
@@ -141,11 +156,11 @@ const Footer = () => {
       <div className="border-t border-base-300"></div>
 
       {/* Bottom */}
-      <div className="py-4 text-center text-sm opacity-80 flex justify-center items-center gap-1 text-base-content">
-        <FaRegCopyright className="text-primary" /> {/* Primary theme color */}
-        {new Date().getFullYear()} ClubSphere — Built with
-        <FaRegHeart className="text-error mx-1" /> {/* Accent theme color */}
-        for Local Communities
+      <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-1 text-sm text-center text-base-content opacity-80">
+        <FaRegCopyright className="text-primary" />
+        <span>{new Date().getFullYear()} ClubSphere — Built with</span>
+        <FaRegHeart className="text-error mx-1" />
+        <span>for Local Communities</span>
       </div>
     </footer>
   );
