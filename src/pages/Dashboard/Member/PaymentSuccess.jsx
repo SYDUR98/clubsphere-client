@@ -25,11 +25,11 @@ const PaymentSuccess = () => {
         const res = await axiosSecure.post("/payments/confirm", { sessionId });
 
         Swal.fire("Success", res.data.message || "Payment confirmed!", "success");
-        navigate("/browse-clubs");
+        // navigate("/browse-clubs");
       } catch (err) {
         console.error(err);
         Swal.fire("Error", err.response?.data?.message || "Payment failed", "error");
-        navigate("/browse-clubs");
+        // navigate("/browse-clubs");
       } finally {
         setLoading(false);
       }
@@ -43,7 +43,12 @@ const PaymentSuccess = () => {
       <LoadingPage></LoadingPage>
     );
 
-  return null;
+  return(
+    <div className="p-6 text-center mt-20">
+        <h2 className="text-2xl font-bold text-info mb-2">Payment Processed</h2>
+        <p>Redirecting you to the club listings...</p>
+    </div>
+  );
 };
 
 export default PaymentSuccess;

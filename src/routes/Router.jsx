@@ -36,6 +36,7 @@ import EventRegistrations from "../pages/Dashboard/Manager/EventRegistrations";
 import MemberAllEventDeshboard from "../pages/Dashboard/Member/MemberAllEventDeshboard";
 import Profile from "../pages/user/Profile";
 import EditProfile from "../pages/user/EditProfile";
+import EventPaymentCancelled from "../pages/Dashboard/Member/EventPaymentCancelled";
 
 export const router = createBrowserRouter([
   {
@@ -89,6 +90,22 @@ export const router = createBrowserRouter([
          
         ),
         // element: <MemberEvents></MemberEvents>
+      },
+      {
+        path: "payment-success",
+        Component: PaymentSuccess,
+      },
+      {
+        path: "payment-cancelled",
+        Component: PaymentCancelled,
+      },
+      {
+        path: "event/payment-success",
+        Component: EventPaymentSuccess,
+      },
+      {
+        path: "event/payment-cancelled",
+        Component: EventPaymentCancelled,
       },
       {
         path: "register",
@@ -203,18 +220,9 @@ export const router = createBrowserRouter([
         ),
         // Component: MyEvent,
       },
-      {
-        path: "payment-success",
-        Component: PaymentSuccess,
-      },
-      {
-        path: "event/payment-success",
-        Component: EventPaymentSuccess,
-      },
-      {
-        path: "payment-cancelled",
-        Component: PaymentCancelled,
-      },
+      
+      
+    
       // member routes
 
       {

@@ -110,7 +110,7 @@ const BrowseClubs = () => {
   
   return (
     <div className="p-6">
-      <h2 className="text-2xl md:text-4xl md:text-2xl font-extrabold mb-8 text-center
+      <h2 className="text-2xl md:text-4xl  font-extrabold mb-8 text-center
         bg-clip-text text-transparent tracking-wide"
         style={{
           backgroundImage: "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",

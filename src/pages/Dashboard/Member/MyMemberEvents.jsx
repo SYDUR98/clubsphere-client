@@ -81,7 +81,7 @@ const MyMemberEvents = () => {
     <div className="p-6 bg-base-100">
       {/* Title */}
       <h2
-        className="text-4xl md:text-2xl font-extrabold mb-8 text-center
+        className="text-2xl md:text-4xl font-extrabold mb-8 text-center
         bg-clip-text text-transparent tracking-wide"
         style={{
           backgroundImage:
