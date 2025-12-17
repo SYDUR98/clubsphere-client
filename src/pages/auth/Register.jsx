@@ -44,14 +44,14 @@ const Register = () => {
           };
           axiosSecure.post("/users", userInfo).then((res) => {
             if (res.data.insertedId) {
-            //   console.log("user created in the database");
-            Swal.fire({
-                      position: "top-end",
-                      icon: "success",
-                      title: "Registration Successful!",
-                      showConfirmButton: false,
-                      timer: 1500,
-                    });
+              //   console.log("user created in the database");
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Registration Successful!",
+                showConfirmButton: false,
+                timer: 1500,
+              });
             }
           });
 
@@ -63,7 +63,7 @@ const Register = () => {
           updateUserProfile(userProfile)
             .then(() => {
               console.log("user Profile updated");
-                navigate(location?.state|| '/') 
+              navigate(location?.state || "/");
             })
             .catch((error) => {
               console.log(error);
@@ -75,12 +75,14 @@ const Register = () => {
       });
   };
   return (
-    <div className="card bg-base-100 w-full mx-auto max-w-sm shrink-0 shadow-2xl mt-20">
+    <div className="card bg-base-100 w-full mx-auto max-w-sm shrink-0 shadow-2xl mt-20 mb-15">
       <div className="card-body">
-        <h3 className="text-3xl text-center text-base-content">
+        <h3 className="text-3xl font-extrabold text-center bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent">
           Create an Account
         </h3>
-        <p className="text-center text-neutral">Register with ClubSphere</p>
+        <p className="text-center text-indigo-500/80 font-medium mt-1">
+          Register with ClubSphere
+        </p>
 
         <form onSubmit={handleSubmit(handleRegistrationEmailPass)}>
           <fieldset className="fieldset space-y-4">
@@ -158,7 +160,9 @@ const Register = () => {
               </p>
             )}
 
-            <button className="btn btn-primary mt-4 w-full">Register</button>
+            <button className="btn btn-primary mt-4 w-full text-white font-semibold text-lg shadow-lg bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 hover:brightness-110 transition-all">
+              Register
+            </button>
           </fieldset>
         </form>
 

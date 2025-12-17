@@ -76,7 +76,7 @@ This is the frontend client repository. Ensure the backend server is running bef
 4.  **Run the application:**
     ```bash
     npm run dev
- 
+  
     ```
 
 ##  Admin Access Credentials (For Testing)

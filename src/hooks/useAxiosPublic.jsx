@@ -3,7 +3,7 @@ import React from 'react';
 
 const axiosInstace = axios.create(
    {
-     baseURL: 'http://localhost:3000'
+     baseURL: 'https://clubsphere-server-ruby.vercel.app'
    }
 )
 

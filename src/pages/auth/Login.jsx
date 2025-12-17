@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import SocialLogin from "../../components/Shared/SocialLogin";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const location = useLocation();
@@ -19,17 +20,28 @@ const Login = () => {
     signInUser(data.email, data.password)
       .then((result) => {
         console.log(result.user);
-        navigate(location?.state|| '/') 
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Welcome! Your login was successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate(location?.state || "/");
       })
       .catch((error) => {
         console.log(error);
       });
   };
   return (
-    <div className="card bg-base-100 w-full mx-auto max-w-sm shrink-0 shadow-2xl mt-20">
+    <div className="card bg-base-100 w-full mx-auto max-w-sm shrink-0 shadow-2xl mt-20 mb-15">
       <div className="card-body">
-        <h3 className="text-3xl text-center text-base-content">Welcome Back</h3>
-        <p className="text-center text-neutral">Login with ClubSphere</p>
+        <h3 className="text-3xl font-extrabold text-center bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+          Welcome Back
+        </h3>
+        <p className="text-center text-indigo-400 font-medium mt-1">
+          Login with ClubSphere
+        </p>
 
         <form onSubmit={handleSubmit(handleSubmitLogin)}>
           <fieldset className="fieldset space-y-4">
@@ -48,7 +60,7 @@ const Login = () => {
             )}
 
             {/* password */}
-            <label className="label text-base-content">Password</label>
+            <label className="label text-base-content ">Password</label>
             <input
               type="password"
               {...register("password", {
@@ -75,7 +87,9 @@ const Login = () => {
               <a className="link link-hover text-secondary">Forgot password?</a>
             </div>
 
-            <button className="btn btn-primary mt-4 w-full">Login</button>
+            <button className="btn btn-primary mt-4 w-full  text-white font-semibold text-lg shadow-lg bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 hover:brightness-110 transition-all">
+              Login
+            </button>
           </fieldset>
         </form>
 

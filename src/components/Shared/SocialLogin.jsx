@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 
 const SocialLogin = () => {
@@ -14,7 +15,6 @@ const SocialLogin = () => {
         signInGoogle()
         .then(result=>{
             console.log(result.user)
-
             // create user 
              const userInfo = {
               email: result.user.email,
@@ -25,7 +25,14 @@ const SocialLogin = () => {
             axiosSecure.post('users',userInfo)
             .then(res=>{
               console.log("user data has been store",res.data)
-               navigate( '/')
+               Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Welcome! Your login was successful",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
+              navigate(location?.state || "/");
             })
         })
         .catch(error=>{
