@@ -77,7 +77,7 @@ const MemberEvents = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 mb-20">
       {/* Title */}
       <h2
         className="text-2xl md:text-4xl font-extrabold mb-8 text-center bg-clip-text text-transparent tracking-wide"

@@ -57,7 +57,7 @@ const MemberStats = () => {
     `}
         </style>
       </div>
-       <div className="stats shadow w-full my-2 bg-white border border-gray-200">
+       <div className="stats stats-vertical lg:stats-horizontal shadow w-full my-2 bg-white border border-gray-200">
       
       {/* Total Clubs Joined */}
       <div className="stat">

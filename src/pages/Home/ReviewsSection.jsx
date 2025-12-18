@@ -7,7 +7,7 @@ const reviews = [
     id: 1,
     name: "Alice Johnson",
     role: "Member",
-    avatar: "https://i.ibb.co/2kD1K2t/user1.jpg",
+    avatar: "https://i.ibb.co.com/rGNKqLqM/60111.jpg",
     text: "ClubSphere helped me discover amazing clubs in my city. I joined two photography clubs and attended wonderful events!",
     rating: 5,
   },
@@ -15,7 +15,7 @@ const reviews = [
     id: 2,
     name: "Michael Smith",
     role: "Member",
-    avatar: "https://i.ibb.co/H2Yc1K3/user2.jpg",
+    avatar: "https://i.ibb.co.com/pjHMtw0N/user2.png",
     text: "Easy to use and very intuitive. I love the dashboard for managing my memberships and events.",
     rating: 4,
   },
@@ -23,7 +23,7 @@ const reviews = [
     id: 3,
     name: "Sophia Lee",
     role: "Member",
-    avatar: "https://i.ibb.co/KyFzGZV/user3.jpg",
+    avatar: "https://i.ibb.co.com/5xYvdvw5/user1.png",
     text: "Great platform for both club managers and members. The animations and design make it really engaging!",
     rating: 5,
   },
@@ -45,7 +45,7 @@ const ReviewsSection = () => {
   };
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-20 bg-gray-50">
       <div className="px-20 mx-auto text-center">
           <div className="mb-14">
         <h2

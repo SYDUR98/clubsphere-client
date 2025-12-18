@@ -91,7 +91,7 @@ const Navbar = () => {
       )}
       {!user && (
         <>
-          <div className="flex">
+          <div className="flex flex-col md:flex-row">
             <li>
               <NavLink
                 to="/login"

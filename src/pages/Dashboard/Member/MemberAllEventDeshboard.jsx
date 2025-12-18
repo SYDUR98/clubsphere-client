@@ -78,6 +78,7 @@ const MemberAllEventDeshboard = () => {
         <table className="table table-zebra w-full">
           <thead className="bg-base-200 text-base-content">
             <tr>
+              <th>#</th>
               <th>Title</th>
               <th>Club</th>
               <th>Date</th>
@@ -86,8 +87,9 @@ const MemberAllEventDeshboard = () => {
             </tr>
           </thead>
           <tbody>
-            {myEvents.map((event) => (
+            {myEvents.map((event,i) => (
               <tr key={event.registrationId}>
+                <td className="font-medium text-primary">{i+1}</td>
                 <td className="font-medium text-primary">{event.title}</td>
                 <td className="text-secondary">{event.clubName}</td>
                 <td className="text-base-content">
