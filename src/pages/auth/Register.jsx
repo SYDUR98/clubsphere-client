@@ -22,6 +22,7 @@ const Register = () => {
   const handleRegistrationEmailPass = (data) => {
     console.log("after register", data.photo[0]);
     const profileImg = data.photo[0];
+    const from = location.state?.from?.pathname || "/";
     reginsterUser(data.email, data.password)
       .then(() => {
         //store the image and get the photo url
@@ -63,7 +64,7 @@ const Register = () => {
           updateUserProfile(userProfile)
             .then(() => {
               console.log("user Profile updated");
-              navigate(location?.state || "/");
+              navigate(from, { replace: true });
             })
             .catch((error) => {
               console.log(error);
