@@ -53,7 +53,7 @@ const CreateEvent = () => {
     }
 
     // Debug: show payload you are sending
-    console.log("CreateEvent payload:", payload);
+    // console.log("CreateEvent payload:", payload);
 
     try {
       const res = await axiosSecure.post("/events", payload);
@@ -61,7 +61,7 @@ const CreateEvent = () => {
       Swal.fire("Success!", "Event created successfully.", "success");
       reset();
     } catch (err) {
-      console.error("CreateEvent error:", err);
+      // console.error("CreateEvent error:", err);
       const serverMessage =
         err?.response?.data?.message ||
         err?.message ||

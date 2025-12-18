@@ -11,7 +11,7 @@ const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
-  console.log("in the register page", location);
+  // console.log("in the register page", location);
   const {
     register,
     handleSubmit,
@@ -20,7 +20,7 @@ const Register = () => {
   const { reginsterUser, updateUserProfile } = useAuth();
 
   const handleRegistrationEmailPass = (data) => {
-    console.log("after register", data.photo[0]);
+    // console.log("after register", data.photo[0]);
     const profileImg = data.photo[0];
     const from = location.state?.from?.pathname || "/";
     reginsterUser(data.email, data.password)
@@ -35,7 +35,7 @@ const Register = () => {
         axios.post(image_API_URL, formData).then((res) => {
           // console.log('after image upload',res.data.data.display_url)
           const photoURL = res.data.data.display_url;
-          console.log(photoURL);
+          // console.log(photoURL);
 
           // create user in the database
           const userInfo = {
@@ -63,7 +63,7 @@ const Register = () => {
           };
           updateUserProfile(userProfile)
             .then(() => {
-              console.log("user Profile updated");
+              // console.log("user Profile updated");
               navigate(from, { replace: true });
             })
             .catch((error) => {

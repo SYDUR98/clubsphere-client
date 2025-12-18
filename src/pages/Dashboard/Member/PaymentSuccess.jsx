@@ -27,7 +27,7 @@ const PaymentSuccess = () => {
         Swal.fire("Success", res.data.message || "Payment confirmed!", "success");
         // navigate("/browse-clubs");
       } catch (err) {
-        console.error(err);
+        // console.error(err);
         Swal.fire("Error", err.response?.data?.message || "Payment failed", "error");
         // navigate("/browse-clubs");
       } finally {

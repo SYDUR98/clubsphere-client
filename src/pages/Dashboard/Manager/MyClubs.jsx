@@ -36,7 +36,7 @@ const MyClubs = () => {
         await refetch();
         Swal.fire("Deleted!", "Club deleted successfully.", "success");
       } catch (err) {
-        console.error("Delete club failed:", err);
+        // console.error("Delete club failed:", err);
         Swal.fire("Error!", err?.response?.data?.message || "Failed to delete club", "error");
       }
     }

@@ -51,7 +51,7 @@ const CreateEventModal = ({ clubId, clubName, isOpen, onClose, onCreated }) => {
       onClose();
       navigate("/dashboard/manager/my-events");
     } catch (err) {
-      console.error("Create event error:", err);
+      // console.error("Create event error:", err);
       Swal.fire("Error!", err?.response?.data?.message || "Failed to create event", "error");
     } finally {
       setLoading(false);
