@@ -10,8 +10,10 @@ const SocialLogin = () => {
     const axiosSecure = useAxiosSecure()
     const location = useLocation()
     const navigate = useNavigate()
+    const from = location.state?.from || "/";
 
     const handleGoogleReginster = () =>{
+        
         signInGoogle()
         .then(result=>{
             console.log(result.user)
@@ -32,11 +34,13 @@ const SocialLogin = () => {
                         showConfirmButton: false,
                         timer: 1500,
                       });
-              navigate(location?.state || "/");
+              navigate(from, { replace: true });
             })
         })
         .catch(error=>{
             console.log(error)
+            console.log("User already exists or other error", error);
+            navigate(from, { replace: true });
         })
     }
   return (

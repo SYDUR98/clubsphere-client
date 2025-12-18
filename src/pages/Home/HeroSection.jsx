@@ -55,7 +55,7 @@ const HeroSection = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="absolute inset-0 z-10 flex flex-col justify-center max-w-2xl px-6 md:px-12"
+        className="absolute inset-0 z-0 flex flex-col justify-center max-w-2xl px-6 md:px-12"
       >
         <h1
           className="text-3xl md:text-5xl font-extrabold mb-3 bg-clip-text text-transparent"

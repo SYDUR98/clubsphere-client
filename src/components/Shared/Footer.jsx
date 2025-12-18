@@ -57,99 +57,99 @@ const Footer = () => {
         </div>
 
         {/* Quick Links */}
-        <div className="flex flex-col space-y-2">
+        <div className="">
           <h3 className="text-lg font-bold mb-2 text-primary">Quick Links</h3>
-          <Link
-            to={"/"}
-            className="link link-hover hover:text-primary transition-colors duration-300"
-          >
-            Home
-          </Link>
-          <Link
-            to={"/browse-clubs"}
-            className="link link-hover hover:text-primary transition-colors duration-300"
-          >
-            Browse Clubs
-          </Link>
-          <Link
-            to={"/member/events"}
-            className="link link-hover hover:text-primary transition-colors duration-300"
-          >
-            Events
-          </Link>
-          <Link
-            to={"/dashboard"}
-            className="link link-hover hover:text-primary transition-colors duration-300"
-          >
-            Dashboard
-          </Link>
+          <div className="text-sm flex flex-col space-y-2">
+            <Link
+              to={"/"}
+              className="link link-hover hover:text-primary transition-colors duration-300"
+            >
+              Home
+            </Link>
+            <Link
+              to={"/browse-clubs"}
+              className="link link-hover hover:text-primary transition-colors duration-300"
+            >
+              Browse Clubs
+            </Link>
+            <Link
+              to={"/member/events"}
+              className="link link-hover hover:text-primary transition-colors duration-300"
+            >
+              Events
+            </Link>
+            <Link
+              to={"/dashboard"}
+              className="link link-hover hover:text-primary transition-colors duration-300"
+            >
+              Dashboard
+            </Link>
+          </div>
         </div>
 
         {/* For Clubs */}
         <div className="flex flex-col space-y-2">
           <h3 className="text-lg font-bold mb-2 text-secondary">For Clubs</h3>
-          <a className="link link-hover hover:text-secondary transition-colors duration-300">
-            Create Club
-          </a>
-          <a className="link link-hover hover:text-secondary transition-colors duration-300">
-            Manage Events
-          </a>
-          <a className="link link-hover hover:text-secondary transition-colors duration-300">
-            Membership Plans
-          </a>
-          <a className="link link-hover hover:text-secondary transition-colors duration-300">
-            Payment System
-          </a>
+          <div className="text-sm space-y-2">
+            <p className="link link-hover hover:text-secondary transition-colors duration-300">
+              Create Club
+            </p>
+            <p className="link link-hover hover:text-secondary transition-colors duration-300">
+              Manage Events
+            </p>
+            <p className="link link-hover hover:text-secondary transition-colors duration-300">
+              Membership Plans
+            </p>
+            <p className="link link-hover hover:text-secondary transition-colors duration-300">
+              Payment System
+            </p>
+          </div>
         </div>
 
         {/* Support */}
         <div className="flex flex-col space-y-2">
           <h3 className="text-lg font-bold mb-2 text-accent">Support</h3>
-          <a className="link link-hover hover:text-accent transition-colors duration-300">
-            Help Center
-          </a>
-          <a className="link link-hover hover:text-accent transition-colors duration-300">
-            FAQs
-          </a>
-          <a className="link link-hover hover:text-accent transition-colors duration-300">
-            Terms & Conditions
-          </a>
-          <a className="link link-hover hover:text-accent transition-colors duration-300">
-            Privacy Policy
-          </a>
+          <div className="text-sm space-y-2">
+            <p className="link link-hover hover:text-accent transition-colors duration-300">
+              Help Center
+            </p>
+            <p className="link link-hover hover:text-accent transition-colors duration-300">
+              FAQs
+            </p>
+            <p className="link link-hover hover:text-accent transition-colors duration-300">
+              Terms & Conditions
+            </p>
+            <p className="link link-hover hover:text-accent transition-colors duration-300">
+              Privacy Policy
+            </p>
+          </div>
         </div>
+
         <div className="flex flex-col space-y-2">
-          <h3 className="text-lg font-bold mb-4 text-info">
+          <h3 className="text-lg font-bold mb-2 text-accent">
+            {" "}
             Contact & Connect
           </h3>
-
-          <div className="text-sm space-y-1 mb-4">
-            <p className="link link-hover hover:text-info opacity-90 transition-colors duration-300">
-              Email:{" "}
-              <span className="link link-hover hover:text-info transition-colors duration-300">
-                support@clubsphere.com
-              </span>
+          <div className="text-sm space-y-2">
+            <p className="link link-hover hover:text-accent transition-colors duration-300">
+              Email: support@clubsphere.com
             </p>
-            <p className="link link-hover hover:text-info opacity-90 transition-colors duration-300">
-              Phone:{" "}
-              <span className="link link-hover hover:text-info  transition-colors duration-300">
-                +880 1XXX-XXXXXX
-              </span>
+            <p className="link link-hover hover:text-accent transition-colors duration-300">
+              Phone: +880 1XXX-XXXXXX
             </p>
-            <p className="link link-hover hover:text-info opacity-90 transition-colors duration-300">
-              Address:{" "}
-              <span className="link link-hover hover:text-info  transition-colors duration-300">
-                Sylhet, Bangladesh
-              </span>
+            <p className="link link-hover hover:text-accent transition-colors duration-300">
+              Address: Sylhet, Bangladesh
             </p>
           </div>
-          <div className="flex gap-4 text-2xl mt-2">
-            <FaFacebook className="hover:text-primary transition-colors duration-300 cursor-pointer" />
-            <FaXTwitter className="hover:text-secondary transition-colors duration-300 cursor-pointer" />
-            <FaLinkedin className="hover:text-accent transition-colors duration-300 cursor-pointer" />
-            <FaGithub className="hover:text-neutral transition-colors duration-300 cursor-pointer" />
+          <div className="flex gap-4 text-2xl mt-4">
+            <FaFacebook className="hover:text-primary transition-all duration-300 cursor-pointer hover:-translate-y-1" />
+            <FaXTwitter className="hover:text-secondary transition-all duration-300 cursor-pointer hover:-translate-y-1" />
+            <FaLinkedin className="hover:text-accent transition-all duration-300 cursor-pointer hover:-translate-y-1" />
+            <FaGithub className="hover:text-neutral transition-all duration-300 cursor-pointer hover:-translate-y-1" />
           </div>
         </div>
+        {/* Contact & Connect Section */}
+       
       </div>
 
       {/* Divider */}

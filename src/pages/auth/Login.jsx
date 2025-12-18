@@ -27,7 +27,8 @@ const Login = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate(location?.state || "/");
+        const from = location.state?.from || "/";
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         console.log(error);
@@ -79,7 +80,8 @@ const Login = () => {
             )}
             {errors.password?.type === "pattern" && (
               <p className="text-error-content bg-error p-2 rounded-md shadow-sm mt-1">
-                Password must include uppercase and lowercase letters
+                Password must be at least 6 characters long and include both
+                uppercase and lowercase letters.
               </p>
             )}
 
@@ -97,7 +99,7 @@ const Login = () => {
           Don’t have an account?{" "}
           <Link
             className="text-primary underline"
-            state={location.state}
+            state={{ from: location.state?.from }}
             to={"/register"}
           >
             Register

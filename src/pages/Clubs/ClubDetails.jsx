@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useLocation, useNavigate, useParams } from "react-router";
 
 import {
   FaArrowLeft,
@@ -23,6 +23,7 @@ const ClubDetails = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [isJoined, setIsJoined] = useState(false);
   const [imgError, setImgError] = useState(false);
@@ -54,7 +55,7 @@ const ClubDetails = () => {
   const handleJoin = async () => {
     if (!user?.email) {
       Swal.fire("Error", "Please login first", "error");
-      navigate("/login");
+      navigate("/login", { state: { from: location.pathname } });
       return;
     }
 

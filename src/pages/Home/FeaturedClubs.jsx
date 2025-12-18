@@ -17,9 +17,11 @@ import {
   FaCheck,
 } from "react-icons/fa";
 import LoadingPage from "../../components/Shared/LoadingPage";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const FeaturedClubs = () => {
   const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic()
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -34,7 +36,7 @@ const FeaturedClubs = () => {
     queryKey: ["clubs"],
     queryFn: async () => {
       const params = new URLSearchParams();
-      const res = await axiosSecure.get(`/home/clubs/display?${params.toString()}`);
+      const res = await axiosPublic.get(`/home/clubs/display?${params.toString()}`);
       return res.data;
     },
     keepPreviousData: true,
@@ -75,6 +77,7 @@ const FeaturedClubs = () => {
   const handleJoin = async (club) => {
     if (!user?.email) {
       Swal.fire("Error", "Please login first", "error");
+      navigate('/login')
       return;
     }
 
