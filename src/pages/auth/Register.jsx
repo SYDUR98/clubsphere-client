@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -18,6 +18,7 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const { reginsterUser, updateUserProfile } = useAuth();
+  const [authError, setAuthError] = useState("");
 
   const handleRegistrationEmailPass = (data) => {
     // console.log("after register", data.photo[0]);
@@ -73,7 +74,21 @@ const Register = () => {
       })
       .catch((error) => {
         console.log(error);
+        console.log(error.code);
+        if (error.code === "auth/email-already-in-use") {
+          setAuthError(
+            "This email is already registered. Please try logging in."
+          );
+        } else {
+          setAuthError("Registration failed. Please try again.");
+        }
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Registration failed. Please check your network or details.",
+        });
       });
+    // Swal for critical failures (like Image or DB failure)
   };
   return (
     <div className="card bg-base-100 w-full mx-auto max-w-sm shrink-0 shadow-2xl mt-20 mb-15">
@@ -160,6 +175,11 @@ const Register = () => {
                 Password must include uppercase and lowercase letters
               </p>
             )}
+            {authError && (
+              <p className="text-error-content bg-error p-2 rounded-md shadow-sm mt-2 text-center">
+                {authError}
+              </p>
+            )}
 
             <button className="btn btn-primary mt-4 w-full text-white font-semibold text-lg shadow-lg bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 hover:brightness-110 transition-all">
               Register
@@ -171,7 +191,7 @@ const Register = () => {
           Already have an account?{" "}
           <Link
             className="text-primary underline"
-            state={location.state}
+            state={{ from: location.state?.from || location.pathname }}
             to={"/login"}
           >
             Login

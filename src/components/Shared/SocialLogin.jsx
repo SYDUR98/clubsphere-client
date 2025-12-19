@@ -10,6 +10,7 @@ const SocialLogin = () => {
     const axiosSecure = useAxiosSecure()
     const location = useLocation()
     const navigate = useNavigate()
+    // const from = location.state?.from || "/";
     const from = location.state?.from || "/";
 
     const handleGoogleReginster = () =>{
@@ -36,6 +37,9 @@ const SocialLogin = () => {
                       });
               navigate(from, { replace: true });
             })
+            .catch(() => {
+            navigate(from, { replace: true });
+          });
         })
         .catch(error=>{
             console.log(error)

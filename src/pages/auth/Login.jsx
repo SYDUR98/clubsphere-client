@@ -100,7 +100,7 @@ const Login = () => {
           Don’t have an account?{" "}
           <Link
             className="text-primary underline"
-            state={{ from: location.state?.from }}
+           state={{ from: location.state?.from || location.pathname }}
             to={"/register"}
           >
             Register
