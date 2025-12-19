@@ -1,64 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 
-
 const SocialLogin = () => {
-    const {signInGoogle} = useAuth()
-    const axiosSecure = useAxiosSecure()
-    const location = useLocation()
-    const navigate = useNavigate()
-    // const from = location.state?.from || "/";
-    const from = location.state?.from || "/";
+  const { signInGoogle } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const location = useLocation();
+  const navigate = useNavigate();
+  // const from = location.state?.from || "/";
+  const from = location.state?.from || "/";
+  const [authError, setAuthError] = useState("");
 
-    const handleGoogleReginster = () =>{
-        
-        signInGoogle()
-        .then(result=>{
-            // console.log(result.user)
-            // create user 
-             const userInfo = {
-              email: result.user.email,
-              displayName:result.user.displayName,
-              photoURL:result.user.photoURL
-            }
+  const handleGoogleRegister = async () => {
+    setAuthError(""); // Reset previous error
+    try {
+      const result = await signInGoogle();
 
-            axiosSecure.post('users',userInfo)
-            .then(res=>{
-              console.log("user data has been store",res.data)
-               Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Welcome! Your login was successful",
-                        showConfirmButton: false,
-                        timer: 1500,
-                      });
-              navigate(from, { replace: true });
-            })
-            .catch(() => {
-            navigate(from, { replace: true });
-          });
-        })
-        .catch(error=>{
-            console.log(error)
-            console.log("User already exists or other error", error);
-            navigate(from, { replace: true });
-        })
+      const userInfo = {
+        email: result.user.email,
+        displayName: result.user.displayName,
+        photoURL: result.user.photoURL,
+      };
+
+      // Store user in DB
+      await axiosSecure.post("users", userInfo);
+
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Welcome! Your login was successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.error("Google Sign-in or DB error:", error);
+
+      if (error.code === "auth/email-already-in-use") {
+        setAuthError(
+          "This email is already registered. Please try logging in."
+        );
+      } else {
+        setAuthError("Login failed. Please try again.");
+      }
     }
+  };
   return (
     <div className=" text-center pb-4 px-6">
-        <h3 className="text-xl font-bold mb-3">OR</h3>
+      <h3 className="text-xl font-bold mb-3">OR</h3>
       {/* Google */}
-      <button onClick={handleGoogleReginster} className="btn w-full  bg-white text-black border-[#e5e5e5]">
+      {authError && (
+        <p className="text-error-content bg-error p-2 rounded-md shadow-sm mt-2 text-center">
+          {authError}
+        </p>
+      )}
+
+      <button
+        onClick={handleGoogleRegister}
+        className="btn w-full  bg-white text-black border-[#e5e5e5]"
+      >
         <svg
           aria-label="Google logo"
           width="16"
           height="16"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
-          
         >
           <g>
             <path d="m0 0H512V512H0" fill="#fff"></path>
