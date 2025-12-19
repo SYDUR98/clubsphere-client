@@ -11,10 +11,10 @@ const SocialLogin = () => {
   const navigate = useNavigate();
   // const from = location.state?.from || "/";
   const from = location.state?.from || "/";
-  const [authError, setAuthError] = useState("");
+
 
   const handleGoogleRegister = async () => {
-    setAuthError(""); // Reset previous error
+  
     try {
       const result = await signInGoogle();
 
@@ -39,24 +39,14 @@ const SocialLogin = () => {
     } catch (error) {
       console.error("Google Sign-in or DB error:", error);
 
-      if (error.code === "auth/email-already-in-use") {
-        setAuthError(
-          "This email is already registered. Please try logging in."
-        );
-      } else {
-        setAuthError("Login failed. Please try again.");
-      }
+     
     }
   };
   return (
     <div className=" text-center pb-4 px-6">
       <h3 className="text-xl font-bold mb-3">OR</h3>
       {/* Google */}
-      {authError && (
-        <p className="text-error-content bg-error p-2 rounded-md shadow-sm mt-2 text-center">
-          {authError}
-        </p>
-      )}
+     
 
       <button
         onClick={handleGoogleRegister}

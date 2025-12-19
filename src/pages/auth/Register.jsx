@@ -21,6 +21,7 @@ const Register = () => {
   const [authError, setAuthError] = useState("");
 
   const handleRegistrationEmailPass = (data) => {
+     setAuthError("");
     // console.log("after register", data.photo[0]);
     const profileImg = data.photo[0];
     const from = location.state?.from?.pathname || "/";
