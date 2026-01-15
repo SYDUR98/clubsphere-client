@@ -4,15 +4,18 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-
-
-
 @import "tailwindcss";
 
+/* DaisyUI plugin configuration 
+   Includes both light (default) and dark themes
+*/
 @plugin "daisyui"{
-  themes: light --default;
+  themes: light --default, dark;
 }
 
+/* =========================================================
+   LIGHT THEME DEFINITION
+   ========================================================= */
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
@@ -25,11 +28,10 @@ body {
   --color-white: #ffffff;           /* Pure white / clean surfaces / light text */
   --color-black: #000000;           /* Pure black / strong contrast text */
 
-
-  --color-primary: #5A63FF;         /* Primary actions-> Sign Up, Join Now, Buy Now, Get Started, Submit Contact Us / brand color  active link*/
+  --color-primary: #5A63FF;         /* Primary actions: Sign Up, Join Now, Buy Now, Get Started, Submit Contact Us / brand color active link */
   --color-primary-content: #FAFAFA; /* Primary button text */
 
-  --color-secondary: #4ECAD9;       /* Secondary actions “View Details”,Settings,Filter buttons,"Learn More","Back","Cancel" / support UI */
+  --color-secondary: #4ECAD9;       /* Secondary actions: "View Details", Settings, Filter buttons, "Learn More", "Back", "Cancel" / support UI */
   --color-secondary-content: #FAFAFA; /* Secondary text */
 
   --color-accent: #7AE0B8;          /* Highlights / accent UI elements */
@@ -60,28 +62,43 @@ body {
   --border: 1px;                    /* Default border width */
 }
 
-/* Primary button:
+/* =========================================================
+   DARK THEME DEFINITION
+   ========================================================= */
+@plugin "daisyui/theme" {
+  name: "dark";
 
-Sign Up
+  /* Dark mode background colors */
+  --color-base-100: #0F172A;        /* Deep dark background */
+  --color-base-200: #1E293B;        /* Slightly lighter dark for cards */
+  --color-base-300: #334155;        /* Borders in dark mode */
+  --color-base-content: #F8FAFC;    /* Light text for dark background */
 
-Buy Now
+  /* Adjusted brand colors for better visibility on dark surfaces */
+  --color-primary: #818CF8;         /* Primary actions in dark mode */
+  --color-primary-content: #FFFFFF; /* Text on primary button */
 
-Get Started
+  --color-secondary: #2DD4BF;       /* Secondary actions in dark mode */
+  --color-secondary-content: #042F2E;
 
-Secondary button:
+  --color-accent: #4ADE80;          /* Highlight elements in dark mode */
+  --color-accent-content: #064E3B;
 
-Learn More
+  --color-neutral: #111827;         /* Muted UI / neutral controls */
+  --color-neutral-content: #9CA3AF;
 
-Cancel
+  --color-info: #38BDF8;            /* Informational alerts */
+  --color-success: #22C55E;         /* Success states */
+  --color-warning: #FBBF24;         /* Warning states */
+  --color-error: #EF4444;           /* Error states */
 
-Try Demo
-
-Primary = Main “Goal”
-Secondary = Helpful but not main */
-
+  /* Consistent radius for dark mode */
+  --radius-selector: 1rem;
+  --radius-field: 0.3rem;
+  --radius-box: 0.75rem;
+  --border: 1px;
+}
 
 html, body, #root {
   height: 100%;
 }
-
-

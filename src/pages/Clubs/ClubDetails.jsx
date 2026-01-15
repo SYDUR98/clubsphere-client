@@ -4,7 +4,6 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { Link, useLocation, useNavigate, useParams } from "react-router";
-
 import {
   FaArrowLeft,
   FaUserPlus,
@@ -12,9 +11,10 @@ import {
   FaTag,
   FaMapMarkerAlt,
   FaMoneyBill,
-  FaUserTie,
   FaCalendarAlt,
-  FaCheckCircle,
+  FaInfoCircle,
+  FaImages,
+  FaStar,
 } from "react-icons/fa";
 import LoadingPage from "../../components/Shared/LoadingPage";
 
@@ -28,8 +28,7 @@ const ClubDetails = () => {
   const [isJoined, setIsJoined] = useState(false);
   const [imgError, setImgError] = useState(false);
 
-  // Fetch club details with upcoming events count
-  const { data: club = {}, isLoading: clubLoading } = useQuery({
+  const { data: club = {}, isLoading } = useQuery({
     queryKey: ["club-details", id],
     enabled: !!id,
     queryFn: async () => {
@@ -38,23 +37,16 @@ const ClubDetails = () => {
     },
   });
 
-  // Check membership
   useEffect(() => {
     if (!user?.email || !id) return;
-
-    const checkMember = async () => {
-      const res = await axiosSecure.get(
-        `/clubs/is-member?clubId=${id}&userEmail=${user.email}`
-      );
-      setIsJoined(res.data.isMember);
-    };
-
-    checkMember();
+    axiosSecure
+      .get(`/clubs/is-member?clubId=${id}&userEmail=${user.email}`)
+      .then((res) => setIsJoined(res.data.isMember));
   }, [id, user?.email, axiosSecure]);
 
   const handleJoin = async () => {
     if (!user?.email) {
-      Swal.fire("Error", "Please login first", "error");
+      Swal.fire("Login Required", "Please login first", "info");
       navigate("/login", { state: { from: location.pathname } });
       return;
     }
@@ -63,152 +55,147 @@ const ClubDetails = () => {
       const res = await axiosSecure.post(`/clubs/join/${id}`, {
         userEmail: user.email,
       });
-
-      if (res.data.url) {
-        window.location.assign(res.data.url);
-        return;
-      }
-
-      Swal.fire(
-        "Success",
-        res.data.message || "Joined successfully",
-        "success"
-      );
+      Swal.fire("Success", res.data.message || "Joined", "success");
       setIsJoined(true);
     } catch (err) {
-      Swal.fire(
-        "Error",
-        err.response?.data?.message || "Something went wrong",
-        "error"
-      );
+      Swal.fire("Error", err.response?.data?.message || "Failed", "error");
     }
   };
 
-  if (clubLoading) {
-    return (
-       <LoadingPage></LoadingPage>
-    );
-  }
+  if (isLoading) return <LoadingPage />;
 
-  const imageUrl = imgError
-    ? "https://via.placeholder.com/800x400?text=Image+Not+Available"
+  const banner = imgError
+    ? "https://via.placeholder.com/900x400?text=No+Image"
     : club.bannerImage;
 
   return (
-    <div className="relative max-w-4xl mx-auto p-6 bg-base-100 shadow-xl rounded-xl flex flex-col space-y-6">
-      {/* Club banner */}
-      <img
-        src={imageUrl}
-        alt={club.clubName}
-        onError={() => setImgError(true)}
-        className="w-full h-64 object-cover rounded-lg mb-6"
-      />
+    <div className="min-h-screen bg-base-100 py-10 transition-colors">
+      <div className="max-w-6xl mx-auto px-4">
 
-      {/* Club Title & Description */}
-      <h1 className="text-3xl font-bold mb-2 text-gradient bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-        {club.clubName}
-      </h1>
-      <p className="text-neutral mb-4">{club.description}</p>
-
-      {/* Club Info */}
-      <div className="grid md:grid-cols-2 gap-4 text-sm mb-6">
-        <p className="flex items-center gap-2">
-          <FaTag className="text-primary" />
-          <strong>Category:</strong> {club.category}
-        </p>
-        <p className="flex items-center gap-2">
-          <FaMapMarkerAlt className="text-secondary" />
-          <strong>Location:</strong> {club.location}
-        </p>
-        <p className="flex items-center gap-2">
-          <FaMoneyBill className="text-success" />
-          <strong>Membership Fee:</strong>{" "}
-          {club.membershipFee === 0 ? "Free" : `৳ ${club.membershipFee}`}
-        </p>
-        <p className="flex items-center gap-2">
-          <FaCheckCircle className="text-info" />
-          <strong>Status:</strong>{" "}
-          <span
-            className={`badge px-3 py-2 font-semibold text-white ${
-              club.status === "approved"
-                ? "bg-success"
-                : club.status === "pending"
-                ? "bg-warning"
-                : club.status === "rejected"
-                ? "bg-error"
-                : "bg-base-300"
-            }`}
+        {/* Banner / Media */}
+        <div className="relative">
+          <img
+            src={banner}
+            onError={() => setImgError(true)}
+            className="w-full h-[420px] object-cover rounded-2xl border border-base-300 shadow-lg"
+            alt={club.clubName}
+          />
+          <Link
+            to="/"
+            className="absolute top-4 left-4 btn btn-circle btn-sm bg-base-100/70 backdrop-blur"
           >
-            {club.status.toUpperCase()}
-          </span>
-        </p>
-        <p className="flex items-center gap-2">
-          <FaUserTie className="text-accent" />
-          <strong>Manager Email:</strong> {club.managerEmail}
-        </p>
-        <p className="flex items-center gap-2">
-          <FaCalendarAlt className="text-neutral" />
-          <strong>Created At:</strong>{" "}
-          {new Date(club.createdAt).toLocaleString()}
-        </p>
-        {club.updatedAt && (
-          <p className="flex items-center gap-2">
-            <FaCalendarAlt className="text-neutral" />
-            <strong>Updated At:</strong>{" "}
-            {new Date(club.updatedAt).toLocaleString()}
-          </p>
-        )}
-      </div>
-
-      {/* Upcoming Events */}
-      {isJoined && (
-        <div className="flex items-center gap-2 mt-4 text-xl font-bold text-neutral">
-          <FaCalendarAlt className="text-primary" />
-          <span>Upcoming Events:</span>
-          <span className="text-2xl">{club.upcomingEventsCount || 0}</span>
+            <FaArrowLeft />
+          </Link>
         </div>
-      )}
 
-      {/* Buttons */}
-      <div className="mt-6 flex flex-col md:flex-row gap-4">
-        {/* Back Button */}
-        <Link
-          to="/"
-          className="
-      btn flex-1 flex items-center justify-center gap-2 text-white font-semibold text-lg
-      bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400
-      hover:brightness-110 transition-all shadow-lg
-    "
-        >
-          <FaArrowLeft /> Back
-        </Link>
+        <div className="grid lg:grid-cols-3 gap-8 mt-10">
 
-        {/* Join / Visit Button */}
-        <button
-          onClick={() => {
-            if (isJoined) navigate(`/event/clubs/${id}`);
-            else handleJoin();
-          }}
-          className={`
-      btn flex-1 flex items-center justify-center gap-2 text-white font-semibold text-lg shadow-lg
-      ${
-        isJoined
-          ? "bg-gradient-to-r from-green-400 via-teal-400 to-cyan-400"
-          : "bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400"
-      }
-      hover:brightness-110 transition-all
-    `}
-        >
-          {isJoined ? (
-            <>
-              <FaDoorOpen /> Visit Events
-            </>
-          ) : (
-            <>
-              <FaUserPlus /> Join Club
-            </>
-          )}
-        </button>
+          {/* LEFT CONTENT */}
+          <div className="lg:col-span-2 space-y-8">
+
+            {/* Description / Overview */}
+            <section className="bg-base-100 p-6 rounded-2xl border border-base-300">
+              <h1 className="text-4xl font-extrabold mb-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                {club.clubName}
+              </h1>
+
+              <div className="flex items-center gap-2 mb-4">
+                <FaInfoCircle className="text-primary" />
+                <h2 className="text-xl font-bold">Overview</h2>
+              </div>
+
+              <p className="text-base-content/80 leading-relaxed">
+                {club.description || "No description available."}
+              </p>
+            </section>
+
+            {/* Gallery / Multiple Media */}
+            <section className="bg-base-100 p-6 rounded-2xl border border-base-300">
+              <div className="flex items-center gap-2 mb-4">
+                <FaImages className="text-secondary" />
+                <h2 className="text-xl font-bold">Gallery</h2>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {[1, 2, 3].map((i) => (
+                  <img
+                    key={i}
+                    src={banner}
+                    alt="gallery"
+                    className="h-32 w-full object-cover rounded-lg opacity-80 hover:opacity-100 transition"
+                  />
+                ))}
+              </div>
+            </section>
+
+            {/* Reviews / Ratings (Optional) */}
+            <section className="bg-base-100 p-6 rounded-2xl border border-base-300">
+              <h2 className="text-xl font-bold mb-3 flex items-center gap-2">
+                <FaStar className="text-yellow-400" /> Reviews & Ratings
+              </h2>
+              <p className="text-base-content/60 italic">
+                No reviews yet. Be the first to review this club.
+              </p>
+            </section>
+          </div>
+
+          {/* RIGHT SIDEBAR */}
+          <aside className="space-y-6">
+            <div className="bg-base-200 p-6 rounded-2xl border border-base-300 sticky top-24">
+
+              <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+                <FaTag className="text-accent" /> Key Information
+              </h3>
+
+              <div className="space-y-4 text-sm">
+                <p className="flex items-center gap-2">
+                  <FaTag /> {club.category}
+                </p>
+                <p className="flex items-center gap-2">
+                  <FaMapMarkerAlt /> {club.location}
+                </p>
+                <p className="flex items-center gap-2 text-success font-bold">
+                  <FaMoneyBill />
+                  {club.membershipFee === 0
+                    ? "Free"
+                    : `৳ ${club.membershipFee}`}
+                </p>
+                <p className="break-all text-xs opacity-80">
+                  Manager: {club.managerEmail}
+                </p>
+              </div>
+
+              <button
+                onClick={() =>
+                  isJoined ? navigate(`/event/clubs/${id}`) : handleJoin()
+                }
+                className={`btn w-full mt-6 text-white ${
+                  isJoined
+                    ? "bg-gradient-to-r from-green-500 to-teal-500"
+                    : "bg-gradient-to-r from-orange-500 to-red-500"
+                }`}
+              >
+                {isJoined ? (
+                  <>
+                    <FaDoorOpen /> Visit Events
+                  </>
+                ) : (
+                  <>
+                    <FaUserPlus /> Join Club
+                  </>
+                )}
+              </button>
+            </div>
+          </aside>
+        </div>
+
+        {/* Related Items */}
+        <section className="mt-16 pt-10 border-t border-base-300">
+          <h2 className="text-2xl font-bold mb-6">Related Clubs</h2>
+          <p className="text-base-content/60 italic">
+            More clubs from {club.category} category coming soon...
+          </p>
+        </section>
       </div>
     </div>
   );

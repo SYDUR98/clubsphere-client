@@ -88,10 +88,7 @@ const JoinClubEvent = () => {
     });
   };
 
-  if (clubLoading || eventsLoading)
-    return (
-       <LoadingPage></LoadingPage>
-    );
+  if (clubLoading || eventsLoading) return <LoadingPage></LoadingPage>;
 
   return (
     <div className="container mx-auto p-6">
@@ -122,8 +119,12 @@ const JoinClubEvent = () => {
           `}
             >
               <h2 className="text-xl font-semibold text-primary">{ev.title}</h2>
-              <p className="text-sm text-neutral mb-2">{ev.clubName}</p>
-              <p className="text-sm mb-3 text-base-content">{ev.description}</p>
+              <p className="text-sm font-bold text-base-content/90 dark:text-base-content/70 mt-1 truncate w-full mb-2">
+                {ev.clubName}
+              </p>
+              <p className="text-sm text-base-content/80 dark:text-base-content/70 mt-1 truncate w-full mb-2">
+                {ev.description}
+              </p>
 
               <div className="grid grid-cols-2 gap-2 text-sm mb-3 text-base-content">
                 <p>

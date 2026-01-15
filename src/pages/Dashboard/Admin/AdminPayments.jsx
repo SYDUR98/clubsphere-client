@@ -102,9 +102,9 @@ const AdminPayments = () => {
                 <td className="text-secondary px-2 py-1 md:px-4 md:py-2">
                   {p.clubName || "-"}
                 </td>
-                <td className="text-sm text-black px-2 py-1 md:px-4 md:py-2">
+                 <td className="px-2 py-1 md:px-4 md:py-2">
                   {moment(p.createdAt).format("DD MMM YYYY, hh:mm A")}
-                </td>
+                  </td>
               </tr>
             ))}
           </tbody>

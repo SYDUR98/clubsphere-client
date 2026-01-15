@@ -109,19 +109,32 @@ const Footer = () => {
         {/* Support */}
         <div className="flex flex-col space-y-2">
           <h3 className="text-lg font-bold mb-2 text-accent">Support</h3>
-          <div className="text-sm space-y-2">
-            <p className="link link-hover hover:text-accent transition-colors duration-300">
+          <div className="text-sm flex flex-col  space-y-2">
+            <Link
+              to={"about"}
+              className="link link-hover hover:text-accent transition-colors duration-300"
+            >
+              About
+            </Link>
+            <Link
+              to={"help"}
+              className="link link-hover hover:text-accent transition-colors duration-300"
+            >
               Help Center
-            </p>
-            <p className="link link-hover hover:text-accent transition-colors duration-300">
-              FAQs
-            </p>
-            <p className="link link-hover hover:text-accent transition-colors duration-300">
-              Terms & Conditions
-            </p>
-            <p className="link link-hover hover:text-accent transition-colors duration-300">
+            </Link>
+            <Link
+              to={"blog"}
+              className="link link-hover hover:text-accent transition-colors duration-300"
+            >
+              Blog
+            </Link>
+
+            <Link
+              to={"privacy-policy"}
+              className="link link-hover hover:text-accent transition-colors duration-300"
+            >
               Privacy Policy
-            </p>
+            </Link>
           </div>
         </div>
 
@@ -142,14 +155,37 @@ const Footer = () => {
             </p>
           </div>
           <div className="flex gap-4 text-2xl mt-4">
-            <FaFacebook className="hover:text-primary transition-all duration-300 cursor-pointer hover:-translate-y-1" />
-            <FaXTwitter className="hover:text-secondary transition-all duration-300 cursor-pointer hover:-translate-y-1" />
-            <FaLinkedin className="hover:text-accent transition-all duration-300 cursor-pointer hover:-translate-y-1" />
-            <FaGithub className="hover:text-neutral transition-all duration-300 cursor-pointer hover:-translate-y-1" />
+            <Link
+              to="https://www.facebook.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaFacebook className="hover:text-primary transition-all duration-300 cursor-pointer hover:-translate-y-1" />
+            </Link>
+            <Link
+              to="https://x.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaXTwitter className="hover:text-primary transition-all duration-300 cursor-pointer hover:-translate-y-1" />
+            </Link>
+            <Link
+              to="https://www.linkedin.com/in/eng-md-sydur-rahaman/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaLinkedin className="hover:text-primary transition-all duration-300 cursor-pointer hover:-translate-y-1" />
+            </Link>
+            <Link
+              to="https://github.com/SYDUR98/clubsphere-client"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaGithub className="hover:text-primary transition-all duration-300 cursor-pointer hover:-translate-y-1" />
+            </Link>
           </div>
         </div>
         {/* Contact & Connect Section */}
-       
       </div>
 
       {/* Divider */}

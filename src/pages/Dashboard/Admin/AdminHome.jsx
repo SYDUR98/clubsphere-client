@@ -1,4 +1,3 @@
-// src/pages/dashboard/admin/AdminHome.jsx
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
@@ -29,21 +28,7 @@ ChartJS.register(
   Legend
 );
 
-const monthNames = [
-  "", // 0-index not used
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
+const monthNames = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const AdminHome = () => {
   const axiosSecure = useAxiosSecure();
@@ -56,10 +41,7 @@ const AdminHome = () => {
     },
   });
 
-  if (isLoading)
-    return (
-       <LoadingPage></LoadingPage>
-    );
+  if (isLoading) return <LoadingPage />;
 
   const {
     totalUsers = 0,
@@ -75,17 +57,40 @@ const AdminHome = () => {
     clubStatusDistribution = {},
   } = stats;
 
-  // Chart Data
+  // Chart Global Dark Mode Options
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        labels: {
+          color: "rgb(156, 163, 175)", // Dark mode friendly text (gray-400)
+          font: { weight: 'bold' }
+        }
+      }
+    },
+    scales: {
+      y: {
+        ticks: { color: "rgb(156, 163, 175)" },
+        grid: { color: "rgba(156, 163, 175, 0.1)" }
+      },
+      x: {
+        ticks: { color: "rgb(156, 163, 175)" },
+        grid: { display: false }
+      }
+    }
+  };
+
   const lineChartData = {
     labels: paymentsOverTime.map((p) => `${monthNames[p.month]}-${p.year}`),
     datasets: [
       {
         label: "Revenue Over Time (৳)",
         data: paymentsOverTime.map((p) => p.amount),
-        borderColor: "rgba(59, 130, 246, 1)",
-        backgroundColor: "rgba(59, 130, 246, 0.2)",
-        tension: 0.3,
+        borderColor: "#818CF8",
+        backgroundColor: "rgba(129, 140, 248, 0.2)",
+        tension: 0.4,
         fill: true,
+        pointBackgroundColor: "#38BDF8",
       },
     ],
   };
@@ -96,7 +101,8 @@ const AdminHome = () => {
       {
         label: "Members per Club",
         data: membershipsPerClub.map((c) => c.count),
-        backgroundColor: "rgba(251, 191, 36, 0.7)", // Tailwind yellow-400
+        backgroundColor: "rgba(251, 191, 36, 0.7)",
+        borderRadius: 5,
       },
     ],
   };
@@ -105,12 +111,17 @@ const AdminHome = () => {
     labels: ["Pending", "Approved", "Rejected"],
     datasets: [
       {
-        data: [clubStatusDistribution.pending || 0, clubStatusDistribution.approved || 0, clubStatusDistribution.rejected || 0],
-        backgroundColor: [
-          "rgba(250, 204, 21, 0.7)", // yellow-400
-          "rgba(34, 197, 94, 0.7)", // green-500
-          "rgba(239, 68, 68, 0.7)", // red-500
+        data: [
+          clubStatusDistribution.pending || 0,
+          clubStatusDistribution.approved || 0,
+          clubStatusDistribution.rejected || 0,
         ],
+        backgroundColor: [
+          "rgba(250, 204, 21, 0.8)",
+          "rgba(34, 197, 94, 0.8)",
+          "rgba(239, 68, 68, 0.8)",
+        ],
+        borderColor: "transparent",
       },
     ],
   };
@@ -119,102 +130,96 @@ const AdminHome = () => {
     labels: top5Clubs.map((c) => c.clubName),
     datasets: [
       {
-        label: "Top 5 Clubs by Members",
+        label: "Members",
         data: top5Clubs.map((c) => c.count),
-        backgroundColor: "rgba(59, 130, 246, 0.7)", // blue-500
+        backgroundColor: "rgba(56, 189, 248, 0.7)",
+        borderRadius: 5,
       },
     ],
   };
 
   return (
-    <div className="p-6 bg-base-100">
-        <div>
+    <div className="p-6 bg-slate-50 dark:bg-base-100 min-h-screen transition-colors duration-300">
+      {/* Animated Header */}
+      <div className="mb-10">
         <h2
-          className="
-      text-2xl md:text-4xl font-extrabold mb-8 text-center
-      bg-clip-text text-transparent
-      tracking-wide
-    "
+          className="text-2xl md:text-4xl font-extrabold text-center bg-clip-text text-transparent tracking-wide"
           style={{
-            backgroundImage:
-              "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+            backgroundImage: "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
             backgroundSize: "300% 300%",
-            animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
+            animation: "gradientMove 15s ease-in-out infinite",
           }}
         >
           ADMIN DASHBOARD
         </h2>
-
-        {/* Inline keyframes */}
         <style>
           {`
-      @keyframes gradientMove {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
-    `}
+            @keyframes gradientMove {
+              0% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+            }
+          `}
         </style>
       </div>
 
       {/* Stat Cards */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-        <div className="stat bg-base-200 border border-base-300 shadow-xl rounded-xl">
-          <div className="stat-title text-neutral">Total Users</div>
-          <div className="stat-value text-primary">{totalUsers}</div>
-        </div>
-        <div className="stat bg-base-200 border border-base-300 shadow-xl rounded-xl">
-          <div className="stat-title text-neutral">Total Clubs</div>
-          <div className="stat-value text-secondary">{totalClubs}</div>
-        </div>
-        <div className="stat bg-base-200 border border-base-300 shadow-xl rounded-xl">
-          <div className="stat-title text-neutral">Pending Clubs</div>
-          <div className="stat-value text-warning">{pendingClubs}</div>
-        </div>
-        <div className="stat bg-base-200 border border-base-300 shadow-xl rounded-xl">
-          <div className="stat-title text-neutral">Approved Clubs</div>
-          <div className="stat-value text-success">{approvedClubs}</div>
-        </div>
-        <div className="stat bg-base-200 border border-base-300 shadow-xl rounded-xl">
-          <div className="stat-title text-neutral">Rejected Clubs</div>
-          <div className="stat-value text-error">{rejectedClubs}</div>
-        </div>
-        <div className="stat bg-base-200 border border-base-300 shadow-xl rounded-xl">
-          <div className="stat-title text-neutral">Total Events</div>
-          <div className="stat-value text-accent">{totalEvents}</div>
-        </div>
-        <div className="stat bg-base-200 border border-base-300 shadow-xl rounded-xl col-span-full">
-          <div className="stat-title text-neutral">Total Payments (৳)</div>
-          <div className="stat-value text-info">{totalPayments}</div>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        {[
+          { title: "Total Users", value: totalUsers, color: "text-primary", bg: "bg-blue-50" },
+          { title: "Total Clubs", value: totalClubs, color: "text-secondary", bg: "bg-purple-50" },
+          { title: "Pending Clubs", value: pendingClubs, color: "text-warning", bg: "bg-yellow-50" },
+          { title: "Approved Clubs", value: approvedClubs, color: "text-success", bg: "bg-green-50" },
+          { title: "Rejected Clubs", value: rejectedClubs, color: "text-error", bg: "bg-red-50" },
+          { title: "Total Events", value: totalEvents, color: "text-accent", bg: "bg-teal-50" },
+        ].map((card, idx) => (
+          <div key={idx} className="stat bg-white dark:bg-base-200 border border-slate-200 dark:border-base-300 shadow-lg rounded-2xl hover:scale-[1.02] transition-transform">
+            <div className="stat-title font-bold text-slate-500 dark:text-slate-400">{card.title}</div>
+            <div className={`stat-value ${card.color}`}>{card.value}</div>
+          </div>
+        ))}
+        <div className="stat bg-white dark:bg-base-200 border border-slate-200 dark:border-base-300 shadow-lg rounded-2xl col-span-full">
+          <div className="stat-title font-bold text-slate-500 dark:text-slate-400">Total Payments (৳)</div>
+          <div className="stat-value text-info">৳ {totalPayments.toLocaleString()}</div>
         </div>
       </div>
 
-      {/* Charts */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* Line Chart */}
-        <div className="bg-base-200 p-4 rounded-xl shadow-xl">
-          <h3 className="font-bold text-lg mb-3 text-neutral">Revenue Over Last 6 Months</h3>
-          <Line data={lineChartData} />
+      {/* Charts Grid */}
+      <div className="grid lg:grid-cols-2 gap-8">
+        <div className="bg-white dark:bg-base-200 p-6 rounded-2xl shadow-xl border border-slate-100 dark:border-base-300">
+          <h3 className="font-bold text-lg mb-6 text-slate-800 dark:text-white border-l-4 border-primary pl-3">
+            Revenue Over Last 6 Months
+          </h3>
+          <Line data={lineChartData} options={chartOptions} />
         </div>
 
-        {/* Bar Chart */}
-        <div className="bg-base-200 p-4 rounded-xl shadow-xl">
-          <h3 className="font-bold text-lg mb-3 text-neutral">Members per Club</h3>
-          <Bar data={barChartData} />
+        <div className="bg-white dark:bg-base-200 p-6 rounded-2xl shadow-xl border border-slate-100 dark:border-base-300">
+          <h3 className="font-bold text-lg mb-6 text-slate-800 dark:text-white border-l-4 border-warning pl-3">
+            Members per Club
+          </h3>
+          <Bar data={barChartData} options={chartOptions} />
         </div>
 
-        {/* Pie Chart */}
-        <div className="bg-base-200 p-4 rounded-xl shadow-xl">
-          <h3 className="font-bold text-lg mb-3 text-neutral">Club Status Distribution</h3>
-          <Pie data={pieChartData} />
+        <div className="bg-white dark:bg-base-200 p-6 rounded-2xl shadow-xl border border-slate-100 dark:border-base-300">
+          <h3 className="font-bold text-lg mb-6 text-slate-800 dark:text-white border-l-4 border-success pl-3">
+            Club Status Distribution
+          </h3>
+          <div className="max-w-[300px] mx-auto">
+            <Pie data={pieChartData} />
+          </div>
         </div>
 
-        {/* Horizontal Bar for Top 5 Clubs */}
-        <div className="bg-base-200 p-4 rounded-xl shadow-xl">
-          <h3 className="font-bold text-lg mb-3 text-neutral">Top 5 Clubs by Members</h3>
-          <Bar
-            data={topClubsData}
-            options={{ indexAxis: "y" }} // Horizontal bar
+        <div className="bg-white dark:bg-base-200 p-6 rounded-2xl shadow-xl border border-slate-100 dark:border-base-300">
+          <h3 className="font-bold text-lg mb-6 text-slate-800 dark:text-white border-l-4 border-info pl-3">
+            Top 5 Clubs by Members
+          </h3>
+          <Bar 
+            data={topClubsData} 
+            options={{ 
+              ...chartOptions, 
+              indexAxis: "y",
+              plugins: { ...chartOptions.plugins, legend: { display: false } } 
+            }} 
           />
         </div>
       </div>

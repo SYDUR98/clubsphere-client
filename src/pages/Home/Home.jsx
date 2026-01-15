@@ -4,6 +4,7 @@ import FeaturedClubs from './FeaturedClubs';
 import HowItWorks from './HowItWorks';
 import Categories from './PopularCategories';
 import ReviewsSection from './ReviewsSection';
+import Attribute from './Attribute';
 
 const Home = () => {
     return (
@@ -13,6 +14,7 @@ const Home = () => {
             <HowItWorks></HowItWorks>
             <Categories></Categories>
             <ReviewsSection></ReviewsSection>
+            <Attribute></Attribute>
             
             
         </div>

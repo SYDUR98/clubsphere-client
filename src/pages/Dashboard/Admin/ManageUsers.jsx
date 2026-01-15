@@ -104,7 +104,7 @@ const ManageUsers = () => {
             {users.map((user, index) => (
               <tr key={user._id}>
                 <td>{index + 1}</td>
-                <td>{user.displayName || "N/A"}</td>
+                <td >{user.displayName || "N/A"}</td>
                 <td>{user.email}</td>
 
                 <td>

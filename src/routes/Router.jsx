@@ -37,6 +37,11 @@ import MemberAllEventDeshboard from "../pages/Dashboard/Member/MemberAllEventDes
 import Profile from "../pages/user/Profile";
 import EditProfile from "../pages/user/EditProfile";
 import EventPaymentCancelled from "../pages/Dashboard/Member/EventPaymentCancelled";
+import About from "../components/Shared/About";
+import Contact from "../components/Shared/Contact";
+import Blog from "../components/Shared/Blog";
+import HelpSupport from "../components/Shared/HelpSupport";
+import PrivacyTerms from "../components/Shared/PrivacyTerms";
 
 export const router = createBrowserRouter([
   {
@@ -114,6 +119,26 @@ export const router = createBrowserRouter([
       {
         path: "login",
         Component: Login,
+      },
+      {
+        path: "about",
+        Component: About,
+      },
+      {
+        path: "contact",
+        Component: Contact,
+      },
+      {
+        path: "blog",
+        Component: Blog,
+      },
+      {
+        path: "help",
+        Component: HelpSupport,
+      },
+      {
+        path: "privacy-policy",
+        Component: PrivacyTerms,
       },
     ],
   },

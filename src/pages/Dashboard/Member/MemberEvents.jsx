@@ -77,7 +77,7 @@ const MemberEvents = () => {
   };
 
   return (
-    <div className="p-6 mb-20">
+    <div className="p-6 mb-20 bg-base-100 text-base-content">
       {/* Title */}
       <h2
         className="text-2xl md:text-4xl font-extrabold mb-8 text-center bg-clip-text text-transparent tracking-wide"
@@ -91,32 +91,30 @@ const MemberEvents = () => {
         UPCOMING EVENTS
       </h2>
 
-      <style>
-        {`
-          @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-        `}
-      </style>
+      <style>{`
+        @keyframes gradientMove {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+      `}</style>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-6">
+      <div className="flex flex-wrap gap-3 mb-8">
         <input
-          className="input input-bordered"
+          className="input input-bordered bg-base-100"
           placeholder="Search"
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
         <input
-          className="input input-bordered"
+          className="input input-bordered bg-base-100"
           placeholder="Location"
           value={loc}
           onChange={(e) => setLoc(e.target.value)}
         />
         <select
-          className="select select-bordered"
+          className="select select-bordered bg-base-100"
           value={paid}
           onChange={(e) => setPaid(e.target.value)}
         >
@@ -125,7 +123,7 @@ const MemberEvents = () => {
           <option value="paid">Paid</option>
         </select>
         <select
-          className="select select-bordered"
+          className="select select-bordered bg-base-100"
           value={reg}
           onChange={(e) => setReg(e.target.value)}
         >
@@ -134,7 +132,7 @@ const MemberEvents = () => {
           <option value="notRegistered">Not Registered</option>
         </select>
         <select
-          className="select select-bordered"
+          className="select select-bordered bg-base-100"
           value={sort}
           onChange={(e) => setSort(e.target.value)}
         >
@@ -150,62 +148,75 @@ const MemberEvents = () => {
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {events.length === 0 && (
-            <p className="text-center col-span-3">No events found</p>
+            <p className="text-center col-span-3 opacity-70">
+              No events found
+            </p>
           )}
+
           {events.map((e, i) => (
             <motion.div
               key={e._id}
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              whileHover={{ scale: 1.05, rotate: [0, 1, -1, 0] }}
-              className="card bg-base-100 shadow-xl"
+              whileHover={{ scale: 1.05 }}
+              className="card bg-base-200 shadow-xl border border-base-300"
             >
               <div className="card-body">
-                <p className="text-sm text-primary">{e.clubName}</p>
-                <h3 className="card-title">{e.title}</h3>
-                <p className="text-sm">{e.description?.slice(0, 90)}...</p>
-                <p className="flex items-center gap-1 text-sm text-secondary">
-                  <FaMapMarkerAlt className="text-red-500" /> {e.location}
+                <p className="text-sm text-primary font-semibold">
+                  {e.clubName}
                 </p>
-                <div className="flex gap-4 text-sm mt-2 text-neutral-800">
-                  <span className="flex items-center gap-1">
-                    <FaCalendarAlt className="text-blue-500" />{" "}
+
+                <h3 className="card-title">{e.title}</h3>
+
+                <p className="text-sm opacity-70">
+                  {e.description?.slice(0, 90)}...
+                </p>
+
+                <p className="flex items-center gap-2 text-sm text-secondary">
+                  <FaMapMarkerAlt /> {e.location}
+                </p>
+
+                <div className="flex gap-4 text-sm mt-2 opacity-80">
+                  <span className="flex items-center gap-2">
+                    <FaCalendarAlt />{" "}
                     {new Date(e.eventDate).toLocaleDateString()}
                   </span>
-                  <span className="flex items-center gap-1">
-                    <FaMoneyBillAlt className="text-green-500" />{" "}
+                  <span className="flex items-center gap-2">
+                    <FaMoneyBillAlt />{" "}
                     {e.isPaid ? `$${e.eventFee}` : "Free"}
                   </span>
                 </div>
 
-                <div className="card-actions justify-between mt-4">
+                <div className="card-actions justify-between mt-4 gap-2">
                   <button
-                    className="btn btn-sm flex-1 flex items-center justify-center gap-2 text-white font-semibold bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 hover:brightness-110 transition-all shadow-lg"
+                    className="btn btn-sm flex-1 flex items-center gap-2 text-white
+                    bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500
+                    hover:brightness-110 shadow-lg"
                     onClick={() => {
                       setSel(e);
                       setOpen(true);
                     }}
                   >
-                    <FaEye className="text-yellow-200" /> View Details
+                    <FaEye /> View
                   </button>
 
                   <button
                     onClick={() => go(e)}
                     disabled={e.isRegistered}
-                    className={`btn btn-sm flex-1 flex items-center justify-center gap-2 text-white font-semibold shadow-lg ${
+                    className={`btn btn-sm flex-1 flex items-center gap-2 text-white shadow-lg ${
                       e.isRegistered
-                        ? "bg-gradient-to-r from-green-400 via-teal-400 to-cyan-400 btn-disabled"
+                        ? "bg-success btn-disabled"
                         : "bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400"
-                    } hover:brightness-110 transition-all`}
+                    } hover:brightness-110`}
                   >
                     {e.isRegistered ? (
                       <>
-                        <FaCheck className="text-white" /> Registered
+                        <FaCheck /> Registered
                       </>
                     ) : (
                       <>
-                        <FaUserPlus className="text-white" /> Register
+                        <FaUserPlus /> Register
                       </>
                     )}
                   </button>
@@ -216,12 +227,10 @@ const MemberEvents = () => {
         </div>
       )}
 
-      {/* Event Cards */}
-
       {/* Modal */}
       {open && sel && (
         <dialog className="modal modal-open">
-          <div className="modal-box max-w-2xl p-6 bg-base-100 shadow-2xl rounded-2xl">
+          <div className="modal-box max-w-2xl bg-base-100 text-base-content rounded-2xl shadow-2xl">
             <h3
               className="text-2xl font-extrabold mb-2 text-center bg-clip-text text-transparent"
               style={{
@@ -231,43 +240,39 @@ const MemberEvents = () => {
             >
               {sel.title}
             </h3>
-            <p className="text-center text-lg font-semibold text-primary mb-4">
+
+            <p className="text-center font-semibold text-primary mb-4">
               {sel.clubName}
             </p>
 
-            <div className="space-y-3 text-sm text-neutral-800">
+            <div className="space-y-3 text-sm opacity-90">
               <p>{sel.description}</p>
-              <p className="flex items-center gap-2 text-gradient">
-                <FaCalendarAlt className="text-blue-500" />{" "}
+              <p className="flex items-center gap-2">
+                <FaCalendarAlt />{" "}
                 {new Date(sel.eventDate).toLocaleString()}
               </p>
-              <p className="flex items-center gap-2 text-gradient">
-                <FaMapMarkerAlt className="text-red-500" /> {sel.location}
+              <p className="flex items-center gap-2">
+                <FaMapMarkerAlt /> {sel.location}
               </p>
-              <p className="flex items-center gap-2 text-gradient">
-                <FaMoneyBillAlt className="text-green-500" />{" "}
+              <p className="flex items-center gap-2">
+                <FaMoneyBillAlt />{" "}
                 {sel.isPaid ? `$${sel.eventFee}` : "Free"}
               </p>
-              <p className="flex items-center gap-2 text-gradient">
-                <FaUsers className="text-purple-500" /> Max Attendees:{" "}
-                {sel.maxAttendees}
+              <p className="flex items-center gap-2">
+                <FaUsers /> Max Attendees: {sel.maxAttendees}
               </p>
-              <p className="flex items-center gap-2 text-gradient">
-                <FaEnvelope className="text-indigo-500" /> {sel.managerEmail}
+              <p className="flex items-center gap-2">
+                <FaEnvelope /> {sel.managerEmail}
               </p>
-              <p className="flex items-center gap-2 text-gradient">
-                <FaClock className="text-gray-500" /> Created:{" "}
+              <p className="flex items-center gap-2">
+                <FaClock /> Created:{" "}
                 {new Date(sel.createdAt).toLocaleString()}
-              </p>
-              <p className="flex items-center gap-2 text-gradient">
-                <FaClock className="text-gray-500" /> Updated:{" "}
-                {new Date(sel.updatedAt).toLocaleString()}
               </p>
             </div>
 
             <div className="modal-action">
               <button
-                className="btn w-full text-white font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:brightness-110 hover:shadow-lg transition-all duration-300"
+                className="btn w-full text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:brightness-110"
                 onClick={() => setOpen(false)}
               >
                 Close

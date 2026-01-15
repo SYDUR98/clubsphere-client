@@ -21,7 +21,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const BrowseClubs = () => {
   const axiosSecure = useAxiosSecure();
-  const axiosPublic = useAxiosPublic()
+  const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -36,9 +36,15 @@ const BrowseClubs = () => {
   const [debouncedCategory] = useDebounce(category, 500);
   const [debouncedLocation] = useDebounce(location, 500);
 
- 
+  // Fetch clubs data
   const { data: clubs = [], isLoading } = useQuery({
-    queryKey: ["clubs", debouncedSearch, debouncedCategory, debouncedLocation, sortBy],
+    queryKey: [
+      "clubs",
+      debouncedSearch,
+      debouncedCategory,
+      debouncedLocation,
+      sortBy,
+    ],
     queryFn: async () => {
       const params = new URLSearchParams();
       if (debouncedSearch) params.append("search", debouncedSearch);
@@ -52,7 +58,7 @@ const BrowseClubs = () => {
     keepPreviousData: true,
   });
 
-  
+  // Fetch membership status and event counts
   useEffect(() => {
     if (!user?.email || clubs.length === 0) return;
 
@@ -63,14 +69,19 @@ const BrowseClubs = () => {
 
         const newUpcomingEvents = {};
         joinedClubsData.forEach((club) => {
-          newUpcomingEvents[String(club.clubId)] = club.upcomingEventsCount || 0;
+          newUpcomingEvents[String(club.clubId)] =
+            club.upcomingEventsCount || 0;
         });
         setUpcomingEvents(newUpcomingEvents);
 
-        const joinedClubIdSet = new Set(joinedClubsData.map((m) => String(m.clubId)));
+        const joinedClubIdSet = new Set(
+          joinedClubsData.map((m) => String(m.clubId))
+        );
         const newJoinedClubsStatus = {};
         clubs.forEach((club) => {
-          newJoinedClubsStatus[club._id] = joinedClubIdSet.has(String(club._id));
+          newJoinedClubsStatus[club._id] = joinedClubIdSet.has(
+            String(club._id)
+          );
         });
         setJoinedClubs(newJoinedClubsStatus);
       } catch (err) {
@@ -83,16 +94,17 @@ const BrowseClubs = () => {
     fetchClubStatusAndEvents();
   }, [clubs, user?.email, axiosSecure]);
 
- 
   const handleJoin = async (club) => {
     if (!user?.email) {
       Swal.fire("Error", "Please login first", "error");
-      navigate('/login')
+      navigate("/login");
       return;
     }
 
     try {
-      const res = await axiosSecure.post(`/clubs/join/${club._id}`, { userEmail: user.email });
+      const res = await axiosSecure.post(`/clubs/join/${club._id}`, {
+        userEmail: user.email,
+      });
 
       if (res.data.url) {
         window.location.assign(res.data.url); // Stripe payment redirect
@@ -102,7 +114,11 @@ const BrowseClubs = () => {
       Swal.fire("Success", res.data.message, "success");
       setJoinedClubs((prev) => ({ ...prev, [club._id]: true }));
     } catch (err) {
-      Swal.fire("Error", err.response?.data?.message || "Something went wrong", "error");
+      Swal.fire(
+        "Error",
+        err.response?.data?.message || "Something went wrong",
+        "error"
+      );
     }
   };
 
@@ -110,13 +126,14 @@ const BrowseClubs = () => {
     navigate(`/clubs/${clubId}`);
   };
 
-  
   return (
-    <div className="p-6 mb-20">
-      <h2 className="text-2xl md:text-4xl  font-extrabold mb-8 text-center
+    <div className="p-6 mb-20 bg-base-100 text-base-content transition-colors duration-300">
+      <h2
+        className="text-2xl md:text-4xl font-extrabold mb-8 text-center
         bg-clip-text text-transparent tracking-wide"
         style={{
-          backgroundImage: "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+          backgroundImage:
+            "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
           backgroundSize: "300% 300%",
           animation: "gradientMove 15s ease-in-out infinite",
         }}
@@ -134,46 +151,93 @@ const BrowseClubs = () => {
         `}
       </style>
 
-      {/* Filter/Search */}
+      {/* Filter/Search Bar */}
       <FilterBar
-        search={search} setSearch={setSearch}
-        category={category} setCategory={setCategory}
-        location={location} setLocation={setLocation}
-        sortBy={sortBy} setSortBy={setSortBy}
+        search={search}
+        setSearch={setSearch}
+        category={category}
+        setCategory={setCategory}
+        location={location}
+        setLocation={setLocation}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
       />
 
-      {isLoading ? <LoadingPage /> : (
+      {isLoading ? (
+        <LoadingPage />
+      ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {clubs.length === 0 && <p className="text-center col-span-3">No clubs found</p>}
+          {clubs.length === 0 && (
+            <p className="text-center col-span-3 text-neutral">
+              No clubs found
+            </p>
+          )}
           {clubs.map((club) => (
-            <motion.div key={club._id}
+            <motion.div
+              key={club._id}
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300, damping: 10 }}
-              className="bg-base-100 p-4 rounded-xl shadow-lg border cursor-pointer"
+              className="bg-base-200 p-4 rounded-xl shadow-lg border border-base-300 cursor-pointer"
             >
-              <img src={club.bannerImage} alt={club.clubName} className="h-40 w-full object-cover rounded mb-3" />
-              <h3 className="text-xl font-bold flex items-center gap-2">
+              <img
+                src={club.bannerImage}
+                alt={club.clubName}
+                className="h-40 w-full object-cover rounded mb-3 border border-base-300"
+              />
+              <h3 className="text-xl font-bold flex items-center gap-2 text-base-content">
                 <FaTag className="text-primary" /> {club.clubName}
               </h3>
-              <p className="text-sm text-neutral mt-1 truncate">{club.description}</p>
-              <p className="mt-2 text-sm flex items-center gap-2"><FaTag /> <strong>Category:</strong> {club.category}</p>
-              <p className="text-sm flex items-center gap-2"><FaMapMarkerAlt /> <strong>Location:</strong> {club.location}</p>
-              <p className="text-sm flex items-center gap-2"><FaMoneyBill /> <strong>Fee:</strong> {club.membershipFee === 0 ? "Free" : `$ ${club.membershipFee}`}</p>
-              <p className="text-sm flex items-center gap-2"><FaCalendarAlt /> <strong>Upcoming Events:</strong> {upcomingEvents[club._id] || 0}</p>
+              <p className="text-sm text-base-content/80 dark:text-base-content/70 mt-1 truncate w-full">
+                {club.description}
+              </p>
+
+              <div className="space-y-1 mt-3">
+                <p className="text-sm flex items-center gap-2 text-base-content/80">
+                  <FaTag className="text-secondary" />{" "}
+                  <strong>Category:</strong> {club.category}
+                </p>
+                <p className="text-sm flex items-center gap-2 text-base-content/80">
+                  <FaMapMarkerAlt className="text-accent" />{" "}
+                  <strong>Location:</strong> {club.location}
+                </p>
+                <p className="text-sm flex items-center gap-2 text-base-content/80">
+                  <FaMoneyBill className="text-success" /> <strong>Fee:</strong>{" "}
+                  {club.membershipFee === 0 ? "Free" : `$${club.membershipFee}`}
+                </p>
+                <p className="text-sm flex items-center gap-2 text-base-content/80">
+                  <FaCalendarAlt className="text-info" />{" "}
+                  <strong>Upcoming Events:</strong>{" "}
+                  {upcomingEvents[club._id] || 0}
+                </p>
+              </div>
 
               <div className="flex gap-2 mt-4">
-                <button onClick={() => handleDetails(club._id)}
-                  className="btn flex-1 text-white font-semibold text-lg shadow-lg bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 hover:brightness-110 transition-all">
+                <button
+                  onClick={() => handleDetails(club._id)}
+                  className="btn flex-1 text-white font-semibold shadow-lg bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 border-none hover:brightness-110 transition-all"
+                >
                   <FaInfoCircle /> Details
                 </button>
-                <button onClick={() => handleJoin(club)}
+                <button
+                  onClick={() => handleJoin(club)}
                   disabled={joinedClubs[club._id]}
-                  className={`btn flex-1 text-white font-semibold text-lg shadow-lg 
-                    ${joinedClubs[club._id] 
-                      ? "bg-gradient-to-r from-green-400 via-teal-400 to-cyan-400 btn-disabled"
-                      : "bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400"} 
-                      hover:brightness-110 transition-all`}>
-                  {joinedClubs[club._id] ? <><FaCheck /> Joined</> : <><FaUserPlus /> Join Club</>}
+                  className={`btn flex-1 text-white font-semibold shadow-lg border-none
+                    ${
+                      joinedClubs[club._id]
+                        ? "bg-gradient-to-r from-green-400 via-teal-400 to-cyan-400 opacity-70 cursor-not-allowed"
+                        : "bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 hover:brightness-110"
+                    } 
+                    transition-all`}
+                >
+                  {joinedClubs[club._id] ? (
+                    <>
+                      <FaCheck /> Joined
+                    </>
+                  ) : (
+                    <>
+                      <FaUserPlus /> Join
+                    </>
+                  )}
                 </button>
               </div>
             </motion.div>

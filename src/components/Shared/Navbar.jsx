@@ -3,6 +3,7 @@ import { NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import useRole from "../../hooks/useRole";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -51,7 +52,7 @@ const Navbar = () => {
             }`
           }
         >
-          CLUBS
+          EXPLORE
         </NavLink>
       </li>
 
@@ -127,7 +128,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="sticky top-0 z-[1000] navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -195,7 +196,8 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{manuLink}</ul>
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end gap-3">
+        <ThemeToggle></ThemeToggle>
         {user?.email && (
           // user logged in
           <div className="dropdown dropdown-end">

@@ -45,36 +45,36 @@ const ReviewsSection = () => {
   };
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-base-200 transition-colors duration-300">
       <div className="px-20 mx-auto text-center">
-          <div className="mb-14">
-        <h2
-          className="
-      text-2xl md:text-4xl font-extrabold mb-8 text-center
-      bg-clip-text text-transparent
-      tracking-wide
-    "
-          style={{
-            backgroundImage:
-              "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
-            backgroundSize: "300% 300%",
-            animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
-          }}
-        >
-          WHAT OUR MEMBERS SAY
-        </h2>
+        <div className="mb-14">
+          <h2
+            className="
+              text-2xl md:text-4xl font-extrabold mb-8 text-center
+              bg-clip-text text-transparent
+              tracking-wide
+            "
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+              backgroundSize: "300% 300%",
+              animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
+            }}
+          >
+            WHAT OUR MEMBERS SAY
+          </h2>
 
-        {/* Inline keyframes */}
-        <style>
-          {`
-      @keyframes gradientMove {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
-    `}
-        </style>
-      </div>
+          {/* Inline keyframes */}
+          <style>
+            {`
+              @keyframes gradientMove {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+              }
+            `}
+          </style>
+        </div>
 
         <motion.div
           variants={container}
@@ -86,14 +86,14 @@ const ReviewsSection = () => {
             <motion.div
               key={review.id}
               variants={cardVariant}
-              className="bg-white p-6 rounded-2xl shadow-lg relative"
+              className="bg-base-100 p-6 rounded-2xl shadow-lg relative border border-base-300 transition-colors duration-300"
             >
               {/* Avatar */}
               <div className="absolute -top-8 left-1/2 transform -translate-x-1/2">
                 <img
                   src={review.avatar}
                   alt={review.name}
-                  className="w-16 h-16 rounded-full border-4 border-indigo-500"
+                  className="w-16 h-16 rounded-full border-4 border-primary"
                 />
               </div>
 
@@ -108,11 +108,11 @@ const ReviewsSection = () => {
                 </div>
 
                 {/* Text */}
-                <p className="text-gray-700 mb-4 text-sm">{review.text}</p>
+                <p className="text-base-content/80 mb-4 text-sm">{review.text}</p>
 
                 {/* Name */}
-                <h3 className="font-bold text-lg text-gray-900">{review.name}</h3>
-                <p className="text-gray-500 text-sm">{review.role}</p>
+                <h3 className="font-bold text-lg text-base-content">{review.name}</h3>
+                <p className="text-base-content/60 text-sm">{review.role}</p>
               </div>
             </motion.div>
           ))}

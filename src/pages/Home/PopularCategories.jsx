@@ -25,37 +25,39 @@ const cardVariants = {
 
 const PopularCategories = () => {
   return (
-    <section className="py-20 bg-gradient-to-r from-pink-50 via-purple-50 to-indigo-50">
-      <div className="px-20 mx-auto px-6 text-center">
-          <div className="mb-14">
-        <h2
-          className="
-      text-2xl md:text-4xl font-extrabold mb-8 text-center
-      bg-clip-text text-transparent
-      tracking-wide
-    "
-          style={{
-            backgroundImage:
-              "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
-            backgroundSize: "300% 300%",
-            animation: "gradientMove 15s ease-in-out infinite", // slow & smooth
-          }}
-        >
-          POPULAR CATEGORIES
-        </h2>
+    <section className="py-20 bg-base-200 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-6 text-center">
+        {/* Title */}
+        <div className="mb-14">
+          <h2
+            className="
+              text-2xl md:text-4xl font-extrabold mb-8 text-center
+              bg-clip-text text-transparent
+              tracking-wide
+            "
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, #8b5cf6, #ec4899, #facc15, #3b82f6)",
+              backgroundSize: "300% 300%",
+              animation: "gradientMove 15s ease-in-out infinite",
+            }}
+          >
+            POPULAR CATEGORIES
+          </h2>
 
-        {/* Inline keyframes */}
-        <style>
-          {`
-      @keyframes gradientMove {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
-    `}
-        </style>
-      </div>
+          {/* Inline keyframes */}
+          <style>
+            {`
+              @keyframes gradientMove {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+              }
+            `}
+          </style>
+        </div>
 
+        {/* Category Cards */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -66,18 +68,25 @@ const PopularCategories = () => {
             <motion.div
               key={idx}
               variants={cardVariants}
-              className="bg-white p-6 rounded-3xl shadow-2xl relative cursor-pointer hover:scale-105 transition-transform duration-300"
+              className="
+                bg-base-100 p-6 rounded-3xl shadow-2xl relative cursor-pointer
+                hover:scale-105 transition-transform duration-300 border border-base-300
+              "
             >
               {/* Icon Circle */}
-              <div className="w-16 h-16 mx-auto flex items-center justify-center rounded-full bg-gradient-to-r from-purple-400 via-pink-500 to-indigo-500 text-white text-2xl shadow-lg -mt-12">
+              <div className="w-16 h-16 mx-auto flex items-center justify-center rounded-full
+                bg-gradient-to-r from-purple-400 via-pink-500 to-indigo-500 text-white text-2xl shadow-lg -mt-12"
+              >
                 {cat.icon}
               </div>
 
-              <h3 className="mt-6 text-lg font-semibold text-gray-800">{cat.name}</h3>
+              <h3 className="mt-6 text-lg font-semibold text-base-content">
+                {cat.name}
+              </h3>
 
               {/* Decorative floating circles */}
-              <div className="absolute -top-5 -left-5 w-6 h-6 rounded-full bg-purple-200 opacity-50 animate-ping"></div>
-              <div className="absolute -bottom-3 -right-3 w-6 h-6 rounded-full bg-pink-200 opacity-50 animate-pulse"></div>
+              <div className="absolute -top-5 -left-5 w-6 h-6 rounded-full bg-primary/20 opacity-50 animate-ping"></div>
+              <div className="absolute -bottom-3 -right-3 w-6 h-6 rounded-full bg-accent/20 opacity-50 animate-pulse"></div>
             </motion.div>
           ))}
         </motion.div>
